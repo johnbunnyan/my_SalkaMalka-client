@@ -2,7 +2,6 @@
   "name": "salkamalka-client",
   "version": "0.1.0",
   "private": true,
-  
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -11,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/codestates/SalkaMalka-server.git"
+    "url": "git+https://github.com/codestates/SalkaMalka-client.git"
   },
   "author": "",
   "license": "ISC",
@@ -20,14 +19,14 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.20.0",
-    "dotenv": "^8.2.0",
     "browser-image-compression": "^1.0.14",
-    "react-redux": "^7.1.0-rc.1",
-    "react-router-dom": "^5.2.0",
-    "redux": "^4.0.5",
+    "dotenv": "^8.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-redux": "^7.1.0-rc.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "redux": "^4.0.5",
     "web-vitals": "^1.1.2"
   },
   "eslintConfig": {
@@ -51,5 +50,5 @@
   "bugs": {
     "url": "https://github.com/codestates/SalkaMalka-server/issues"
   },
-  "homepage": "https://github.com/codestates/SalkaMalka-server#readme"
+  "homepage": "http://127.0.0.1:3000/LandingPage"
 }

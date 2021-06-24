@@ -24,3 +24,6 @@ yarn-error.log*
 *.pem
 *package-lock.json
 localhost*
+
+# Optional eslint cache
+.eslintcache
