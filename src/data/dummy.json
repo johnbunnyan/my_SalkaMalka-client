@@ -7,6 +7,8 @@
       "image": "https://cdn.pixabay.com/photo/2020/06/01/10/02/puffin-5246026__340.jpg",
       "content": "집에 에어후라이기가 어쩌고 오븐이 어쩌고 살까이 말까이 제발 살까 말까",
       "isOpen": true,
+      "like" : 2,
+      "dislike" : 2,
           "comments": [
         {
           "userId": 3,
@@ -42,9 +44,11 @@
       "userId": 2,
       "postId": 2,
       "title": "에어후라기이 살까이 말까이",
-      "image": "https://cdn.pixabay.com/photo/2020/06/01/10/02/puffin-5246026__340.jpg",
+      "image": null,
       "content": "집에 에어후라이기가 어쩌고 오븐이 어쩌고 살까이 말까이 제발 살까 말까",
       "isOpen": true,
+      "like" : 2,
+      "dislike" : 2,
           "comments": [
         {
           "userId": 3,
@@ -81,8 +85,10 @@
       "postId": 3,
       "title": "에어후라기이 살까이 말까이",
       "image": "https://cdn.pixabay.com/photo/2020/06/01/10/02/puffin-5246026__340.jpg",
-      "content": "집에 에어후라이기가 어쩌고 오븐이 어쩌고 살까이 말까이 제발 살까 말까",
+      "content": "정말로 사 말어사 말어 살까 말까 타이틀을 길게 해보는 테스트 집에 에어후라이기가 어쩌고 오븐이 어쩌고 살까이 말까이 제발 살까 말까",
       "isOpen": true,
+      "like" : 2,
+      "dislike" : 2,
           "comments": [
         {
           "userId": 3,
@@ -121,6 +127,8 @@
       "image": "https://cdn.pixabay.com/photo/2020/06/01/10/02/puffin-5246026__340.jpg",
       "content": "집에 에어후라이기가 어쩌고 오븐이 어쩌고 살까이 말까이 제발 살까 말까",
       "isOpen": true,
+      "like" : 2,
+      "dislike" : 2,
           "comments": [
         {
           "userId": 3,
@@ -159,6 +167,8 @@
       "image": "https://cdn.pixabay.com/photo/2020/06/01/10/02/puffin-5246026__340.jpg",
       "content": "집에 에어후라이기가 어쩌고 오븐이 어쩌고 살까이 말까이 제발 살까 말까",
       "isOpen": true,
+      "like" : 2,
+      "dislike" : 2,
           "comments": [
         {
           "userId": 3,
@@ -197,6 +207,8 @@
       "image": "https://cdn.pixabay.com/photo/2020/06/01/10/02/puffin-5246026__340.jpg",
       "content": "집에 에어후라이기가 어쩌고 오븐이 어쩌고 살까이 말까이 제발 살까 말까",
       "isOpen": true,
+      "like" : 2,
+      "dislike" : 2,
           "comments": [
         {
           "userId": 3,
@@ -235,6 +247,8 @@
       "image": "https://cdn.pixabay.com/photo/2020/06/01/10/02/puffin-5246026__340.jpg",
       "content": "집에 에어후라이기가 어쩌고 오븐이 어쩌고 살까이 말까이 제발 살까 말까",
       "isOpen": true,
+      "like" : 2,
+      "dislike" : 2,
           "comments": [
         {
           "userId": 3,
@@ -273,6 +287,8 @@
       "image": "https://cdn.pixabay.com/photo/2020/06/01/10/02/puffin-5246026__340.jpg",
       "content": "집에 에어후라이기가 어쩌고 오븐이 어쩌고 살까이 말까이 제발 살까 말까",
       "isOpen": true,
+      "like" : 2,
+      "dislike" : 2,
           "comments": [
         {
           "userId": 3,
