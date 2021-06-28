@@ -36,7 +36,7 @@ class LandingPage extends Component {
           <div className={'lp-postlist'}>
             {this.state.postData.map((el) => {
               return(
-              <PostCase key={el.postId} postId={el.postId} userId={el.userId} title={el.title} image={el.image} content={el.content} isOpen={el.isOpen} commentList={el.comments}></PostCase>
+              <PostCase key={el.postId} sara={el.like} mara={el.dislike} postId={el.postId} userId={el.userId} title={el.title} image={el.image} content={el.content} isOpen={el.isOpen} commentList={el.comments}></PostCase>
               )
             })}
           </div>

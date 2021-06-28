@@ -41,7 +41,9 @@
   display: none;
 }
 
-.modal{
+
+/* 모달관리 */
+.signup-modal{
   display: none;
   position: fixed;
   top: 0;
@@ -52,11 +54,47 @@
   background-color: rgba(0, 0, 0, 0.6);
 }
 
-.modal.openModal {
+.signup-modal.open-signup-modal {
   display: flex;
   align-items: center;
   z-index: 1050 !important;
 }
+
+.write-comment-modal{
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000 !important;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.write-comment-modal.open-write-comment-modal {
+  display: flex;
+  align-items: center;
+  z-index: 1050 !important;
+}
+
+.comment-modal{
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000 !important;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.comment-modal.open-comment-modal {
+  display: flex;
+  align-items: center;
+  z-index: 1050 !important;
+}
+
+/* ----------------- */
 
 .landing-page{
   background-color: grey;
@@ -162,6 +200,18 @@
 .post-case-content{
   margin: 0.5rem;
 }
+.post-case-likerate{
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+}
+.post-case-sararate{
+  background-color: blue;
+  height: ;
+}
+.post-case-mararate{
+  background-color: red;
+}
 .post-case-likeordislike{
   margin: 0.5rem;
   display: flex;
@@ -176,8 +226,18 @@
 }
 .post-case-best-comment{
   margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
 }
 .post-case-all-comments{
   margin: 0.5rem;
   text-align: center;
+}
+.comment-display{
+  display: flex;
+  flex-direction: rew;
+}
+.comment-item{
+  display: flex;
+  flex-direction: rew;
 }
