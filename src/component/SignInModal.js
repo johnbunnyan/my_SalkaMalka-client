@@ -48,7 +48,7 @@ export default function Search(props) {
   )
 
   return (
-    <div className={props.isModalOpen ? 'openModal modal' : 'modal'}>
+    <div className={props.isModalOpen ? 'open-signup-modal signup-modal' : 'signup-modal'}>
       {props.isModalOpen ? (
         <section className={sectionType}>
           <header>

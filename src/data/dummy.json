@@ -15,7 +15,7 @@
           "commentId": 1,
           "type": "like",
           "content": "그거 사브러 바로 사브러",
-          "like": 4
+          "like": 43
         },
         {
           "userId": 4,
@@ -29,7 +29,7 @@
           "commentId": 3,
           "type": "like",
           "content": "나였으면 바로삿다",
-          "like": 6
+          "like": 61
         },
         {
           "userId": 6,
@@ -37,6 +37,20 @@
           "type": "dislike",
           "content": "이거 사면 꼭 인증해라",
           "like": 7
+        },
+        {
+          "userId": 7,
+          "commentId": 5,
+          "type": "dislike",
+          "content": "이거 사면 꼭 인증해라",
+          "like": 22
+        },
+        {
+          "userId": 8,
+          "commentId": 6,
+          "type": "dislike",
+          "content": "이거 사면 꼭 인증해라",
+          "like": 31
         }
       ]
     },
@@ -47,8 +61,8 @@
       "image": null,
       "content": "집에 에어후라이기가 어쩌고 오븐이 어쩌고 살까이 말까이 제발 살까 말까",
       "isOpen": true,
-      "like" : 2,
-      "dislike" : 2,
+      "like" : 40,
+      "dislike" : 20,
           "comments": [
         {
           "userId": 3,
