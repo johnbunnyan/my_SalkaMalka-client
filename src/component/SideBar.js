@@ -4,6 +4,7 @@ import Search from "./Search";
 import MyPost from "./MyPost";
 import MyComment from "./MyComment";
 import Profile from "./Profile";
+import MyBookMark from "./MyBookMark";
 
 export default function SideBar(props) {
 
@@ -30,7 +31,23 @@ export default function SideBar(props) {
     return (
       <div className={'side-bar'}>
         <Logo></Logo>
-        {props.isPostOn ? (<MyComment />) : (<MyPost />)}
+        {/* {
+          if(props.whatIsDisplayed === 'MyPost'){
+            return(
+        <MyBookMark handleData={props.handleData}></MyBookMark>
+        <MyComment handleData={props.handleData} />
+        )
+          }
+        else if(props.whatIsDisplayed === 'MyComment'){
+
+        }
+        else if(props.whatIsDisplayed === 'MyBookMark'){
+
+        }
+        } */}
+        <MyBookMark handleData={props.handleData}></MyBookMark>
+        <MyComment handleData={props.handleData} />
+        <MyPost handleData={props.handleData} />)
         <Profile isSignIn={props.isSignIn} signIn={props.signIn} signOut={props.signOut} signUp={props.signUp}></Profile>
       </div>
     )
