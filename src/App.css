@@ -241,3 +241,38 @@
   display: flex;
   flex-direction: rew;
 }
+
+/* writepage */
+
+.write-page{
+  background-color: grey; 
+  width: 100vw;
+  height: 100vh;
+}
+.wp-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-end;
+    background-color: lightblue;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+.wp-preview-img-box{
+  background-color: #efefef;
+  width: 50vw;
+  height: 30vh;
+}
+.wp-preview-img{
+  width: 100%;
+  height: 100%;
+}
+
+/* 마이페이지 */
+.my-page{
+  background-color: grey; 
+  width: 100vw;
+  height: 100vh;
+}
+

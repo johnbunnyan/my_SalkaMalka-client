@@ -1,0 +1,178 @@
+{
+  "posts": [
+    {
+      "userId": 1,
+      "postId": 1,
+      "title": "에어후라기이 살까이 말까이",
+      "image": "https://cdn.pixabay.com/photo/2020/06/01/10/02/puffin-5246026__340.jpg",
+      "content": "집에 에어후라이기가 어쩌고 오븐이 어쩌고 살까이 말까이 제발 살까 말까",
+      "isOpen": true,
+      "like": 2,
+      "dislike": 2,
+      "comments": [
+        {
+          "userId": 3,
+          "commentId": 1,
+          "type": "like",
+          "content": "그거 사브러 바로 사브러",
+          "like": 43
+        },
+        {
+          "userId": 4,
+          "commentId": 2,
+          "type": "dislike",
+          "content": "호구야 그걸 왜사냐",
+          "like": 5
+        },
+        {
+          "userId": 5,
+          "commentId": 3,
+          "type": "like",
+          "content": "나였으면 바로삿다",
+          "like": 61
+        },
+        {
+          "userId": 6,
+          "commentId": 4,
+          "type": "dislike",
+          "content": "이거 사면 꼭 인증해라",
+          "like": 7
+        },
+        {
+          "userId": 7,
+          "commentId": 5,
+          "type": "dislike",
+          "content": "이거 사면 꼭 인증해라",
+          "like": 22
+        },
+        {
+          "userId": 8,
+          "commentId": 6,
+          "type": "dislike",
+          "content": "이거 사면 꼭 인증해라",
+          "like": 31
+        }
+      ]
+    },
+    {
+      "userId": 1,
+      "postId": 2,
+      "title": "에어후라기이 살까이 말까이",
+      "image": null,
+      "content": "집에 에어후라이기가 어쩌고 오븐이 어쩌고 살까이 말까이 제발 살까 말까",
+      "isOpen": true,
+      "like": 40,
+      "dislike": 20,
+      "comments": [
+        {
+          "userId": 3,
+          "commentId": 1,
+          "type": "like",
+          "content": "그거 사브러 바로 사브러",
+          "like": 4
+        },
+        {
+          "userId": 4,
+          "commentId": 2,
+          "type": "dislike",
+          "content": "호구야 그걸 왜사냐",
+          "like": 5
+        },
+        {
+          "userId": 5,
+          "commentId": 3,
+          "type": "like",
+          "content": "나였으면 바로삿다",
+          "like": 6
+        },
+        {
+          "userId": 6,
+          "commentId": 4,
+          "type": "dislike",
+          "content": "이거 사면 꼭 인증해라",
+          "like": 7
+        }
+      ]
+    },
+    {
+      "userId": 1,
+      "postId": 3,
+      "title": "에어후라기이 살까이 말까이",
+      "image": "https://cdn.pixabay.com/photo/2020/06/01/10/02/puffin-5246026__340.jpg",
+      "content": "정말로 사 말어사 말어 살까 말까 타이틀을 길게 해보는 테스트 집에 에어후라이기가 어쩌고 오븐이 어쩌고 살까이 말까이 제발 살까 말까",
+      "isOpen": true,
+      "like": 2,
+      "dislike": 2,
+      "comments": [
+        {
+          "userId": 3,
+          "commentId": 1,
+          "type": "like",
+          "content": "그거 사브러 바로 사브러",
+          "like": 4
+        },
+        {
+          "userId": 4,
+          "commentId": 2,
+          "type": "dislike",
+          "content": "호구야 그걸 왜사냐",
+          "like": 5
+        },
+        {
+          "userId": 5,
+          "commentId": 3,
+          "type": "like",
+          "content": "나였으면 바로삿다",
+          "like": 6
+        },
+        {
+          "userId": 6,
+          "commentId": 4,
+          "type": "dislike",
+          "content": "이거 사면 꼭 인증해라",
+          "like": 7
+        }
+      ]
+    },
+    {
+      "userId": 1,
+      "postId": 4,
+      "title": "에어후라기이 살까이 말까이",
+      "image": "https://cdn.pixabay.com/photo/2020/06/01/10/02/puffin-5246026__340.jpg",
+      "content": "집에 에어후라이기가 어쩌고 오븐이 어쩌고 살까이 말까이 제발 살까 말까",
+      "isOpen": true,
+      "like": 2,
+      "dislike": 2,
+      "comments": [
+        {
+          "userId": 3,
+          "commentId": 1,
+          "type": "like",
+          "content": "그거 사브러 바로 사브러",
+          "like": 4
+        },
+        {
+          "userId": 4,
+          "commentId": 2,
+          "type": "dislike",
+          "content": "호구야 그걸 왜사냐",
+          "like": 5
+        },
+        {
+          "userId": 5,
+          "commentId": 3,
+          "type": "like",
+          "content": "나였으면 바로삿다",
+          "like": 6
+        },
+        {
+          "userId": 6,
+          "commentId": 4,
+          "type": "dislike",
+          "content": "이거 사면 꼭 인증해라",
+          "like": 7
+        }
+      ]
+    }
+  ]
+}
