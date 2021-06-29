@@ -23,7 +23,7 @@ class WritePage extends Component {
 
   handleSubmit = () => {
     // axios전송
-    // console.log(this.state)
+    console.log(this.state)
   }
 
   render() {

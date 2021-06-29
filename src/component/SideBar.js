@@ -5,10 +5,36 @@ import MyPost from "./MyPost";
 import MyComment from "./MyComment";
 import Profile from "./Profile";
 import MyBookMark from "./MyBookMark";
+import MyPage from "../pages/MyPage";
 
 export default function SideBar(props) {
 
   const pathName = location.pathname
+  let MyPageMenu
+  if (props.whatIsDisplayed === 'MyPost') {
+    MyPageMenu = (
+      <div>
+        <MyComment handleData={props.handleData} />
+        <MyBookMark handleData={props.handleData}></MyBookMark>
+      </div>
+    )
+  }
+  else if (props.whatIsDisplayed === 'MyComment') {
+    MyPageMenu = (
+      <div>
+        <MyPost handleData={props.handleData} />
+        <MyBookMark handleData={props.handleData}></MyBookMark>
+      </div>
+    )
+  }
+  else if (props.whatIsDisplayed === 'MyBookMark') {
+    <div>
+      <MyPost handleData={props.handleData} />
+      <MyComment handleData={props.handleData} />
+    </div>
+  }
+  // console.log(MyPageMenu)
+
 
   if (pathName === '/LandingPage') {
     return (
@@ -31,23 +57,7 @@ export default function SideBar(props) {
     return (
       <div className={'side-bar'}>
         <Logo></Logo>
-        {/* {
-          if(props.whatIsDisplayed === 'MyPost'){
-            return(
-        <MyBookMark handleData={props.handleData}></MyBookMark>
-        <MyComment handleData={props.handleData} />
-        )
-          }
-        else if(props.whatIsDisplayed === 'MyComment'){
-
-        }
-        else if(props.whatIsDisplayed === 'MyBookMark'){
-
-        }
-        } */}
-        <MyBookMark handleData={props.handleData}></MyBookMark>
-        <MyComment handleData={props.handleData} />
-        <MyPost handleData={props.handleData} />)
+        {MyPageMenu}
         <Profile isSignIn={props.isSignIn} signIn={props.signIn} signOut={props.signOut} signUp={props.signUp}></Profile>
       </div>
     )
