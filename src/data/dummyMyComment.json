@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "postId": 1,
       "userId": 1,
       "commentId": 1,
       "type": "Sara",
@@ -8,6 +9,7 @@
       "like": 2
     },
     {
+      "postId": 2,
       "userId": 1,
       "commentId": 2,
       "type": "Sara",
@@ -15,6 +17,7 @@
       "like": 4
     },
     {
+      "postId": 3,
       "userId": 1,
       "commentId": 3,
       "type": "Sara",
@@ -22,6 +25,7 @@
       "like": 2
     },
     {
+      "postId": 3,
       "userId": 1,
       "commentId": 4,
       "type": "Sara",
@@ -29,6 +33,7 @@
       "like": 2
     },
     {
+      "postId": 4,
       "userId": 1,
       "commentId": 5,
       "type": "Mara",
@@ -36,6 +41,7 @@
       "like": 2
     },
     {
+      "postId": 5,
       "userId": 1,
       "commentId": 6,
       "type": "Sara",
@@ -43,6 +49,7 @@
       "like": 2
     },
     {
+      "postId": 6,
       "userId": 1,
       "commentId": 71,
       "type": "Sara",
@@ -50,6 +57,7 @@
       "like": 2
     },
     {
+      "postId": 7,
       "userId": 1,
       "commentId": 8,
       "type": "Mara",
@@ -57,6 +65,7 @@
       "like": 2
     },
     {
+      "postId": 8,
       "userId": 1,
       "commentId": 12,
       "type": "Sara",
@@ -64,6 +73,7 @@
       "like": 2
     },
     {
+      "postId": 9,
       "userId": 1,
       "commentId": 17,
       "type": "Mara",
