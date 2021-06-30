@@ -94,6 +94,23 @@
   z-index: 1050 !important;
 }
 
+.post-modal{
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000 !important;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.post-modal.open-post-modal {
+  display: flex;
+  align-items: center;
+  z-index: 1050 !important;
+}
+
 /* ----------------- */
 
 .landing-page{
@@ -274,5 +291,21 @@
   background-color: grey; 
   width: 100vw;
   height: 100vh;
+}.mp-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
+  background-color: lightblue;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+}
+.mp-postlist{
+  background-color: lawngreen;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-self: center;
 }
 

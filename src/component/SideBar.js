@@ -1,40 +1,39 @@
 import React from "react";
 import Logo from "./Logo";
 import Search from "./Search";
-import MyPost from "./MyPost";
-import MyComment from "./MyComment";
 import Profile from "./Profile";
-import MyBookMark from "./MyBookMark";
-import MyPage from "../pages/MyPage";
 
 export default function SideBar(props) {
 
-  const pathName = location.pathname
-  let MyPageMenu
-  if (props.whatIsDisplayed === 'MyPost') {
-    MyPageMenu = (
-      <div>
-        <MyComment handleData={props.handleData} />
-        <MyBookMark handleData={props.handleData}></MyBookMark>
-      </div>
-    )
-  }
-  else if (props.whatIsDisplayed === 'MyComment') {
-    MyPageMenu = (
-      <div>
-        <MyPost handleData={props.handleData} />
-        <MyBookMark handleData={props.handleData}></MyBookMark>
-      </div>
-    )
-  }
-  else if (props.whatIsDisplayed === 'MyBookMark') {
-    <div>
-      <MyPost handleData={props.handleData} />
-      <MyComment handleData={props.handleData} />
-    </div>
-  }
-  // console.log(MyPageMenu)
+  let pathName = location.pathname
 
+  const renderSwtichMenu = (param) => {
+    switch (param) {
+      case 'MyPost':
+        return (
+          <div>
+            <div onClick={() => { props.handleCategory('MyComment') }}>MyComment</div>
+            <div onClick={() => { props.handleCategory('MyBookMark') }}>MyBookMark</div>
+          </div>
+        )
+      case 'MyComment':
+        return (
+          <div>
+            <div onClick={() => { props.handleCategory('MyPost') }}>MyPost</div>
+            <div onClick={() => { props.handleCategory('MyBookMark') }}>MyBookMark</div>
+          </div>
+        )
+      case 'MyBookMark':
+        return (
+          <div>
+            <div onClick={() => { props.handleCategory('MyPost') }}>MyPost</div>
+            <div onClick={() => { props.handleCategory('MyComment') }}>MyComment</div>
+          </div>
+        )
+      default:
+        break;
+    }
+  }
 
   if (pathName === '/LandingPage') {
     return (
@@ -57,7 +56,7 @@ export default function SideBar(props) {
     return (
       <div className={'side-bar'}>
         <Logo></Logo>
-        {MyPageMenu}
+        {renderSwtichMenu(props.whatIsDisplayed)}
         <Profile isSignIn={props.isSignIn} signIn={props.signIn} signOut={props.signOut} signUp={props.signUp}></Profile>
       </div>
     )
