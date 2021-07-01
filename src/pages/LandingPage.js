@@ -1,29 +1,27 @@
-import React, { Component } from "react";
+import React, { useState, useEffect  } from "react";
 import SideBar from "../component/SideBar";
 import data from "../data/dummy.json"
 import PostCase from "../component/PostCase";
+import { useSelector } from 'react-redux';
 
-class LandingPage extends Component {
-  constructor(props) {
-    super(props)
-  };
+export default function LandingPage() {
+  const [postOptions, setPostOptions] = useState({
+    items: 5,
+    preItems: 0
+  })
+  const [postData, setPostData] = useState([]);
 
-  state = {
-    postData: [],
-    items : 5,
-    preItems : 0
-  };
+  const { isSignIn } = useSelector(state => state);
 
-  async componentDidMount(){
-    console.log(this.props)
-    let displayPost = data.posts.slice(this.state.preItems, this.state.items)
-    await this.setState({
-      postData : [...this.state.postData, ...displayPost]
-    })
-    window.addEventListener("scroll", this.infiniteScroll, true);
-  }
+  useEffect(() => {
+    const displayPost = data.posts.slice(postOptions.preItems, postOptions.items);
+    const arr = [...postData, ...displayPost];
+    setPostData(arr.filter((el, idx) => arr.indexOf(el) === idx));
+    
+    window.addEventListener("scroll", infiniteScroll, true);
+  }, [postOptions])
 
-  infiniteScroll = () => {
+  const infiniteScroll = () => {
     let scrollHeight = Math.max(
       document.documentElement.scrollHeight,
       document.body.scrollHeight
@@ -33,50 +31,44 @@ class LandingPage extends Component {
       document.body.scrollTop
     );
     let clientHeight = document.documentElement.clientHeight;
-
-    if (scrollTop + clientHeight >= scrollHeight) {
-      this.setState({
-        preItems: this.state.items,
-        items: this.state.items + 10,
+    if (scrollTop + clientHeight === scrollHeight) {
+      console.log('scroll')
+      setPostOptions({
+        preItems: postOptions.items,
+        items: postOptions.items + 10,
       });
-      this.componentDidMount();
     }
   };
 
-  render() {
-    return (
-      <div className={'landing-page'}>
-        <SideBar/>
-        <div className={'lp-content'}>
-          <div className={this.props.isSignIn ? 'lp-description display-none' : 'lp-description'}>
-            <div className={'lp-description-text'}></div>
-            <div className={'lp-description-img-box'}>
-              <div className={'lp-description-img'}></div>
-            </div>
-          </div>
-          <div className={'lp-postlist'}>
-            {this.state.postData.map((el) => {
-              return(
-              <PostCase
-                key={el.postId}
-                sara={el.like}
-                mara={el.dislike}
-                postId={el.postId}
-                userId={el.userId}
-                title={el.title}
-                image={el.image}
-                content={el.content}
-                isOpen={el.isOpen}
-                commentList={el.comments}>
-              </PostCase>
-             )
-            })}
+  return (
+    <div className={'landing-page'}>
+      <SideBar/>
+      <div className={'lp-content'}>
+        <div className={isSignIn ? 'lp-description display-none' : 'lp-description'}>
+          <div className={'lp-description-text'}></div>
+          <div className={'lp-description-img-box'}>
+            <div className={'lp-description-img'}></div>
           </div>
         </div>
+        <div className={'lp-postlist'}>
+          {postData.map((el) => {
+            return(
+            <PostCase
+              key={el.postId}
+              sara={el.like}
+              mara={el.dislike}
+              postId={el.postId}
+              userId={el.userId}
+              title={el.title}
+              image={el.image}
+              content={el.content}
+              isOpen={el.isOpen}
+              commentList={el.comments}>
+            </PostCase>
+            )
+          })}
+        </div>
       </div>
-
-    )
-  }
+    </div>
+  )
 }
-
-export default LandingPage;
