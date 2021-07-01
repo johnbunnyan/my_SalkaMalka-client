@@ -9,35 +9,33 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
-class App extends Component {
-  constructor() {
-    super()
-  }
 
-  render() {
-    return (
-      <div>
-        <BrowserRouter>
-          <Switch>
-            <Route path='/LandingPage' render={() =>
-              <LandingPage></LandingPage>} />
-            <Route path='/WritePage' render={() => this.state.isSignIn ? (
-              <WritePage></WritePage>
-            ) : (
-              <Redirect to="/LandingPage"></Redirect>
-            )} />
-            <Route path='/MyPage' render={() => this.state.isSignIn ? (
-              <MyPage></MyPage>
-            ) : (
-              <Redirect to="/LandingPage"></Redirect>
-            )} />
-          </Switch>
-        </BrowserRouter>
-      </div>
-    )
-  }
+export default function App() {
+  const { isSignIn } = useSelector(state => state)
+
+
+  return (
+    <div>
+      <BrowserRouter>
+        <Switch>
+          <Route path='/LandingPage' render={() =>
+            <LandingPage></LandingPage>} />
+          <Route path='/WritePage' render={() => isSignIn ? (
+            <WritePage></WritePage>
+          ) : (
+            <Redirect to="/LandingPage"></Redirect>
+          )} />
+          <Route path='/MyPage' render={() => isSignIn ? (
+            <MyPage></MyPage>
+          ) : (
+            <Redirect to="/LandingPage"></Redirect>
+          )} />
+        </Switch>
+      </BrowserRouter>
+    </div>
+  )
+
 }
 
-
-export default App;

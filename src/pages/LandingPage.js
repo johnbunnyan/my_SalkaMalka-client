@@ -47,7 +47,7 @@ class LandingPage extends Component {
       <div className={'landing-page'}>
         <SideBar/>
         <div className={'lp-content'}>
-          <div className={this.props.isSignIn ? 'lp-description display-none' : 'lp-description'}>
+          <div className={this.props.accessToken ? 'lp-description display-none' : 'lp-description'}>
             <div className={'lp-description-text'}></div>
             <div className={'lp-description-img-box'}>
               <div className={'lp-description-img'}></div>
