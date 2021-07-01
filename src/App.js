@@ -11,6 +11,7 @@ import {
   withRouter,
   useHistory,
 } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 class App extends Component {
 
@@ -24,7 +25,9 @@ class App extends Component {
     this.signIn = this.signIn.bind(this);
     this.signOut = this.signOut.bind(this);
     this.signUp = this.signUp.bind(this);
+    // const {isSignIn, accessToken} = useSelector(state => state)
   }
+
 
   signIn = (token) => {
     //로그인요청
@@ -53,7 +56,7 @@ class App extends Component {
           <Switch>
             <Route path='/LandingPage' render={() =>
               <LandingPage
-                // isSignIn={this.state.isSignIn}
+                isSignIn={this.state.isSignIn}
                 accessToken={this.state.accessToken}
                 signIn={this.signIn}
                 signOut={this.signOut}
@@ -61,7 +64,7 @@ class App extends Component {
               ></LandingPage>} />
             <Route path='/WritePage' render={() => this.state.isSignIn ? (
               <WritePage
-                // isSignIn={this.state.isSignIn}
+                isSignIn={this.state.isSignIn}
                 accessToken={this.state.accessToken}
                 signIn={this.signIn}
                 signOut={this.signOut}
@@ -72,7 +75,7 @@ class App extends Component {
             )} />
             <Route path='/MyPage' render={() => this.state.isSignIn ? (
               <MyPage
-                // isSignIn={this.state.isSignIn}
+                isSignIn={this.state.isSignIn}
                 accessToken={this.state.accessToken}
                 signIn={this.signIn}
                 signOut={this.signOut}
