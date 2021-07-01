@@ -9,24 +9,45 @@ class LandingPage extends Component {
   };
 
   state = {
-    postData: []
+    postData: [],
+    items : 5,
+    preItems : 0
   };
 
   async componentDidMount(){
+    let displayPost = data.posts.slice(this.state.preItems, this.state.items)
     await this.setState({
-      postData : data.posts
+      postData : [...this.state.postData, ...displayPost]
     })
-    // console.log(this.state.postData)
+    window.addEventListener("scroll", this.infiniteScroll, true);
   }
+
+  infiniteScroll = () => {
+    let scrollHeight = Math.max(
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight
+    );
+    let scrollTop = Math.max(
+      document.documentElement.scrollTop,
+      document.body.scrollTop
+    );
+    let clientHeight = document.documentElement.clientHeight;
+
+    if (scrollTop + clientHeight >= scrollHeight) {
+      this.setState({
+        preItems: this.state.items,
+        items: this.state.items + 10,
+      });
+      this.componentDidMount();
+    }
+  };
 
   render() {
     return (
       <div className={'landing-page'}>
         <SideBar isSignIn={this.props.isSignIn} signIn={this.props.signIn} signOut={this.props.signOut} signUp={this.props.signUp} ></SideBar>
 
-
         <div className={'lp-content'}>
-
           <div className={this.props.isSignIn ? 'lp-description display-none' : 'lp-description'}>
             <div className={'lp-description-text'}></div>
             <div className={'lp-description-img-box'}>
