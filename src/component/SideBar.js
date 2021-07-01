@@ -1,66 +1,63 @@
 import React from "react";
 import Logo from "./Logo";
 import Search from "./Search";
-import MyPost from "./MyPost";
-import MyComment from "./MyComment";
 import Profile from "./Profile";
-import MyBookMark from "./MyBookMark";
-import MyPage from "../pages/MyPage";
 
 export default function SideBar(props) {
-  const myPageMenu = (whatIsDisplayed, pathName) => {
-    console.log(whatIsDisplayed)
-    if (pathName === '/MyPage') {
-      if (whatIsDisplayed === 'MyPost') {
+  let pathName = location.pathname
+
+  const renderSwtichMenu = (param) => {
+    switch (param) {
+      case 'MyPost':
         return (
           <div>
-            <MyComment handleData={props.handleData} />
-            <MyBookMark handleData={props.handleData}></MyBookMark>
+            <div onClick={() => { props.handleCategory('MyComment') }}>MyComment</div>
+            <div onClick={() => { props.handleCategory('MyBookMark') }}>MyBookMark</div>
           </div>
         )
-      }
-      else if (whatIsDisplayed === 'MyComment') {
+      case 'MyComment':
         return (
           <div>
-            <MyPost handleData={props.handleData} />
-            <MyBookMark handleData={props.handleData}></MyBookMark>
+            <div onClick={() => { props.handleCategory('MyPost') }}>MyPost</div>
+            <div onClick={() => { props.handleCategory('MyBookMark') }}>MyBookMark</div>
           </div>
         )
-      }
-      else if (whatIsDisplayed === 'MyBookMark') {
+      case 'MyBookMark':
         return (
           <div>
-            <MyPost handleData={props.handleData} />
-            <MyComment handleData={props.handleData} />
+            <div onClick={() => { props.handleCategory('MyPost') }}>MyPost</div>
+            <div onClick={() => { props.handleCategory('MyComment') }}>MyComment</div>
           </div>
         )
-      }
-    }
-    else if (pathName === '/LandingPage') {
-      console.log(pathName)
-      return (
-        <div className={'side-bar'}>
-          <Logo></Logo>
-          <Search></Search>
-          <Profile></Profile>
-        </div>
-      )
-    }
-    else if (pathName === '/WritePage') {
-      return (
-        <div className={'side-bar'}>
-          <Logo></Logo>
-          <Profile></Profile>
-       </div>
-      )
+      default:
+        break;
     }
   }
-  
-  return (
-    <div className={'side-bar'}>
-      <Logo></Logo>
-      {myPageMenu(props.whatIsDisplayed, window.location.pathname)}
-      <Profile></Profile>
-    </div>
-  )
+
+  if (pathName === '/LandingPage') {
+    return (
+      <div className={'side-bar'}>
+        <Logo></Logo>
+        <Search></Search>
+        <Profile isSignIn={props.isSignIn} signIn={props.signIn} signOut={props.signOut} signUp={props.signUp}></Profile>
+      </div>
+    )
+  }
+  else if (pathName === '/WritePage') {
+    return (
+      <div className={'side-bar'}>
+        <Logo></Logo>
+        <Profile isSignIn={props.isSignIn} signIn={props.signIn} signOut={props.signOut} signUp={props.signUp}></Profile>
+      </div>
+    )
+  }
+  else {
+    return (
+      <div className={'side-bar'}>
+        <Logo></Logo>
+        {renderSwtichMenu(props.whatIsDisplayed)}
+        <Profile isSignIn={props.isSignIn} signIn={props.signIn} signOut={props.signOut} signUp={props.signUp}></Profile>
+      </div>
+    )
+  };
 };

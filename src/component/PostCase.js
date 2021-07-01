@@ -70,6 +70,11 @@ export default function PostCase(props) {
       <div className={'post-case-header'}>
         <div className={'post-case-title'}>{props.title}</div>
         <div className={'post-case-bookmark'} onClick={() => {bookMarkHandler()}}>북마크</div>
+        {props.isInMyComment ? (
+          <div onClick={() => {props.setOpenPost(false)}}> 내댓글로 돌아가기</div>
+        ) : (
+          null
+        )}
       </div>
       <div className={'post-case-body'}>
         {props.image ? (
@@ -97,23 +102,23 @@ export default function PostCase(props) {
           <div className={'post-case-best-like-comment'}>
             {bestSaraComment.map((el) => {
               return (
-                <CommentListItem key={el.commentId} type={el.type} content={el.content} like={el.like}></CommentListItem>
+                <CommentListItem key={el.commentId} isInMyPage={props.isInMyPage} type={el.type} content={el.content} like={el.like}></CommentListItem>
               )
             })}
           </div>
           <div className={'post-case-best-dislike-comment'}>
             {bestMaraComment.map((el) => {
               return (
-                <CommentListItem key={el.commentId} type={el.type} content={el.content} like={el.like}></CommentListItem>
+                <CommentListItem key={el.commentId} isInMyPage={props.isInMyPage} type={el.type} content={el.content} like={el.like}></CommentListItem>
               )
             })}
           </div>
         </div>
-      </div>
-      {isDisplayCommentModal ? (null) : (
+        {isDisplayCommentModal ? (null) : (
         <div onClick={() => { setDisplayCommentModal(true) }}>모든 댓글 보기</div>
       )}
 
+      </div>
       {/* 댓글등록 모달창 */}
       <div className={isCommentModalOpen ? 'open-write-comment-modal write-comment-modal' : 'write-comment-modal'}>
         <section>
