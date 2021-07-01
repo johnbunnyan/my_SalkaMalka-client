@@ -200,9 +200,9 @@ export default function SignInModal(props) {
           onFailure={(err) => console.log('err', err)}
           cookiePolicy={'single_host_origin'}
           render={renderProps => <button onClick={renderProps.onClick}>구글 계정으로 로그인할래요</button>}
-        />
-        <button onClick={kakaoLogin}>카카오 계정으로 로그인할래요</button>
-        <span onClick={() => { setSectionType('signUp') }}>살까말까에 회원가입할래요</span>
+      />
+      <button onClick={kakaoLogin}>카카오 계정으로 로그인할래요</button>
+      <span onClick={() => { setSectionType('signUp') }}>살까말까에 회원가입할래요</span>
     </main>
   ) : (
     <main>

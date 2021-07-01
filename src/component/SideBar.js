@@ -39,7 +39,7 @@ export default function SideBar(props) {
       <div className={'side-bar'}>
         <Logo></Logo>
         <Search></Search>
-        <Profile isSignIn={props.isSignIn} signIn={props.signIn} signOut={props.signOut} signUp={props.signUp}></Profile>
+        <Profile></Profile>
       </div>
     )
   }
@@ -47,7 +47,7 @@ export default function SideBar(props) {
     return (
       <div className={'side-bar'}>
         <Logo></Logo>
-        <Profile isSignIn={props.isSignIn} signIn={props.signIn} signOut={props.signOut} signUp={props.signUp}></Profile>
+        <Profile></Profile>
       </div>
     )
   }
@@ -56,7 +56,7 @@ export default function SideBar(props) {
       <div className={'side-bar'}>
         <Logo></Logo>
         {renderSwtichMenu(props.whatIsDisplayed)}
-        <Profile isSignIn={props.isSignIn} signIn={props.signIn} signOut={props.signOut} signUp={props.signUp}></Profile>
+        <Profile></Profile>
       </div>
     )
   };
