@@ -1,6 +1,6 @@
 // action types
 export const SIGNIN = "SIGNIN";
-export const SIGNOUT = "SIGNOUT";
+export const SETACCESSTOKEN = "SETACCESSTOKEN";
 export const SETQUERYSTRING = "SETQUERYSTRING";
 
 export const userSignIn = (data) => {
@@ -14,6 +14,15 @@ export const userSignIn = (data) => {
         userId: userId,
         email: email,
         provider: provider
+    }
+  }
+}
+
+export const setAccessToken = (accessToken) => {
+  return {
+    type: SETACCESSTOKEN,
+    payload: {
+      accessToken: accessToken
     }
   }
 }

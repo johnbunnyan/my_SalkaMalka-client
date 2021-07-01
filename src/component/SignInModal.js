@@ -21,7 +21,8 @@ export default function SignInModal(props) {
     all: ' ',
     match: ' ',
     email: ' ',
-    password: ' '
+    password: ' ',
+    wrong: ' '
   })
 
   const handleError = (name, value) => {
@@ -40,8 +41,14 @@ export default function SignInModal(props) {
       .post(process.env.REACT_APP_API_ENDPOINT + '/auth/signin',
       {
         email, password
+      },
+      {
+        'Content-Type': 'application/json',
+        withCredentials: true,
       })
       .then(res => {
+        handleError('wrong', ' ');
+        console.log(res);
         const data = {
           email: res.data.email,
           userId: res.data.userId,
@@ -52,7 +59,11 @@ export default function SignInModal(props) {
         props.closeModal();
         history.push('/LandingPage');
       })
-      .catch(e => console.log(e));
+      .catch(e => {
+        if (e.response && e.response.status === 404) {
+          handleError('wrong', e.response.data);
+        }
+      });
     }
   };
 
@@ -104,7 +115,11 @@ export default function SignInModal(props) {
           console.log('회원가입에 성공하였습니다.');
           setSectionType('signIn');
         })
-        .catch(e => console.log(e));
+        .catch(e => {
+          if (e.response && e.response.status === 409) {
+            handleError('all', e.response.data);
+          }
+        });
       }
     }
   }
@@ -169,7 +184,6 @@ export default function SignInModal(props) {
         fail: (err) => {console.log(err);}
       }
     )
-    
   }
 
   const mainContent = (sectionType === 'signIn') ? (
@@ -178,6 +192,7 @@ export default function SignInModal(props) {
       <input type="text" onChange={(e) => { setEmail(e.target.value) }}></input>
       <div>password</div>
       <input type="password" onChange={(e) => { setPassword(e.target.value) }}></input>
+      <div>{errorMessage.all === ' ' ? errorMessage.wrong : errorMessage.all}</div>
       <button onClick={() => { signInHandler(email, password) }}>login</button>
       <GoogleLogin 
           clientId={process.env.REACT_APP_GOOGLE_OAUTH_CODE}
@@ -211,7 +226,13 @@ export default function SignInModal(props) {
       {props.isModalOpen ? (
         <section className={sectionType}>
           <header>
-            <button className={"close"} onClick={() => { props.closeModal() }}>
+            <button className={"close"} onClick={() => {
+              for (let key in errorMessage) {
+                errorMessage[key] = ' ';
+              }
+              setSectionType('signIn');
+              props.closeModal();
+            }}>
               {" "}x
             </button>
           </header>

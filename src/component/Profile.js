@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import SignInModal from './SignInModal.js'
 import axios from "axios";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import persistor from '../index';
+import { setAccessToken } from '../actions/index';
 require("dotenv").config();
 
 export default function Profile() {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [isMenuOpen, menuOpenSet] = useState(false)
   const [isModalOpen, modalOpenset] = useState(false)
   const { isSignIn, accessToken, provider } = useSelector(state => state);
@@ -55,7 +57,19 @@ export default function Profile() {
       // store 초기화
       persistor.purge();
     })
-    .catch(e => console.log(e));
+    .catch(e => {
+      if (e.response && e.response.status === 401) {
+        axios
+        .post(process.env.REACT_APP_API_ENDPOINT + '/auth/refreshtoken', {}, {
+          withCredentials: true,
+        })
+        .then(res => {
+          dispatch(setAccessToken(res.data.accessToken));
+          return handleLogout();
+        })
+        .catch(e => console.log(e));
+      }
+    });
   }
 
   let options;
