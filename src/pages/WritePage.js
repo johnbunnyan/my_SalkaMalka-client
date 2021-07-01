@@ -29,7 +29,7 @@ class WritePage extends Component {
   render() {
     return (
       <div className={'write-page'}>
-        <SideBar isSignIn={this.props.isSignIn} signIn={this.props.signIn} signOut={this.props.signOut} signUp={this.props.signUp}></SideBar>
+        <SideBar></SideBar>
         <div className={'wp-content'}>
           <input type={'text'} defaultValue={'제목을 입력하세요'} onChange={(e) => { this.setState({ title: e.target.value }) }}></input>
           <input type={'text'} defaultValue={'내용을 입력하세요'} onChange={(e) => { this.setState({ content: e.target.value }) }}></input>

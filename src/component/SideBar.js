@@ -4,7 +4,6 @@ import Search from "./Search";
 import Profile from "./Profile";
 
 export default function SideBar(props) {
-
   let pathName = location.pathname
 
   const renderSwtichMenu = (param) => {

@@ -58,10 +58,6 @@ class MyPage extends Component {
     return (
       <div className={'my-page'}>
         <SideBar
-          isSignIn={this.props.isSignIn}
-          signIn={this.props.signIn}
-          signOut={this.props.signOut}
-          signUp={this.props.signUp}
           whatIsDisplayed={this.state.whatIsDisplayed}
           handleCategory={this.handleCategory}
         ></SideBar>
