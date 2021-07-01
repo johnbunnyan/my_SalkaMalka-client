@@ -22,22 +22,31 @@ class LandingPage extends Component {
   render() {
     return (
       <div className={'landing-page'}>
-        <SideBar isSignIn={this.props.isSignIn} signIn={this.props.signIn} signOut={this.props.signOut} signUp={this.props.signUp} ></SideBar>
-
-
+        <SideBar/>
         <div className={'lp-content'}>
 
           <div className={this.props.isSignIn ? 'lp-description display-none' : 'lp-description'}>
             <div className={'lp-description-text'}></div>
             <div className={'lp-description-img-box'}>
-              <div className={'lp-description-img'}  ></div>
+              <div className={'lp-description-img'}></div>
             </div>
           </div>
           <div className={'lp-postlist'}>
             {this.state.postData.map((el) => {
               return(
-              <PostCase key={el.postId} sara={el.like} mara={el.dislike} postId={el.postId} userId={el.userId} title={el.title} image={el.image} content={el.content} isOpen={el.isOpen} commentList={el.comments}></PostCase>
-              )
+              <PostCase
+                key={el.postId}
+                sara={el.like}
+                mara={el.dislike}
+                postId={el.postId}
+                userId={el.userId}
+                title={el.title}
+                image={el.image}
+                content={el.content}
+                isOpen={el.isOpen}
+                commentList={el.comments}>
+              </PostCase>
+             )
             })}
           </div>
         </div>

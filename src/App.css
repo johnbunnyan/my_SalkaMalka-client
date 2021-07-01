@@ -58,6 +58,16 @@
   display: flex;
   align-items: center;
   z-index: 1050 !important;
+  background-color: rgba(255, 255, 255, 0.726);
+}
+
+.signup-modal.open-signup-modal main {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-modal.open-signup-modal main * {
+  margin: 10px;
 }
 
 .write-comment-modal{
@@ -207,7 +217,6 @@
 }
 .post-case-sararate{
   background-color: blue;
-  height: ;
 }
 .post-case-mararate{
   background-color: red;

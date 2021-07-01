@@ -8,58 +8,59 @@ import MyBookMark from "./MyBookMark";
 import MyPage from "../pages/MyPage";
 
 export default function SideBar(props) {
-
-  const pathName = location.pathname
-  let MyPageMenu
-  if (props.whatIsDisplayed === 'MyPost') {
-    MyPageMenu = (
-      <div>
-        <MyComment handleData={props.handleData} />
-        <MyBookMark handleData={props.handleData}></MyBookMark>
-      </div>
-    )
+  const myPageMenu = (whatIsDisplayed, pathName) => {
+    console.log(whatIsDisplayed)
+    if (pathName === '/MyPage') {
+      if (whatIsDisplayed === 'MyPost') {
+        return (
+          <div>
+            <MyComment handleData={props.handleData} />
+            <MyBookMark handleData={props.handleData}></MyBookMark>
+          </div>
+        )
+      }
+      else if (whatIsDisplayed === 'MyComment') {
+        return (
+          <div>
+            <MyPost handleData={props.handleData} />
+            <MyBookMark handleData={props.handleData}></MyBookMark>
+          </div>
+        )
+      }
+      else if (whatIsDisplayed === 'MyBookMark') {
+        return (
+          <div>
+            <MyPost handleData={props.handleData} />
+            <MyComment handleData={props.handleData} />
+          </div>
+        )
+      }
+    }
+    else if (pathName === '/LandingPage') {
+      console.log(pathName)
+      return (
+        <div className={'side-bar'}>
+          <Logo></Logo>
+          <Search></Search>
+          <Profile></Profile>
+        </div>
+      )
+    }
+    else if (pathName === '/WritePage') {
+      return (
+        <div className={'side-bar'}>
+          <Logo></Logo>
+          <Profile></Profile>
+       </div>
+      )
+    }
   }
-  else if (props.whatIsDisplayed === 'MyComment') {
-    MyPageMenu = (
-      <div>
-        <MyPost handleData={props.handleData} />
-        <MyBookMark handleData={props.handleData}></MyBookMark>
-      </div>
-    )
-  }
-  else if (props.whatIsDisplayed === 'MyBookMark') {
-    <div>
-      <MyPost handleData={props.handleData} />
-      <MyComment handleData={props.handleData} />
+  
+  return (
+    <div className={'side-bar'}>
+      <Logo></Logo>
+      {myPageMenu(props.whatIsDisplayed, window.location.pathname)}
+      <Profile></Profile>
     </div>
-  }
-  // console.log(MyPageMenu)
-
-
-  if (pathName === '/LandingPage') {
-    return (
-      <div className={'side-bar'}>
-        <Logo></Logo>
-        <Search></Search>
-        <Profile isSignIn={props.isSignIn} signIn={props.signIn} signOut={props.signOut} signUp={props.signUp}></Profile>
-      </div>
-    )
-  }
-  else if (pathName === '/WritePage') {
-    return (
-      <div className={'side-bar'}>
-        <Logo></Logo>
-        <Profile isSignIn={props.isSignIn} signIn={props.signIn} signOut={props.signOut} signUp={props.signUp}></Profile>
-      </div>
-    )
-  }
-  else {
-    return (
-      <div className={'side-bar'}>
-        <Logo></Logo>
-        {MyPageMenu}
-        <Profile isSignIn={props.isSignIn} signIn={props.signIn} signOut={props.signOut} signUp={props.signUp}></Profile>
-      </div>
-    )
-  };
+  )
 };

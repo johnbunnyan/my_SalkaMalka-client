@@ -1,50 +1,88 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import SignInModal from './SignInModal.js'
+import axios from "axios";
+import { useSelector } from 'react-redux';
+import persistor from '../index';
+require("dotenv").config();
 
-
-
-export default function Profile(props) {
+export default function Profile() {
   const history = useHistory();
   const [isMenuOpen, menuOpenSet] = useState(false)
   const [isModalOpen, modalOpenset] = useState(false)
+  const { isSignIn, accessToken, provider } = useSelector(state => state);
 
   const openModal = () => {
-    modalOpenset(true)
+    modalOpenset(true);
   }
-
   const closeModal = () => {
-    modalOpenset(false)
+    modalOpenset(false);
   }
   const handleMenu = () => {
-    menuOpenSet(cur => !cur)
+    menuOpenSet(cur => !cur);
+  }
+
+  const handleLogout = () => {
+    axios
+    .post(process.env.REACT_APP_API_ENDPOINT + '/auth/signout', {}, {
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    })
+    .then(res => {
+      console.log('res', res);
+      // 카카오 로그인이 되어있는 경우
+      if (provider === 'kakao') {
+        if (window.Kakao.Auth.getAccessToken() !== null) {
+          window.Kakao.Auth.logout(function() {
+            console.log(window.Kakao.Auth.getAccessToken());
+          })
+        }
+      }
+
+      // 구글 로그인이 되어있는 경우
+      else if (provider === 'google') {
+        if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+          gapi.auth2.getAuthInstance().signOut().then(function() {
+            console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
+          })
+          gapi.auth2.getAuthInstance().disconnect();
+        }
+      }
+
+      // store 초기화
+      persistor.purge();
+    })
+    .catch(e => console.log(e));
   }
 
   let options;
-  if (props.isSignIn) {
-    options = ['WritePost', 'MyPage', 'LogOut']
+  if (isSignIn) {
+    options = ['WritePost', 'MyPage', 'LogOut'];
   }
   else {
-    options = ['LogIn']
+    options = ['LogIn'];
   }
 
   const activeButton = (el) => {
     if (el === 'LogIn') {
-      openModal()
+      openModal();
     }
     else if (el === 'LogOut') {
-      props.signOut()
+      handleLogout();
     }
     else if (el === 'WritePost') {
-      history.push('/WritePage')
+      history.push('/WritePage');
     }
     else if (el === 'MyPage') {
-      history.push('/MyPage')
+      history.push('/MyPage');
     }
   }
 
   return (
-    <div className={'proflie'}>
+    <div className='profile'>
       <div onClick={handleMenu}>
         profile
       </div>
@@ -59,9 +97,7 @@ export default function Profile(props) {
         }
       </div>
       <SignInModal
-        signIn={props.signIn}
         isModalOpen={isModalOpen}
-        signUp={props.signUp}
         openModal={openModal}
         closeModal={closeModal}
       ></SignInModal>
