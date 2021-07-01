@@ -7,44 +7,13 @@ import {
   Switch,
   BrowserRouter,
   Route,
-  Redirect,
-  withRouter,
-  useHistory,
+  Redirect
 } from "react-router-dom";
 
 class App extends Component {
-
-  state = {
-    isSignIn: false,
-    accessToken: null
-  };
-
   constructor() {
     super()
-    this.signIn = this.signIn.bind(this);
-    this.signOut = this.signOut.bind(this);
-    this.signUp = this.signUp.bind(this);
   }
-
-  signIn = (token) => {
-    //로그인요청
-    this.setState({
-      isSignIn: true,
-      accessToken: token
-    });
-  };
-
-  signOut = () => {
-    //로그아웃요청
-    this.setState({
-      isSignIn: false,
-      accessToken: null
-    });
-  };
-
-  signUp = () => {
-    console.log('회원가입완료');
-  };
 
   render() {
     return (
@@ -52,32 +21,14 @@ class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route path='/LandingPage' render={() =>
-              <LandingPage
-                isSignIn={this.state.isSignIn}
-                accessToken={this.state.accessToken}
-                signIn={this.signIn}
-                signOut={this.signOut}
-                signUp={this.signUp}
-              ></LandingPage>} />
+              <LandingPage></LandingPage>} />
             <Route path='/WritePage' render={() => this.state.isSignIn ? (
-              <WritePage
-                isSignIn={this.state.isSignIn}
-                accessToken={this.state.accessToken}
-                signIn={this.signIn}
-                signOut={this.signOut}
-                signUp={this.signUp}
-              ></WritePage>
+              <WritePage></WritePage>
             ) : (
               <Redirect to="/LandingPage"></Redirect>
             )} />
             <Route path='/MyPage' render={() => this.state.isSignIn ? (
-              <MyPage
-                isSignIn={this.state.isSignIn}
-                accessToken={this.state.accessToken}
-                signIn={this.signIn}
-                signOut={this.signOut}
-                signUp={this.signUp}
-              ></MyPage>
+              <MyPage></MyPage>
             ) : (
               <Redirect to="/LandingPage"></Redirect>
             )} />
