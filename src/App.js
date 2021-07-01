@@ -53,7 +53,7 @@ class App extends Component {
           <Switch>
             <Route path='/LandingPage' render={() =>
               <LandingPage
-                isSignIn={this.state.isSignIn}
+                // isSignIn={this.state.isSignIn}
                 accessToken={this.state.accessToken}
                 signIn={this.signIn}
                 signOut={this.signOut}
@@ -61,7 +61,7 @@ class App extends Component {
               ></LandingPage>} />
             <Route path='/WritePage' render={() => this.state.isSignIn ? (
               <WritePage
-                isSignIn={this.state.isSignIn}
+                // isSignIn={this.state.isSignIn}
                 accessToken={this.state.accessToken}
                 signIn={this.signIn}
                 signOut={this.signOut}
@@ -72,7 +72,7 @@ class App extends Component {
             )} />
             <Route path='/MyPage' render={() => this.state.isSignIn ? (
               <MyPage
-                isSignIn={this.state.isSignIn}
+                // isSignIn={this.state.isSignIn}
                 accessToken={this.state.accessToken}
                 signIn={this.signIn}
                 signOut={this.signOut}
