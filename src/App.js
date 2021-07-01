@@ -1,5 +1,5 @@
 import './App.css';
-import React, { Component } from "react";
+import React from "react";
 import WritePage from "./pages/WritePage";
 import LandingPage from "./pages/LandingPage";
 import MyPage from "./pages/MyPage";
@@ -14,14 +14,12 @@ import { useSelector } from 'react-redux';
 
 export default function App() {
   const { isSignIn } = useSelector(state => state)
-
-
   return (
     <div>
       <BrowserRouter>
         <Switch>
           <Route path='/LandingPage' render={() =>
-            <LandingPage isSignIn={isSignIn} ></LandingPage>} />
+            <LandingPage></LandingPage>} />
           <Route path='/WritePage' render={() => isSignIn ? (
             <WritePage></WritePage>
           ) : (

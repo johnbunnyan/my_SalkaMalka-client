@@ -31,8 +31,7 @@ export default function LandingPage() {
       document.body.scrollTop
     );
     let clientHeight = document.documentElement.clientHeight;
-    if (scrollTop + clientHeight === scrollHeight) {
-      console.log('scroll')
+    if (scrollTop + clientHeight >= scrollHeight) {
       setPostOptions({
         preItems: postOptions.items,
         items: postOptions.items + 10,
