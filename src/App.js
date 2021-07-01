@@ -21,7 +21,7 @@ export default function App() {
       <BrowserRouter>
         <Switch>
           <Route path='/LandingPage' render={() =>
-            <LandingPage></LandingPage>} />
+            <LandingPage isSignIn={isSignIn} ></LandingPage>} />
           <Route path='/WritePage' render={() => isSignIn ? (
             <WritePage></WritePage>
           ) : (
