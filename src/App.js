@@ -32,12 +32,12 @@ export default function App() {
           <Route exact path='/posts' render={() => isSignIn ? (
             <WritePage></WritePage>
           ) : (
-            <Redirect to="/LandingPage"></Redirect>
+            <Redirect to="/"></Redirect>
           )} />
           <Route path='/MyPage' render={() => isSignIn ? (
             <MyPage></MyPage>
           ) : (
-            <Redirect to="/LandingPage"></Redirect>
+            <Redirect to="/"></Redirect>
           )} />
         </Switch>
       </BrowserRouter>
