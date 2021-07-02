@@ -10,6 +10,8 @@ export default function PostCase(props) {
   const [commentContent, setCommentContent] = useState('') // 댓글 내용 변환시 저장
   const [isDisplayCommentModal, setDisplayCommentModal] = useState(false)
 
+  // console.log(props)
+
   const handleSaraMara = (target) => {
     if (target === 'sara') {
       setSaraMara('sara')
@@ -38,11 +40,11 @@ export default function PostCase(props) {
   let bestSaraComment = []
   let bestMaraComment = []
 
-  for (let key of props.commentList) {
-    if (key.type === 'like') {
+  for (let key of props.comment) {
+    if (key.type === 'sara') {
       bestSaraComment.push(key)
     }
-    else if (key.type === 'dislike') {
+    else if (key.type === 'mara') {
       bestMaraComment.push(key)
     }
   }
@@ -102,14 +104,14 @@ export default function PostCase(props) {
           <div className={'post-case-best-like-comment'}>
             {bestSaraComment.map((el) => {
               return (
-                <CommentListItem key={el.commentId} isInMyPage={props.isInMyPage} type={el.type} content={el.content} like={el.like}></CommentListItem>
+                <CommentListItem key={el._id} isInMyPage={props.isInMyPage} type={el.type} content={el.content} like={el.like}></CommentListItem>
               )
             })}
           </div>
           <div className={'post-case-best-dislike-comment'}>
             {bestMaraComment.map((el) => {
               return (
-                <CommentListItem key={el.commentId} isInMyPage={props.isInMyPage} type={el.type} content={el.content} like={el.like}></CommentListItem>
+                <CommentListItem key={el._id} isInMyPage={props.isInMyPage} type={el.type} content={el.content} like={el.like}></CommentListItem>
               )
             })}
           </div>
@@ -144,7 +146,7 @@ export default function PostCase(props) {
             </button>
           </header>
           <main>
-            <CommentList isDisplayCommentModal={isDisplayCommentModal} setDisplayCommentModal={setDisplayCommentModal} commentList={props.commentList}></CommentList>
+            <CommentList isDisplayCommentModal={isDisplayCommentModal} setDisplayCommentModal={setDisplayCommentModal} comment={props.comment}></CommentList>
           </main>
         </section>
       </div>
