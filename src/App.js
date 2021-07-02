@@ -46,6 +46,15 @@ class App extends Component {
       <div>
         <BrowserRouter>
           <Switch>
+            
+          <Route
+            exact path='/'
+            render={() => {
+         // is logged in
+                return <Redirect to="/LandingPage" />;
+            }
+          }
+        />
             <Route path='/LandingPage' render={() =>
               <LandingPage
                 isSignIn={this.state.isSignIn}
