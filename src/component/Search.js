@@ -1,16 +1,21 @@
 import React from "react";
-import axios from "axios";
+import { useHistory } from "react-router";
+import { setQueryString } from '../actions/index'
+import { useSelector, useDispatch } from 'react-redux';
 require("dotenv").config();
 
-export default function Search(props) {
-  const handleSearch = (event) => {
+export default function Search() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  function handleSearch(event) {
     const queryString = event.target.previousElementSibling.value;
-    history.push(`/search?q=${queryString}`)
-
-    let uri = process.env.REACT_APP_API_ENDPOINT + '/search?q=' + encodeURI(encodeURIComponent(queryString));
-    axios
-    .get(uri)
-    .then(res => console.log(res));
+    if (!queryString.length) {
+      alert('검색어를 입력해주세요');
+      return;
+    }
+    const encoded = encodeURI(encodeURIComponent(queryString));
+    dispatch(setQueryString(queryString));
+    history.push(`/search?q=${encoded}`);
   }
   return (
     <div id="search-bar">

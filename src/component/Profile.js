@@ -88,7 +88,7 @@ export default function Profile() {
       handleLogout();
     }
     else if (el === 'WritePost') {
-      history.push('/WritePage');
+      history.push('/posts');
     }
     else if (el === 'MyPage') {
       history.push('/MyPage');

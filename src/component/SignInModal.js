@@ -57,7 +57,7 @@ export default function SignInModal(props) {
         }
         dispatch(userSignIn(data));
         props.closeModal();
-        history.push('/LandingPage');
+        history.push('/');
       })
       .catch(e => {
         if (e.response && e.response.status === 404) {
@@ -146,7 +146,7 @@ export default function SignInModal(props) {
       }
       dispatch(userSignIn(data));
       props.closeModal();
-      history.push('/LandingPage');
+      history.push('/');
     })
     .catch(e => console.log(e));
   }
@@ -177,7 +177,7 @@ export default function SignInModal(props) {
             }
             dispatch(userSignIn(data));
             props.closeModal();
-            history.push('/LandingPage');
+            history.push('/');
           })
           .catch(e => console.log(e));
         },

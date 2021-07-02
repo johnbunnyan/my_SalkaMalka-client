@@ -18,9 +18,18 @@ export default function App() {
     <div>
       <BrowserRouter>
         <Switch>
-          <Route path='/LandingPage' render={() =>
+          <Route
+              exact path='/'
+              render={() => {
+                return <Redirect to='/main?sort=date' />;
+              }
+            }
+          />
+          <Route path='/main' render={() =>
             <LandingPage></LandingPage>} />
-          <Route path='/WritePage' render={() => isSignIn ? (
+          <Route path='/search' render={() =>
+            <LandingPage></LandingPage>} />
+          <Route exact path='/posts' render={() => isSignIn ? (
             <WritePage></WritePage>
           ) : (
             <Redirect to="/LandingPage"></Redirect>
