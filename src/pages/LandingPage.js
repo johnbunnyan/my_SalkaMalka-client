@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect } from "react";
 import SideBar from "../component/SideBar";
 import PostCase from "../component/PostCase";
 import { useSelector, useDispatch } from 'react-redux';
@@ -72,9 +72,10 @@ export default function LandingPage() {
     }
   };
 
+  console.log(postData)
   return (
     <div className={'landing-page'}>
-      <SideBar/>
+      <SideBar />
       <div className={'lp-content'}>
         <div className={isSignIn ? 'lp-description display-none' : 'lp-description'}>
           <div className={'lp-description-text'}></div>
@@ -92,19 +93,19 @@ export default function LandingPage() {
         <button onClick={() => {sortPosts('hot-topic')}}>뜨거운 감자</button>
         <div className={'lp-postlist'}>
           {data.posts.map((el) => {
-            return(
-            <PostCase
-              key={el.postId}
-              sara={el.like}
-              mara={el.dislike}
-              postId={el.postId}
-              userId={el.userId}
-              title={el.title}
-              image={el.image}
-              content={el.content}
-              isOpen={el.isOpen}
-              commentList={el.comment}>
-            </PostCase>
+            return (
+              <PostCase
+                key={el._id}
+                sara={el.sara}
+                mara={el.mara}
+                postId={el._id}
+                // userId={el.userId}
+                title={el.title}
+                image={el.image}
+                content={el.content}
+                isOpen={el.isOpen}
+                comment={el.comment}>
+              </PostCase>
             )
           })}
         </div>
