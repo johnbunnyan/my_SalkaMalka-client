@@ -2,9 +2,11 @@ import React from "react";
 import Logo from "./Logo";
 import Search from "./Search";
 import Profile from "./Profile";
+import { useHistory } from "react-router";
 
 export default function SideBar(props) {
   let pathName = location.pathname
+  const history = useHistory();
 
   const renderSwtichMenu = (param) => {
     switch (param) {
@@ -40,10 +42,11 @@ export default function SideBar(props) {
         <Logo></Logo>
         <Search></Search>
         <Profile></Profile>
+        <div onClick={() => {history.push('/about')}}>About SalkaMalka</div>
       </div>
     )
   }
-  else if (pathName === '/WritePage') {
+  else if (pathName === '/posts') {
     return (
       <div className={'side-bar'}>
         <Logo></Logo>

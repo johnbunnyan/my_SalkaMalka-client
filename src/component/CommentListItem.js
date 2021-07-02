@@ -1,17 +1,25 @@
 import React, { useState } from "react";
 import axios from "axios";
-import data from '../data/dummy.json'
+import data from '../data/dummy.json';
+import { useSelector } from 'react-redux';
 
 
 export default function CommentListItem(props) {
-
   const [postInfo, setPostInfo] = useState({})
+  const { isSignIn } = useSelector(state => state);
 
-  const pathName = location.pathname
-
-  const handleSaraMaraComment = (postInfo) => {
+  const handleLike = () => {
     //버튼 추천 서버 요청
-
+    if (!isSignIn) {
+      alert('로그인이 필요한 기능입니다')
+      return;
+    }
+    axios
+    .patch(process.env.REACT_APP_API_ENDPOINT + '/posts/' + props.postId + '/comments/' + props.commentId, {})
+    .then(res => console.log(res))
+    .catch(e => {
+      if (e.response && (e.response.status === 404 || e.response.status === 409)) alert(e.response.data);
+    });
     // if (postInfo.isDisplayCommentModal !== undefined && postInfo.setDisplayCommentModal !== undefined) {
     //   postInfo.setDisplayCommentModal(false)
     // }
@@ -33,15 +41,17 @@ export default function CommentListItem(props) {
       saraRate: (data.posts[0].sara / (data.posts[0].sara + data.posts[0].mara) * 100) + '%',
       maraRate: (data.posts[0].mara / (data.posts[0].sara + data.posts[0].mara) * 100) + '%'
     }) // 버튼눌러야 post요청
+
+
   }
   return (
     <div className={'comment-item'}>
       <div className={'comment-item-content'}>{props.content}</div>
-      <button onClick={() => handleSaraMaraComment(props.postInfo)}>추천</button>
-      
+      <button onClick={handleLike}>추천</button>
+      <div>{props.like}</div>
       {props.isInMyComment ? (
         // console.log(123)
-        <button onClick={() => handleOpenPost()}>게시물 보기</button>
+        <button onClick={handleOpenPost}>게시물 보기</button>
       ) : (
         null
       )}

@@ -1,34 +1,57 @@
 import React, { useState } from "react";
 import CommentList from "./CommentList";
 import CommentListItem from "./CommentListItem";
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { Route } from "react-router-dom";
+import { useHistory } from "react-router";
+
+require("dotenv").config();
 
 
 export default function PostCase(props) {
-  const [isCommentModalOpen, setCommentModalOpen] = useState(false) //코멘트 모달창 관리
-  const [saraMara, setSaraMara] = useState('') // 전송용 사라 마라 상태 관리
-  const [isCommented, setCommented] = useState(false) // 댓글을 달았는지 안달았는지
-  const [commentContent, setCommentContent] = useState('') // 댓글 내용 변환시 저장
-  const [isDisplayCommentModal, setDisplayCommentModal] = useState(false)
+  const pathName = window.location.pathname
+  const [isCommentModalOpen, setCommentModalOpen] = useState(false); //코멘트 모달창 관리
+  const [saraMara, setSaraMara] = useState(''); // 전송용 사라 마라 상태 관리
+  const [isCommented, setCommented] = useState(false); // 댓글을 달았는지 안달았는지
+  const [isDisplayCommentModal, setDisplayCommentModal] = useState(false);
+  const { userId, isSignIn, accessToken } = useSelector(state => state);
+  const { postId } = props;
+  const history = useHistory();
+  const [isRedirectModalOpen, setRedirectModalOpen] = useState(false)
 
-  // console.log(props)
 
   const handleSaraMara = (target) => {
+    if (!isSignIn) {
+      alert('로그인이 필요한 기능이에요')
+      return;
+    }
     if (target === 'sara') {
       setSaraMara('sara')
       setCommentModalOpen(true)
-      setCommented(true)
     }
     else if (target === 'mara') {
       setSaraMara('mara')
       setCommentModalOpen(true)
-      setCommented(true)
     }
   }
 
-  const handleComment = (target) => {
-    setCommentModalOpen(false)
-    console.log(target)
-    //댓글전송요청
+  const handleComment = (event) => {
+    const comment = event.target.previousElementSibling.value;
+    axios
+    .post(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId + '/comments',
+      {
+        userId: userId,
+        type: saraMara,
+        content: comment
+      }
+    )
+    .then(res => console.log(res.data))
+    .then(() => setCommentModalOpen(false))
+    .then(() => setCommented(true))
+    .catch(e => {
+      if (e.response && (e.response.status === 404 || e.response.status === 409)) alert(e.response.data);
+    });
   }
 
   //댓글 차트로 표시하기 위한 백분율/
@@ -63,15 +86,110 @@ export default function PostCase(props) {
   bestMaraComment = bestCommentFilter(bestMaraComment)
   //---------------------//
 
-  const bookMarkHandler =()=>{
-    //북마크 요청
+  const handleBookmark = () => {
+    if (!isSignIn) {
+      alert('로그인이 필요한 기능입니다')
+      return;
+    }
+    axios
+    .post(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/bookmarks',
+      {
+        postId: postId
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      }
+    )
+    .then(res => alert(res.data))
+    .catch(e => console.log(e));
+  }
+
+  const handleUnBookmark = () => {
+    axios
+    .delete(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/bookmarks/' + postId,
+      {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      }
+    )
+    .then(res => alert(res.data))
+    .catch(e => console.log(e));
+  }
+
+  const handlePostClose = () => {
+    axios
+    .patch(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId, {},
+      {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      }
+    )
+    .then(res => {
+      if(pathName === '/search' || pathName === '/main') {
+        history.push('/');
+      } else {
+        history.push(pathName);
+      }
+    })
+    .catch(e => console.log(e));
+  }
+
+  const handlePostDelete = () => {
+    axios
+    .delete(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId,
+      {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      }
+    )
+    .then(res => {
+      if(pathName === '/search' || pathName === '/main') {
+        history.push('/');
+      } else {
+        history.push(pathName);
+      }
+    })
+    .catch(e => console.log(e));
   }
 
   return (
     <div className={'post-case'}>
       <div className={'post-case-header'}>
         <div className={'post-case-title'}>{props.title}</div>
-        <div className={'post-case-bookmark'} onClick={() => {bookMarkHandler()}}>북마크</div>
+        <Route 
+          render={() => {
+            if (pathName === '/search' || pathName === '/main') {
+              return <div className={'post-case-bookmark'} onClick={handleBookmark}>북마크</div>
+            }
+          }}
+        />
+        <Route
+          render={() => {
+            if (userId === props.userId && props.isOpen) {
+              return <button onClick={handlePostClose}>닫기</button>
+            }
+          }}
+        />
+        <Route
+          render={() => {
+            if (userId === props.userId) {
+              return <button onClick={handlePostDelete}>삭제</button>
+            }
+          }}
+        />
         {props.isInMyComment ? (
           <div onClick={() => {props.setOpenPost(false)}}> 내댓글로 돌아가기</div>
         ) : (
@@ -104,14 +222,14 @@ export default function PostCase(props) {
           <div className={'post-case-best-like-comment'}>
             {bestSaraComment.map((el) => {
               return (
-                <CommentListItem key={el._id} isInMyPage={props.isInMyPage} type={el.type} content={el.content} like={el.like}></CommentListItem>
+                <CommentListItem key={el._id} isInMyPage={props.isInMyPage} type={el.type} content={el.content} like={el.like} postId={postId}></CommentListItem>
               )
             })}
           </div>
           <div className={'post-case-best-dislike-comment'}>
             {bestMaraComment.map((el) => {
               return (
-                <CommentListItem key={el._id} isInMyPage={props.isInMyPage} type={el.type} content={el.content} like={el.like}></CommentListItem>
+                <CommentListItem key={el._id} isInMyPage={props.isInMyPage} type={el.type} content={el.content} like={el.like} postId={postId}></CommentListItem>
               )
             })}
           </div>
@@ -130,9 +248,8 @@ export default function PostCase(props) {
             </button>
           </header>
           <main>
-            <input onChange={(e) => setCommentContent(e.target.value)} type={'text'} defaultValue={'댓글은 필수가 아닙니다'}></input>
-            <button onClick={() => { handleComment(commentContent) }}>댓글 등록</button>
-            <button onClick={() => { handleComment(commentContent) }}>댓글 등록하지 않기</button>
+            <input onFocus={(e) => e.target.value = ''} type={'text'} defaultValue={'댓글은 필수가 아닙니다'}></input>
+            <button onClick={(e) => { handleComment(e) }}>댓글 등록</button>
           </main>
         </section>
       </div>
@@ -146,7 +263,7 @@ export default function PostCase(props) {
             </button>
           </header>
           <main>
-            <CommentList isDisplayCommentModal={isDisplayCommentModal} setDisplayCommentModal={setDisplayCommentModal} comment={props.comment}></CommentList>
+            <CommentList isDisplayCommentModal={isDisplayCommentModal} setDisplayCommentModal={setDisplayCommentModal} comment={props.comment} postId={postId}></CommentList>
           </main>
         </section>
       </div>

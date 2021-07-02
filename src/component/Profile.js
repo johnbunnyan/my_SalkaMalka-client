@@ -12,7 +12,7 @@ export default function Profile() {
   const dispatch = useDispatch();
   const [isMenuOpen, menuOpenSet] = useState(false)
   const [isModalOpen, modalOpenset] = useState(false)
-  const { isSignIn, accessToken, provider } = useSelector(state => state);
+  const { isSignIn, accessToken, provider, userId } = useSelector(state => state);
 
   const openModal = () => {
     modalOpenset(true);
@@ -91,7 +91,7 @@ export default function Profile() {
       history.push('/posts');
     }
     else if (el === 'MyPage') {
-      history.push('/MyPage');
+      history.push(`/users/${userId}`);
     }
   }
 

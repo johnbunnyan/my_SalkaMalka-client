@@ -99,7 +99,7 @@ export default function LandingPage() {
                 sara={el.sara}
                 mara={el.mara}
                 postId={el._id}
-                // userId={el.userId}
+                userId={el.userId}
                 title={el.title}
                 image={el.image}
                 content={el.content}
