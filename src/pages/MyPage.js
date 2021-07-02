@@ -67,7 +67,7 @@ export default function MyPage() {
             }
           })
           .catch((e) => console.log(e))
-          .then((res) => setDisplayData(res.data.posts))
+          .then((res) => setDisplayData(res.data.bookmarks))
         break;
       default:
         break;
