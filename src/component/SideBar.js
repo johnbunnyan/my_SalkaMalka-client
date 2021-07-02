@@ -34,7 +34,7 @@ export default function SideBar(props) {
     }
   }
 
-  if (pathName === '/LandingPage') {
+  if (pathName === '/main' || pathName === '/search') {
     return (
       <div className={'side-bar'}>
         <Logo></Logo>
