@@ -1,8 +1,9 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect } from "react";
 import SideBar from "../component/SideBar";
 import data from "../data/dummy.json"
 import PostCase from "../component/PostCase";
 import { useSelector } from 'react-redux';
+import axios from "axios";
 
 export default function LandingPage() {
   const [postOptions, setPostOptions] = useState({
@@ -11,13 +12,22 @@ export default function LandingPage() {
   })
   const [postData, setPostData] = useState([]);
 
-  const { isSignIn } = useSelector(state => state);
+  const { isSignIn, accessToken } = useSelector(state => state);
 
   useEffect(() => {
-    const displayPost = data.posts.slice(postOptions.preItems, postOptions.items);
-    const arr = [...postData, ...displayPost];
-    setPostData(arr.filter((el, idx) => arr.indexOf(el) === idx));
-    
+    axios
+      .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=date', {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .catch((e) => console.log(e))
+      .then((res) => {
+        const displayPost = res.data.posts.slice(postOptions.preItems, postOptions.items)
+        const arr = [...postData, ...displayPost];
+        setPostData(arr.filter((el, idx) => arr.indexOf(el) === idx));
+      }
+      )
     window.addEventListener("scroll", infiniteScroll, true);
   }, [postOptions])
 
@@ -39,9 +49,10 @@ export default function LandingPage() {
     }
   };
 
+  console.log(postData)
   return (
     <div className={'landing-page'}>
-      <SideBar/>
+      <SideBar />
       <div className={'lp-content'}>
         <div className={isSignIn ? 'lp-description display-none' : 'lp-description'}>
           <div className={'lp-description-text'}></div>
@@ -51,19 +62,19 @@ export default function LandingPage() {
         </div>
         <div className={'lp-postlist'}>
           {postData.map((el) => {
-            return(
-            <PostCase
-              key={el.postId}
-              sara={el.like}
-              mara={el.dislike}
-              postId={el.postId}
-              userId={el.userId}
-              title={el.title}
-              image={el.image}
-              content={el.content}
-              isOpen={el.isOpen}
-              commentList={el.comments}>
-            </PostCase>
+            return (
+              <PostCase
+                key={el._id}
+                sara={el.sara}
+                mara={el.mara}
+                postId={el._id}
+                // userId={el.userId}
+                title={el.title}
+                image={el.image}
+                content={el.content}
+                isOpen={el.isOpen}
+                comment={el.comment}>
+              </PostCase>
             )
           })}
         </div>

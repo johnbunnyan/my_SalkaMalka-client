@@ -5,7 +5,7 @@ export default function CommentList(props) {
   const likeComment = []
   const dislikeComment = []
 
-  props.commentList.forEach((el) => {
+  props.comment.forEach((el) => {
     if (el.type === 'like') {
       likeComment.push(el)
     }

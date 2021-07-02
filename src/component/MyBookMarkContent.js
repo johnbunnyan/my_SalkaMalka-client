@@ -2,12 +2,12 @@ import React from "react";
 import PostCase from './PostCase.js'
 
 export default function MyBookBarkContent(props) {
-  console.log(props)
+  // console.log(props)
   return (
     <div className={'mp-postlist'}>
       {props.displayData.map((el) => {
         return (
-          <PostCase key={el.postId} sara={el.like} mara={el.dislike} postId={el.postId} userId={el.userId} title={el.title} image={el.image} content={el.content} isOpen={el.isOpen} commentList={el.comments}></PostCase>
+          <PostCase key={el._id} sara={el.sara} mara={el.mara} postId={el._id} userId={el.userId} title={el.title} image={el.image} content={el.content} isOpen={el.isOpen} comment={el.comment}></PostCase>
         )
       })}
     </div>

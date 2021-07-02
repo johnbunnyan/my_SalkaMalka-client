@@ -7,14 +7,14 @@ export default function MyCommentContent(props) {
   const [isOpenPost, setOpenPost] = useState(false)
   const [postInfo, setPostInfo] = useState({})
   const [isInMyComment, setInMyComment] = useState(true)
-  // console.log(isInMyPage)
+  // console.log(props)
   return (
     <div>
       {!isOpenPost ? (
         <div>
           {props.displayData.map((el) => {
             return (
-              <CommentListItem key={el.commentId} isInMyComment={isInMyComment} setOpenPost={setOpenPost} setPostInfo={setPostInfo} type={el.type} content={el.content} like={el.like} isDisplayCommentModal={props.isDisplayCommentModal} setDisplayCommentModal={props.setDisplayCommentModal} ></CommentListItem>
+              <CommentListItem key={el._id} isInMyComment={isInMyComment} setOpenPost={setOpenPost} setPostInfo={setPostInfo} type={el.type} content={el.content} like={el.like} isDisplayCommentModal={props.isDisplayCommentModal} setDisplayCommentModal={props.setDisplayCommentModal} ></CommentListItem>
             )
           })}
         </div>
