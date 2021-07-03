@@ -33,6 +33,7 @@ export default function Profile() {
       },
       withCredentials: true,
     })
+    .catch((e) => console.log(e))
     .then(res => {
       console.log('res', res);
       // 카카오 로그인이 되어있는 경우
