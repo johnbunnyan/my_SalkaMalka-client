@@ -72,7 +72,7 @@ export default function LandingPage() {
     }
   };
 
-  console.log(postData)
+  // console.log(postData)
   return (
     <div className={'landing-page'}>
       <SideBar />
