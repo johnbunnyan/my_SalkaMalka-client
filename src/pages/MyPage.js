@@ -13,9 +13,11 @@ export default function MyPage() {
 
 
   const { accessToken, userId } = useSelector(state => state);
-  const [displayData, setDisplayData] = useState([])
-  const [whatIsDisplayed, setWhatIsDispalyed] = useState('')
-  const [initData, setInitData] = useState([])
+  const pathname = window.location.pathname;
+  const [myPostData, setMyPostData] = useState([])
+  const [myCommentData, setMyCommentData] = useState([])
+  const [myBookMarkData, setMyBookMarkData] = useState([])
+  const [whatIsDisplayed, setWhatIsDispalyed] = useState('MyPost')
 
   useEffect(() => {
     axios
@@ -26,63 +28,57 @@ export default function MyPage() {
         }
       })
       .catch((e) => console.log(e))
-      .then((res) => setInitData(res.data.posts))
+      .then((res) => {
+        setMyPostData(res.data.posts)
+      })
+    axios
+      .get(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/comments', {
+        headers: {
+          Authorization: `bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        }
+      })
+      .catch((e) => console.log(e))
+      .then((res) => {
+        setMyCommentData(res.data.comments)
+      })
+    axios
+      .get(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/bookmarks', {
+        headers: {
+          Authorization: `bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        }
+      })
+      .catch((e) => console.log(e))
+      .then((res) => {
+        setMyBookMarkData(res.data.bookmarks)
+      })
   }, [])
 
-  const handleCategory = async (category) => {
+  const handleCategory = (category) => {
     switch (category) {
       case 'MyPost':
         setWhatIsDispalyed(category)
-        await axios
-          .get(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/posts', {
-            headers: {
-              Authorization: `bearer ${accessToken}`,
-              'Content-Type': 'application/json',
-            }
-          })
-          .catch((e) => console.log(e))
-          .then((res) => {
-            setDisplayData(res.data.posts)
-            console.log(res.data.posts)
-          }
-          )
         break;
       case 'MyComment':
         setWhatIsDispalyed(category)
-        await axios
-          .get(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/comments', {
-            headers: {
-              Authorization: `bearer ${accessToken}`,
-              'Content-Type': 'application/json',
-            }
-          })
         break;
       case 'MyBookMark':
         setWhatIsDispalyed(category)
-        await axios
-          .get(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/bookmarks', {
-            headers: {
-              Authorization: `bearer ${accessToken}`,
-              'Content-Type': 'application/json',
-            }
-          })
-          .catch((e) => console.log(e))
-          .then((res) => setDisplayData(res.data.posts))
         break;
       default:
         break;
     }
-    console.log(displayData)
   }
 
   const renderSwitchParam = (param) => {
     switch (param) {
       case 'MyPost':
-        return (<MyPostContent displayData={displayData}></MyPostContent>)
+        return (<MyPostContent displayData={myPostData}></MyPostContent>)
       case 'MyComment':
-        return (<MyCommentContent displayData={displayData}></MyCommentContent>)
+        return (<MyCommentContent displayData={myCommentData}></MyCommentContent>)
       case 'MyBookMark':
-        return (<MyBookMarkContent displayData={displayData}></MyBookMarkContent>)
+        return (<MyBookMarkContent displayData={myBookMarkData}></MyBookMarkContent>)
       default:
         break;
     }
