@@ -2,35 +2,53 @@ import React from "react";
 import CommentListItem from "./CommentListItem";
 
 export default function CommentList(props) {
-  const likeComment = []
-  const dislikeComment = []
+  const sara = []
+  const mara = []
 
   props.comment.forEach((el) => {
-    if (el.type === 'like') {
-      likeComment.push(el)
+    if (el.type === 'sara') {
+      sara.push(el)
     }
-    else if (el.type === 'dislike') {
-      dislikeComment.push(el)
+    else if (el.type === 'mara') {
+      mara.push(el)
     }
   })
 
 
   // console.log(props)
-  // console.log(likeComment)
-  // console.log(dislikeComment)
+  // console.log(sara)
+  // console.log(mara)
   return (
     <div className={'comment-display'}>
       <div className={'like-comment-display'}>
-        {likeComment.map((el) => {
+        {sara.map((el) => {
           return (
-            <CommentListItem key={el.commentId} type={el.type} content={el.content} like={el.like} isDisplayCommentModal={props.isDisplayCommentModal} setDisplayCommentModal={props.setDisplayCommentModal} ></CommentListItem>
+            <CommentListItem
+              key={el._id}
+              type={el.type}
+              content={el.content}
+              like={el.like}
+              isDisplayCommentModal={props.isDisplayCommentModal}
+              setDisplayCommentModal={props.setDisplayCommentModal}
+              postId={props.postId}
+              commentId={el._id}
+            ></CommentListItem>
           )
         })}
       </div>
       <div className={'dislike-comment-display'}>
-        {dislikeComment.map((el) => {
+        {mara.map((el) => {
           return (
-            <CommentListItem key={el.commentId} type={el.type} content={el.content} like={el.like} isDisplayCommentModal={props.isDisplayCommentModal} setDisplayCommentModal={props.setDisplayCommentModal} ></CommentListItem>
+            <CommentListItem
+              key={el._id}
+              type={el.type}
+              content={el.content}
+              like={el.like}
+              isDisplayCommentModal={props.isDisplayCommentModal}
+              setDisplayCommentModal={props.setDisplayCommentModal}
+              postId={props.postId}
+              commentId={el._id}
+            ></CommentListItem>
           )
         })}
 

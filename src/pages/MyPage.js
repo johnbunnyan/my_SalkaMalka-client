@@ -8,8 +8,12 @@ import MyPostContent from "../component/MyPostContent";
 import MyCommentContent from "../component/MyCommentContent";
 import { useSelector } from 'react-redux';
 import axios from "axios";
+import { useHistory } from "react-router";
+import persistor from '../index';
 
 export default function MyPage() {
+
+  const history = useHistory();
 
 
   const { accessToken, userId } = useSelector(state => state);
@@ -53,6 +57,7 @@ export default function MyPage() {
       .then((res) => {
         setMyBookMarkData(res.data.bookmarks)
       })
+
   }, [])
 
   const handleCategory = (category) => {
@@ -84,6 +89,41 @@ export default function MyPage() {
     }
   }
 
+  const deleteAccount = () => {
+    axios
+    .delete(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId, {
+      headers: {
+        Authorization: `bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(res => {
+      // 카카오 로그인이 되어있는 경우
+      if (provider === 'kakao') {
+        if (window.Kakao.Auth.getAccessToken() !== null) {
+          window.Kakao.Auth.logout(function() {
+            console.log(window.Kakao.Auth.getAccessToken());
+          })
+        }
+      }
+
+      // 구글 로그인이 되어있는 경우
+      else if (provider === 'google') {
+        if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+          gapi.auth2.getAuthInstance().signOut().then(function() {
+            console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
+          })
+          gapi.auth2.getAuthInstance().disconnect();
+        }
+      }
+
+      // store 초기화
+      persistor.purge();
+    })
+    .then(() => history.push('/'))
+    .catch(e => console.log(e));
+  }
+
 
   return (
     <div className={'my-page'}>
@@ -98,11 +138,10 @@ export default function MyPage() {
         ) : (
           renderSwitchParam(whatIsDisplayed)
         )}
+        <button className='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
       </div>
     </div>
-
   )
-
 }
 
 // {renderSwitchParam(whatIsDisplayed)}

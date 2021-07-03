@@ -3,6 +3,7 @@ import React from "react";
 import WritePage from "./pages/WritePage";
 import LandingPage from "./pages/LandingPage";
 import MyPage from "./pages/MyPage";
+import AboutPage from "./pages/AboutPage";
 import {
   Switch,
   BrowserRouter,
@@ -13,7 +14,7 @@ import { useSelector } from 'react-redux';
 
 
 export default function App() {
-  const { isSignIn } = useSelector(state => state)
+  const { isSignIn, userId } = useSelector(state => state)
   return (
     <div>
       <BrowserRouter>
@@ -34,11 +35,13 @@ export default function App() {
           ) : (
             <Redirect to="/"></Redirect>
           )} />
-          <Route path='/MyPage' render={() => isSignIn ? (
+          <Route path={`/users/${userId}`} render={() => isSignIn ? (
             <MyPage></MyPage>
           ) : (
             <Redirect to="/"></Redirect>
           )} />
+          <Route path={'/about'} render={() => 
+            <AboutPage></AboutPage>} />
         </Switch>
       </BrowserRouter>
     </div>

@@ -70,6 +70,33 @@
   margin: 10px;
 }
 
+.redirect-modal{
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000 !important;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.redirect-modal.open-redirect-modal {
+  display: flex;
+  align-items: center;
+  z-index: 1050 !important;
+  background-color: rgba(255, 255, 255, 0.726);
+}
+
+.redirect-modal.open-redirect-modal main {
+  display: flex;
+  flex-direction: column;
+}
+
+.redirect-modal.open-redirect-modal main * {
+  margin: 10px;
+}
+
 .write-comment-modal{
   display: none;
   position: fixed;
@@ -317,4 +344,8 @@
   justify-content: space-around;
   align-self: center;
 }
-
+.goodbye-btn {
+  position: fixed;
+  top: 2vh;
+  right: 2vw;
+}
