@@ -19,7 +19,7 @@ export default function PostCase(props) {
   const { postId } = props;
   const history = useHistory();
   const [isRedirectModalOpen, setRedirectModalOpen] = useState(false)
-
+  const [isBookMark, setBookMark] = useState(false)
 
   const handleSaraMara = (target) => {
     if (!isSignIn) {
@@ -39,19 +39,19 @@ export default function PostCase(props) {
   const handleComment = (event) => {
     const comment = event.target.previousElementSibling.value;
     axios
-    .post(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId + '/comments',
-      {
-        userId: userId,
-        type: saraMara,
-        content: comment
-      }
-    )
-    .then(res => console.log(res.data))
-    .then(() => setCommentModalOpen(false))
-    .then(() => setCommented(true))
-    .catch(e => {
-      if (e.response && (e.response.status === 404 || e.response.status === 409)) alert(e.response.data);
-    });
+      .post(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId + '/comments',
+        {
+          userId: userId,
+          type: saraMara,
+          content: comment
+        }
+      )
+      .then(res => console.log(res.data))
+      .then(() => setCommentModalOpen(false))
+      .then(() => setCommented(true))
+      .catch(e => {
+        if (e.response && (e.response.status === 404 || e.response.status === 409)) alert(e.response.data);
+      });
   }
 
   //댓글 차트로 표시하기 위한 백분율/
@@ -92,87 +92,94 @@ export default function PostCase(props) {
       return;
     }
     axios
-    .post(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/bookmarks',
-      {
-        postId: postId
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
+      .post(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/bookmarks',
+        {
+          postId: postId
         },
-        withCredentials: true,
-      }
-    )
-    .then(res => alert(res.data))
-    .catch(e => console.log(e));
+        {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      )
+      .then(res => {
+        alert(res.data)
+        setBookMark(true)
+      })
+      .catch(e => console.log(e));
   }
 
   const handleUnBookmark = () => {
     axios
-    .delete(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/bookmarks/' + postId,
-      {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      }
-    )
-    .then(res => alert(res.data))
-    .catch(e => console.log(e));
+      .delete(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/bookmarks/' + postId,
+        {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      )
+      .then(res => alert(res.data))
+      .catch(e => console.log(e));
   }
 
   const handlePostClose = () => {
     axios
-    .patch(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId, {},
-      {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      }
-    )
-    .then(res => {
-      if(pathName === '/search' || pathName === '/main') {
-        history.push('/');
-      } else {
-        history.push(pathName);
-      }
-    })
-    .catch(e => console.log(e));
+      .patch(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId, {},
+        {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      )
+      .then(res => {
+        if (pathName === '/search' || pathName === '/main') {
+          history.push('/');
+        } else {
+          history.push(pathName);
+        }
+      })
+      .catch(e => console.log(e));
   }
 
   const handlePostDelete = () => {
     axios
-    .delete(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId,
-      {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      }
-    )
-    .then(res => {
-      if(pathName === '/search' || pathName === '/main') {
-        history.push('/');
-      } else {
-        history.push(pathName);
-      }
-    })
-    .catch(e => console.log(e));
+      .delete(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId,
+        {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
+      )
+      .then(res => {
+        if (pathName === '/search' || pathName === '/main') {
+          history.push('/');
+        } else {
+          history.push(pathName);
+        }
+      })
+      .catch(e => console.log(e));
   }
 
   return (
     <div className={'post-case'}>
       <div className={'post-case-header'}>
         <div className={'post-case-title'}>{props.title}</div>
-        <Route 
+        <Route
           render={() => {
             if (pathName === '/search' || pathName === '/main') {
-              return <div className={'post-case-bookmark'} onClick={handleBookmark}>북마크</div>
+              return (!isBookMark ? (
+                <div className={'post-case-bookmark'} onClick={handleBookmark}>북마크</div>
+              ) : (
+                <div className={'post-case-bookmark'} onClick={handleUnBookmark}>북마크삭제</div>
+              ))
             }
           }}
         />
@@ -191,7 +198,7 @@ export default function PostCase(props) {
           }}
         />
         {props.isInMyComment ? (
-          <div onClick={() => {props.setOpenPost(false)}}> 내댓글로 돌아가기</div>
+          <div onClick={() => { props.setOpenPost(false) }}> 내댓글로 돌아가기</div>
         ) : (
           null
         )}
@@ -235,8 +242,8 @@ export default function PostCase(props) {
           </div>
         </div>
         {isDisplayCommentModal ? (null) : (
-        <div onClick={() => { setDisplayCommentModal(true) }}>모든 댓글 보기</div>
-      )}
+          <div onClick={() => { setDisplayCommentModal(true) }}>모든 댓글 보기</div>
+        )}
 
       </div>
       {/* 댓글등록 모달창 */}
