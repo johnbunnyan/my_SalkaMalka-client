@@ -21,6 +21,7 @@ export default function PostCase(props) {
   const { userId, isSignIn, accessToken, bookmarks } = useSelector(state => state);
   const { postId } = props;
   const history = useHistory();
+  const [commentList, setCommentList] = useState(props.comment)
 
   const handleSaraMara = (target) => {
     if (!isSignIn) {
@@ -47,7 +48,10 @@ export default function PostCase(props) {
           content: comment
         }
       )
-      .then(res => console.log(res.data))
+      .then(res => {
+        setCommentList(res.data.comments)
+        console.log(res.data)
+      })
       .then(() => setCommentModalOpen(false))
       .then(() => setCommented(true))
       .catch(e => {
@@ -61,10 +65,20 @@ export default function PostCase(props) {
   //--------//
 
   //상위 3개 댓글 뽑기//
+
+  // const [bestSaraComment, setBestSaraComment] = useState(commentList.map((el;)))
+
+  // let testArr = commentList.map((el)=>
+  //   // console.log(el)
+  //   el.type === 'sara'
+  // )
+  // console.log(testArr)
+
+  // console.log(commentList)
   let bestSaraComment = []
   let bestMaraComment = []
 
-  for (let key of props.comment) {
+  for (let key of commentList) {
     if (key.type === 'sara') {
       bestSaraComment.push(key)
     }
@@ -290,7 +304,7 @@ export default function PostCase(props) {
             </button>
           </header>
           <main>
-            <CommentList isDisplayCommentModal={isDisplayCommentModal} setDisplayCommentModal={setDisplayCommentModal} comment={props.comment} postId={postId}></CommentList>
+            <CommentList isDisplayCommentModal={isDisplayCommentModal} setDisplayCommentModal={setDisplayCommentModal} comment={commentList} postId={postId}></CommentList>
           </main>
         </section>
       </div>
