@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-// import ImagePicker from 'antd-mobile/lib/image-picker';
-// import imageCompression from "browser-image-compression";
+import React from 'react';
 
 export default function ImageUpload(props) {
   function handleImageURL() {
-    if (props.imgBase64) return (<img className={'wp-preview-img'} src={props.imgBase64}></img>)
+    if (props.imgBase64) {
+      return (<img className={'wp-preview-img'} src={props.imgBase64}></img>)
+    }
   }
 
   return (

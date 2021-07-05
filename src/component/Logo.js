@@ -7,7 +7,6 @@ export default function Logo(props) {
     history.push('/');
   }
 
-
   return (
       <img src="../../public/image/logo.png" alt="logo" onClick={() => backToHome()}/>
   )
