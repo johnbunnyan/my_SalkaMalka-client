@@ -35,7 +35,7 @@ export default function CommentListItem(props) {
       .then(res => {
         // console.log(res.data)
         props.setPostInfo({
-          userId: userId,
+          userId: res.data.userId,
           postId: postId,
           title: res.data.title,
           image: res.data.image,
@@ -74,11 +74,10 @@ export default function CommentListItem(props) {
       }
       <div>{props.like}</div>
       {props.isInMyComment ? 
-        // console.log(123)
         <button onClick={() => { handleOpenPost(props.postId) }}>게시물 보기</button> : null
       }
       {props.userId === userId ?
-        <button onClick={deleteComment}>댓글 삭제</button> : null
+        <button onClick={deleteComment}>X</button> : null
       }
     </div>
   )

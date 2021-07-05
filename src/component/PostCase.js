@@ -5,21 +5,22 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Route } from "react-router-dom";
 import { useHistory } from "react-router";
+import { setBookmark } from '../actions/index';
+import { useDispatch } from 'react-redux';
 
 require("dotenv").config();
 
 
 export default function PostCase(props) {
+  const dispatch = useDispatch();
   const pathName = window.location.pathname
   const [isCommentModalOpen, setCommentModalOpen] = useState(false); //코멘트 모달창 관리
   const [saraMara, setSaraMara] = useState(''); // 전송용 사라 마라 상태 관리
   const [isCommented, setCommented] = useState(false); // 댓글을 달았는지 안달았는지
   const [isDisplayCommentModal, setDisplayCommentModal] = useState(false);
-  const { userId, isSignIn, accessToken } = useSelector(state => state);
+  const { userId, isSignIn, accessToken, bookmarks } = useSelector(state => state);
   const { postId } = props;
   const history = useHistory();
-  const [isRedirectModalOpen, setRedirectModalOpen] = useState(false)
-  const [isBookMark, setBookMark] = useState(false)
   const [commentList, setCommentList] = useState(props.comment)
 
   const handleSaraMara = (target) => {
@@ -119,8 +120,8 @@ export default function PostCase(props) {
         }
       )
       .then(res => {
-        alert(res.data)
-        setBookMark(true)
+        alert(res.data);
+        dispatch(setBookmark([...bookmarks, postId]));
       })
       .catch(e => console.log(e));
   }
@@ -137,8 +138,10 @@ export default function PostCase(props) {
         }
       )
       .then(res => {
-        alert(res.data)
-        setBookMark(false)
+        alert(res.data);
+        const bms = bookmarks.slice();
+        bms.splice(bms.indexOf(postId), 1);
+        dispatch(setBookmark(bms));
       })
       .catch(e => console.log(e));
   }
@@ -157,8 +160,6 @@ export default function PostCase(props) {
       .then(res => {
         if (pathName === '/search' || pathName === '/main') {
           history.push('/');
-        } else {
-          history.push(pathName);
         }
       })
       .catch(e => console.log(e));
@@ -178,11 +179,15 @@ export default function PostCase(props) {
       .then(res => {
         if (pathName === '/search' || pathName === '/main') {
           history.push('/');
-        } else {
-          history.push(pathName);
         }
       })
       .catch(e => console.log(e));
+  }
+
+  function handleImageURL(image) {
+    if(image) {
+      return (<img src={`${process.env.REACT_APP_API_ENDPOINT}/${image}`}></img>)
+    }
   }
 
   return (
@@ -191,12 +196,11 @@ export default function PostCase(props) {
         <div className={'post-case-title'}>{props.title}</div>
         <Route
           render={() => {
-            if (pathName === '/search' || pathName === '/main') {
-              return (!isBookMark ? (
-                <div className={'post-case-bookmark'} onClick={handleBookmark}>북마크</div>
-              ) : (
-                <div className={'post-case-bookmark'} onClick={handleUnBookmark}>북마크삭제</div>
-              ))
+            if (userId === props.userId) return null;
+            if (bookmarks.includes(postId)) {
+              return <button onClick={handleUnBookmark}>북마크 해제</button>
+            } else {
+              return <button onClick={handleBookmark}>북마크</button>
             }
           }}
         />
@@ -214,16 +218,11 @@ export default function PostCase(props) {
             }
           }}
         />
-        {props.isInMyComment ? (
-          <div onClick={() => { props.setOpenPost(false) }}> 내댓글로 돌아가기</div>
-        ) : (
-          null
-        )}
       </div>
       <div className={'post-case-body'}>
         {props.image ? (
           <div className={'post-case-img-box'}>
-            <img className={'post-case-img'} src={props.image} alt={'이미지'}></img>
+            {handleImageURL(props.image)}
           </div>
         ) : (
           null
@@ -279,8 +278,8 @@ export default function PostCase(props) {
         {isDisplayCommentModal ? (null) : (
           <div onClick={() => { setDisplayCommentModal(true) }}>모든 댓글 보기</div>
         )}
-
       </div>
+      
       {/* 댓글등록 모달창 */}
       <div className={isCommentModalOpen ? 'open-write-comment-modal write-comment-modal' : 'write-comment-modal'}>
         <section>

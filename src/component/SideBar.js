@@ -5,7 +5,7 @@ import Profile from "./Profile";
 import { useHistory } from "react-router";
 
 export default function SideBar(props) {
-  let pathName = location.pathname
+  let pathName = window.location.pathname
   const history = useHistory();
 
   const renderSwtichMenu = (param) => {
@@ -42,7 +42,7 @@ export default function SideBar(props) {
         <Logo></Logo>
         <Search></Search>
         <Profile></Profile>
-        <div onClick={() => {history.push('/about')}}>About SalkaMalka</div>
+        <div className='about-page' onClick={() => {history.push('/about')}}>About SalkaMalka</div>
       </div>
     )
   }

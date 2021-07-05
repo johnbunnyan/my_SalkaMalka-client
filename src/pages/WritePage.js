@@ -43,7 +43,25 @@ export default function WritePage() {
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    if (!inputs.image) {
+      const formData = new FormData();
+      formData.append("title", inputs.title);
+      formData.append("content", inputs.content);
+      formData.append("userId", userId)
+      axios
+      .post(process.env.REACT_APP_API_ENDPOINT + '/posts',
+      formData,
+      {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
+      .then(res => history.push('/'))
+      .catch(e => console.log(e));
+      return;
+    }
 
     const options = {
       maxSizeMB: 0.1,

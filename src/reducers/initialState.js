@@ -5,5 +5,6 @@ export const initialState =
     userId: null,
     email: null,
     provider: null,
-    queryString: null
+    queryString: null,
+    bookmarks: []
 }

@@ -53,7 +53,8 @@ export default function SignInModal(props) {
           email: res.data.email,
           userId: res.data.userId,
           accessToken: res.data.accessToken,
-          provider: 'local'
+          provider: 'local',
+          bookmarks: res.data.bookmarks
         }
         dispatch(userSignIn(data));
         props.closeModal();
@@ -125,7 +126,7 @@ export default function SignInModal(props) {
   }
 
   function googleHandler(response) {
-    console.log(response.tokenId)
+    console.log(response)
     axios
     .post(process.env.REACT_APP_API_ENDPOINT + '/auth/signin/google',
     {},
@@ -142,7 +143,8 @@ export default function SignInModal(props) {
         email: res.data.email,
         userId: res.data.userId,
         accessToken: res.data.accessToken,
-        provider: 'google'
+        provider: 'google',
+        bookmarks: res.data.bookmarks
       }
       dispatch(userSignIn(data));
       props.closeModal();
@@ -173,7 +175,8 @@ export default function SignInModal(props) {
               email: res.data.email,
               userId: res.data.userId,
               accessToken: res.data.accessToken,
-              provider: 'kakao'
+              provider: 'kakao',
+              bookmarks: res.data.bookmarks
             }
             dispatch(userSignIn(data));
             props.closeModal();

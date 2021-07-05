@@ -2,9 +2,10 @@
 export const SIGNIN = "SIGNIN";
 export const SETACCESSTOKEN = "SETACCESSTOKEN";
 export const SETQUERYSTRING = "SETQUERYSTRING";
+export const SETBOOKMARK = "SETBOOKMARK";
 
 export const userSignIn = (data) => {
-  const { email, userId, accessToken, provider } = data;
+  const { email, userId, accessToken, provider, bookmarks } = data;
   console.log(data)
   return {
     type: SIGNIN,
@@ -13,7 +14,8 @@ export const userSignIn = (data) => {
         accessToken: accessToken,
         userId: userId,
         email: email,
-        provider: provider
+        provider: provider,
+        bookmarks: bookmarks
     }
   }
 }
@@ -32,6 +34,15 @@ export const setQueryString = (queryString) => {
     type: SETQUERYSTRING,
     payload: {
         queryString: queryString
+    }
+  }
+}
+
+export const setBookmark = (bookmarks) => {
+  return {
+    type: SETBOOKMARK,
+    payload: {
+        bookmarks: bookmarks
     }
   }
 }
