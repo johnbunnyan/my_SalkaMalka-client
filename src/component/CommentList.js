@@ -29,6 +29,7 @@ export default function CommentList(props) {
               postId={props.postId}
               commentId={el._id}
               userId={el.userId}
+              isOpen={props.isOpen}
             ></CommentListItem>
           )
         })}
@@ -46,6 +47,7 @@ export default function CommentList(props) {
               postId={props.postId}
               commentId={el._id}
               userId={el.userId}
+              isOpen={props.isOpen}
             ></CommentListItem>
           )
         })}

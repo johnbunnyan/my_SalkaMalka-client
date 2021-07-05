@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import axios from "axios";
 import { useHistory } from "react-router";
 import persistor from '../index';
-import { setBookmark } from '../actions/index';
+import { setBookmarks, setPosts, setComments, setClosed } from '../actions/index';
 import { useDispatch } from 'react-redux';
 
 export default function MyPage() {
@@ -34,8 +34,10 @@ export default function MyPage() {
         }
       })
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.posts)
         setMyPostData(res.data.posts)
+        dispatch(setPosts(res.data.posts.filter(i => i.isOpen).map(i => i._id)));
+        dispatch(setClosed(res.data.posts.filter(i => !i.isOpen).map(i => i._id)));
       })
       .catch((e) => console.log(e))
     axios
@@ -46,7 +48,9 @@ export default function MyPage() {
         }
       })
       .then((res) => {
+        console.log(res.data.comments.map(i => i.commentId))
         setMyCommentData(res.data.comments)
+        dispatch(setComments(res.data.comments.map(i => i.commentId)));
       })
       .catch((e) => console.log(e))
     axios
@@ -58,7 +62,7 @@ export default function MyPage() {
       })
       .then((res) => {
         setMyBookMarkData(res.data.bookmarks);
-        dispatch(setBookmark(res.data.bookmarks.map(i => i._id)));
+        dispatch(setBookmarks(res.data.bookmarks.map(i => i._id)));
       })
       .catch((e) => console.log(e))
 

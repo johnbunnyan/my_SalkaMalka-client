@@ -5,6 +5,8 @@
   font-size: 16px;
   border-radius: 5px;
   font-family: 'Nanum Gothic', sans-serif;
+  overflow-x: hidden;
+
 }
 
 
@@ -120,20 +122,17 @@
 
 .landing-page{
   background-color: grey;
-  /* overflow: auto; */
-  /* display: flex; */
-  /* flex-direction: row; */
 }
 .side-bar{
   background-color: honeydew;
-  min-width: 5vw;
-  height : 90vh;
-  margin: 1rem;
+  z-index: 1000;
+  width: 18vw;
+  height: 100vh;
+  padding: 1rem;
   position: fixed;
-  top: 2vh;
-  left: 2vw;
   display: flex;
   flex-direction: column;
+  border-radius: 0px;
 }
 .about-page {
   position: absolute;
@@ -148,20 +147,24 @@
   margin: 0.5rem 0rem;
 }
 .lp-content{
+  position: relative;
+  left: 18vw;
+  width: 82vw;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   background-color: lightblue;
+  padding-bottom: 20vh;
+  border-radius: 0px;
 }
 .lp-description{
-  margin-left: 20vw;
+  width: 70vw;
   background-color: indigo;
-  margin: 1rem;
   display: flex;
-  width: 85vw;
   flex-direction: row;
   justify-content: space-around;
+  margin: 2rem;
 }
 .display-none{
   display: none;
@@ -191,7 +194,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-self: center;
+  align-items: center;
+  min-width: 60vw;
 }
 #search-message {
   margin: 0.5rem 1rem;
@@ -207,8 +211,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 30vw;
+  width: 50vw;
   align-items: center;
+}
+.post-case.closed{
+  background-color: white;
 }
 .post-case-header{
   background-color: grey;
@@ -221,10 +228,6 @@
 .post-case-title{
   margin: 0.5rem;
   background-color: honeydew;
-}
-.post-case-bookmark{
-  margin: 0.5rem;
-  background-color: indianred;
 }
 .post-case-imgbox{
   margin: 0.5rem;
@@ -240,6 +243,13 @@
   margin: auto;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+.post-case-body {
+  margin: 0.5rem;
+  width: 95%;
+}
+.post-case-body * {
+  /* border: solid 1px black; */
 }
 .post-case-content{
   margin: 0.5rem;
