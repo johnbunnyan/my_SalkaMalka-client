@@ -1,4 +1,4 @@
-import { SIGNIN, SETQUERYSTRING, SETACCESSTOKEN, SETBOOKMARK } from "../actions/index";
+import { SIGNIN, SETQUERYSTRING, SETACCESSTOKEN, SETBOOKMARKS, SETPOSTS, SETCOMMENTS, SETCLOSED } from "../actions/index";
 import { initialState } from "./initialState";
 import { PURGE } from "redux-persist";
 
@@ -12,7 +12,13 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, action.payload);
     case SETACCESSTOKEN:
       return Object.assign({}, state, action.payload);
-    case SETBOOKMARK:
+    case SETBOOKMARKS:
+      return Object.assign({}, state, action.payload);
+    case SETPOSTS:
+      return Object.assign({}, state, action.payload);
+    case SETCOMMENTS:
+      return Object.assign({}, state, action.payload);
+    case SETCLOSED:
       return Object.assign({}, state, action.payload);
 
     default:

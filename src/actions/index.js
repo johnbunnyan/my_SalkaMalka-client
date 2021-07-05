@@ -2,7 +2,11 @@
 export const SIGNIN = "SIGNIN";
 export const SETACCESSTOKEN = "SETACCESSTOKEN";
 export const SETQUERYSTRING = "SETQUERYSTRING";
-export const SETBOOKMARK = "SETBOOKMARK";
+export const SETBOOKMARKS = "SETBOOKMARKS";
+export const SETPOSTS = "SETPOSTS";
+export const SETCOMMENTS = "SETCOMMENTS";
+export const SETCLOSED = "SETCLOSED";
+
 
 export const userSignIn = (data) => {
   const { email, userId, accessToken, provider, bookmarks } = data;
@@ -10,12 +14,12 @@ export const userSignIn = (data) => {
   return {
     type: SIGNIN,
     payload: {
-        isSignIn: true,
-        accessToken: accessToken,
-        userId: userId,
-        email: email,
-        provider: provider,
-        bookmarks: bookmarks
+      isSignIn: true,
+      accessToken: accessToken,
+      userId: userId,
+      email: email,
+      provider: provider,
+      bookmarks: bookmarks
     }
   }
 }
@@ -33,16 +37,44 @@ export const setQueryString = (queryString) => {
   return {
     type: SETQUERYSTRING,
     payload: {
-        queryString: queryString
+      queryString: queryString
     }
   }
 }
 
-export const setBookmark = (bookmarks) => {
+export const setBookmarks = (bookmarks) => {
+  console.log(bookmarks)
   return {
-    type: SETBOOKMARK,
+    type: SETBOOKMARKS,
     payload: {
-        bookmarks: bookmarks
+      bookmarks: bookmarks
+    }
+  }
+}
+
+export const setPosts = (posts) => {
+  return {
+    type: SETPOSTS,
+    payload: {
+      openPosts: posts
+    }
+  }
+}
+
+export const setComments = (comments) => {
+  return {
+    type: SETCOMMENTS,
+    payload: {
+      comments: comments
+    }
+  }
+}
+
+export const setClosed = (posts) => {
+  return {
+    type: SETCLOSED,
+    payload: {
+      closedPosts: posts
     }
   }
 }
