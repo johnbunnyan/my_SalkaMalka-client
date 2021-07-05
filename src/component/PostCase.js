@@ -122,7 +122,10 @@ export default function PostCase(props) {
           withCredentials: true,
         }
       )
-      .then(res => alert(res.data))
+      .then(res => {
+        alert(res.data)
+        setBookMark(false)
+      })
       .catch(e => console.log(e));
   }
 
@@ -229,14 +232,32 @@ export default function PostCase(props) {
           <div className={'post-case-best-like-comment'}>
             {bestSaraComment.map((el) => {
               return (
-                <CommentListItem key={el._id} isInMyPage={props.isInMyPage} type={el.type} content={el.content} like={el.like} postId={postId}></CommentListItem>
+                <CommentListItem
+                  key={el._id}
+                  isInMyPage={props.isInMyPage}
+                  type={el.type}
+                  content={el.content}
+                  like={el.like}
+                  postId={postId}
+                  commentId={el._id}
+                  userId={el.userId}
+                ></CommentListItem>
               )
             })}
           </div>
           <div className={'post-case-best-dislike-comment'}>
             {bestMaraComment.map((el) => {
               return (
-                <CommentListItem key={el._id} isInMyPage={props.isInMyPage} type={el.type} content={el.content} like={el.like} postId={postId}></CommentListItem>
+                <CommentListItem
+                  key={el._id}
+                  isInMyPage={props.isInMyPage}
+                  type={el.type}
+                  content={el.content}
+                  like={el.like}
+                  postId={postId}
+                  commentId={el._id}
+                  userId={el.userId}
+                ></CommentListItem>
               )
             })}
           </div>
