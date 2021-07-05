@@ -6,5 +6,8 @@ export const initialState =
     email: null,
     provider: null,
     queryString: null,
-    bookmarks: []
+    bookmarks: [],
+    openPosts: [],
+    closedPosts: [],
+    comments: []
 }
