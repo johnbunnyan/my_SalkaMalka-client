@@ -33,11 +33,13 @@ export default function Profile() {
       },
       withCredentials: true,
     })
-    .catch((e) => console.log(e))
     .then(res => {
       console.log('res', res);
       // 카카오 로그인이 되어있는 경우
       if (provider === 'kakao') {
+        if (!window.Kakao.Auth) {
+          window.Kakao.init(process.env.REACT_APP_KAKAO_KEY);
+        }
         if (window.Kakao.Auth.getAccessToken() !== null) {
           window.Kakao.Auth.logout(function() {
             console.log(window.Kakao.Auth.getAccessToken());
@@ -47,17 +49,20 @@ export default function Profile() {
 
       // 구글 로그인이 되어있는 경우
       else if (provider === 'google') {
-        if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
-          gapi.auth2.getAuthInstance().signOut().then(function() {
-            console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
-          })
-          gapi.auth2.getAuthInstance().disconnect();
+        if (gapi.auth2) {
+          if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+            gapi.auth2.getAuthInstance().signOut().then(function() {
+              console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
+            })
+            gapi.auth2.getAuthInstance().disconnect();
+          }
         }
       }
 
       // store 초기화
       persistor.purge();
     })
+    .then(() => history.push('/'))
     .catch(e => {
       if (e.response && e.response.status === 401) {
         axios

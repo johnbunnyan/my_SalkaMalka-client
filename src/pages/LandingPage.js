@@ -83,15 +83,14 @@ export default function LandingPage() {
             <div className={'lp-description-img'}></div>
           </div>
         </div>
-        <Route 
-          render={() => {
-            if (pathname === '/search') return <div>{'검색어: ' + queryString}</div>
-          }}
-        />
-        <button onClick={() => {sortPosts('date')}}>최신순</button>
-        <button onClick={() => {sortPosts('popular')}}>인기글</button>
-        <button onClick={() => {sortPosts('hot-topic')}}>뜨거운 감자</button>
+            
         <div className={'lp-postlist'}>
+          {pathname === '/search' ? <div id='search-message'>{'검색어: ' + queryString}</div> : null}
+          <div id='sort-btn-container'>
+            <button onClick={() => {sortPosts('date')}}>최신순</button>
+            <button onClick={() => {sortPosts('popular')}}>인기글</button>
+            <button onClick={() => {sortPosts('hot-topic')}}>뜨거운 감자</button>
+          </div>
           {data.posts.map((el) => {
             return (
               <PostCase

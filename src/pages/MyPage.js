@@ -10,9 +10,11 @@ import { useSelector } from 'react-redux';
 import axios from "axios";
 import { useHistory } from "react-router";
 import persistor from '../index';
+import { setBookmark } from '../actions/index';
+import { useDispatch } from 'react-redux';
 
 export default function MyPage() {
-
+  const dispatch = useDispatch();
   const history = useHistory();
 
 
@@ -33,6 +35,7 @@ export default function MyPage() {
       })
       .then((res) => {
         console.log(res.data);
+        setMyPostData(res.data.posts)
       })
       .catch((e) => console.log(e))
     axios
@@ -54,7 +57,8 @@ export default function MyPage() {
         }
       })
       .then((res) => {
-        setMyBookMarkData(res.data.bookmarks)
+        setMyBookMarkData(res.data.bookmarks);
+        dispatch(setBookmark(res.data.bookmarks.map(i => i._id)));
       })
       .catch((e) => console.log(e))
 
@@ -128,16 +132,11 @@ export default function MyPage() {
   return (
     <div className={'my-page'}>
       <SideBar
-        // whatIsDisplayed={whatIsDisplayed}
-        whatIsDisplayed={whatIsDisplayed === '' ? ('MyPost') : (whatIsDisplayed)}
+        whatIsDisplayed={whatIsDisplayed}
         handleCategory={handleCategory}
       ></SideBar>
       <div className={'mp-content'}>
-        {whatIsDisplayed === '' ? (
-          <MyPostContent displayData={initData}></MyPostContent>
-        ) : (
-          renderSwitchParam(whatIsDisplayed)
-        )}
+        {renderSwitchParam(whatIsDisplayed)}
         <button className='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
       </div>
     </div>
