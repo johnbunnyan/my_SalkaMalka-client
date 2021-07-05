@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Route } from "react-router-dom";
 import { useHistory } from "react-router";
-import { setBookmark } from '../actions/index';
+import { setBookmarks, setPosts, setClosed } from '../actions/index';
 import { useDispatch } from 'react-redux';
 
 require("dotenv").config();
@@ -18,7 +18,7 @@ export default function PostCase(props) {
   const [saraMara, setSaraMara] = useState(''); // 전송용 사라 마라 상태 관리
   const [isCommented, setCommented] = useState(false); // 댓글을 달았는지 안달았는지
   const [isDisplayCommentModal, setDisplayCommentModal] = useState(false);
-  const { userId, isSignIn, accessToken, bookmarks } = useSelector(state => state);
+  const { userId, isSignIn, accessToken, bookmarks, openPosts, closedPosts } = useSelector(state => state);
   const { postId } = props;
   const history = useHistory();
   const [commentList, setCommentList] = useState(props.comment)
@@ -103,7 +103,7 @@ export default function PostCase(props) {
 
   const handleBookmark = () => {
     if (!isSignIn) {
-      alert('로그인이 필요한 기능입니다')
+      alert('로그인이 필요한 기능이에요')
       return;
     }
     axios
@@ -121,7 +121,7 @@ export default function PostCase(props) {
       )
       .then(res => {
         alert(res.data);
-        dispatch(setBookmark([...bookmarks, postId]));
+        dispatch(setBookmarks([...bookmarks, postId]));
       })
       .catch(e => console.log(e));
   }
@@ -141,47 +141,76 @@ export default function PostCase(props) {
         alert(res.data);
         const bms = bookmarks.slice();
         bms.splice(bms.indexOf(postId), 1);
-        dispatch(setBookmark(bms));
+        dispatch(setBookmarks(bms));
       })
       .catch(e => console.log(e));
   }
 
   const handlePostClose = () => {
-    axios
-      .patch(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId, {},
-        {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        }
-      )
-      .then(res => {
-        if (pathName === '/search' || pathName === '/main') {
-          history.push('/');
-        }
-      })
-      .catch(e => console.log(e));
+    if (confirm('살까말까를 닫으면 더이상 사라마라를 받을 수 없어요')) {
+      axios
+        .patch(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId, {},
+          {
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+          }
+        )
+        .then(res => {
+          if (pathName === '/search' || pathName === '/main') {
+            history.push('/');
+          } else if (pathName === `/users/${userId}`) {
+            if (confirm('살까말까를 닫을래요') === true) {
+              const ps = openPosts.slice();
+              ps.splice(ps.indexOf(postId), 1);
+              dispatch(setPosts(ps));
+              dispatch(setClosed([...closedPosts, postId]));
+              window.location.reload(false);
+            } else {
+              return;
+            }
+          }
+        })
+        .catch(e => console.log(e));
+    } else {
+      return;
+    }
   }
 
   const handlePostDelete = () => {
-    axios
-      .delete(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId,
-        {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        }
-      )
-      .then(res => {
-        if (pathName === '/search' || pathName === '/main') {
-          history.push('/');
-        }
-      })
-      .catch(e => console.log(e));
+    if (confirm('살까말까를 삭제하면 더이상 사라마라를 받을 수 없어요')) {
+      axios
+        .delete(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId,
+          {
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+          }
+        )
+        .then(res => {
+          if (pathName === '/search' || pathName === '/main') {
+            history.push('/');
+          }
+          else if (pathName === `/users/${userId}`) {
+            if (props.isOpen) {
+              const ps = openPosts.slice();
+              ps.splice(ps.indexOf(postId), 1);
+              dispatch(setPosts(ps));
+            } else {
+              const ps = closedPosts.slice();
+              ps.splice(ps.indexOf(postId), 1);
+              dispatch(setClosed(ps));
+            }
+          }
+        })
+        .catch(e => console.log(e));
+    } else {
+      return;
+    }
   }
 
   function handleImageURL(image) {
@@ -191,7 +220,7 @@ export default function PostCase(props) {
   }
 
   return (
-    <div className={'post-case'}>
+    <div className={props.isOpen ? 'post-case' : 'post-case closed'}>
       <div className={'post-case-header'}>
         <div className={'post-case-title'}>{props.title}</div>
         <Route
@@ -229,7 +258,7 @@ export default function PostCase(props) {
         )}
         <div className={'post-case-content'}>{props.content}</div>
 
-        {isCommented ? (
+        {isCommented || !props.isOpen || userId === props.userId ? (
           <div className={'post-case-likerate'}>
             <div style={{ width: saraRate }} className={'post-case-sararate'}>sara : {props.sara}</div>
             <div style={{ width: maraRate }} className={'post-case-mararate'}>mara : {props.mara}</div>
@@ -254,6 +283,7 @@ export default function PostCase(props) {
                   postId={postId}
                   commentId={el._id}
                   userId={el.userId}
+                  isOpen={props.isOpen}
                 ></CommentListItem>
               )
             })}
@@ -270,6 +300,7 @@ export default function PostCase(props) {
                   postId={postId}
                   commentId={el._id}
                   userId={el.userId}
+                  isOpen={props.isOpen}
                 ></CommentListItem>
               )
             })}
@@ -304,7 +335,13 @@ export default function PostCase(props) {
             </button>
           </header>
           <main>
-            <CommentList isDisplayCommentModal={isDisplayCommentModal} setDisplayCommentModal={setDisplayCommentModal} comment={commentList} postId={postId}></CommentList>
+            <CommentList
+              isDisplayCommentModal={isDisplayCommentModal}
+              setDisplayCommentModal={setDisplayCommentModal}
+              comment={commentList}
+              postId={postId}
+              isOpen={props.isOpen}
+            ></CommentList>
           </main>
         </section>
       </div>
