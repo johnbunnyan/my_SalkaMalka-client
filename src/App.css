@@ -1,45 +1,13 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+  border-radius: 5px;
+  font-family: 'Nanum Gothic', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.menu-close{
-  display: none;
-}
 
 
 /* 모달관리 */
@@ -158,12 +126,26 @@
 }
 .side-bar{
   background-color: honeydew;
-  width: 5vw;
+  min-width: 5vw;
   height : 90vh;
   margin: 1rem;
   position: fixed;
   top: 2vh;
   left: 2vw;
+  display: flex;
+  flex-direction: column;
+}
+.about-page {
+  position: absolute;
+  padding: 10px 10px 0px 10px;
+  bottom: 0;
+  height: 40px;
+}
+.menu-close{
+  display: none;
+}
+.menu-open * {
+  margin: 0.5rem 0rem;
 }
 .lp-content{
   display: flex;
@@ -210,6 +192,14 @@
   flex-direction: column;
   justify-content: space-around;
   align-self: center;
+}
+#search-message {
+  margin: 0.5rem 1rem;
+}
+#sort-btn-container {
+  margin: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 .post-case{
   background-color: lightcoral;
