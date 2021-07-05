@@ -15,7 +15,7 @@ export default function CommentList(props) {
   })
 
 
-  // console.log(props)
+  // console.log(props.comment)
   // console.log(sara)
   // console.log(mara)
   return (
@@ -32,6 +32,7 @@ export default function CommentList(props) {
               setDisplayCommentModal={props.setDisplayCommentModal}
               postId={props.postId}
               commentId={el._id}
+              userId={el.userId}
             ></CommentListItem>
           )
         })}
@@ -48,6 +49,7 @@ export default function CommentList(props) {
               setDisplayCommentModal={props.setDisplayCommentModal}
               postId={props.postId}
               commentId={el._id}
+              userId={el.userId}
             ></CommentListItem>
           )
         })}
