@@ -30,7 +30,7 @@ export default function LandingPage() {
       axios
       .get(uri)
       .then(res => {
-        console.log(res.data)
+        // console.log(123)
         setData(res.data)
       })
       .catch(e => console.log(e));
@@ -55,7 +55,10 @@ export default function LandingPage() {
     history.push(`/main?sort=${sort}`);
     axios
     .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
-    .then(res => setData(res.data))
+    .then(res => {
+      console.log(321)
+      setData(res.data)
+    })
     .catch(e => console.log(e));
   }
 
