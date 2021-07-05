@@ -31,10 +31,10 @@ export default function MyPage() {
           'Content-Type': 'application/json',
         }
       })
-      .catch((e) => console.log(e))
       .then((res) => {
-        setMyPostData(res.data.posts)
+        console.log(res.data);
       })
+      .catch((e) => console.log(e))
     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/comments', {
         headers: {
@@ -42,10 +42,10 @@ export default function MyPage() {
           'Content-Type': 'application/json',
         }
       })
-      .catch((e) => console.log(e))
       .then((res) => {
         setMyCommentData(res.data.comments)
       })
+      .catch((e) => console.log(e))
     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/bookmarks', {
         headers: {
@@ -53,10 +53,10 @@ export default function MyPage() {
           'Content-Type': 'application/json',
         }
       })
-      .catch((e) => console.log(e))
       .then((res) => {
         setMyBookMarkData(res.data.bookmarks)
       })
+      .catch((e) => console.log(e))
 
   }, [])
 

@@ -16,8 +16,6 @@ export default function CommentList(props) {
 
 
   // console.log(props.comment)
-  // console.log(sara)
-  // console.log(mara)
   return (
     <div className={'comment-display'}>
       <div className={'like-comment-display'}>
