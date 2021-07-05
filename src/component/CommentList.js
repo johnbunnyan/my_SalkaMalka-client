@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CommentListItem from "./CommentListItem";
 
 export default function CommentList(props) {
@@ -14,8 +14,6 @@ export default function CommentList(props) {
     }
   })
 
-
-  // console.log(props.comment)
   return (
     <div className={'comment-display'}>
       <div className={'like-comment-display'}>

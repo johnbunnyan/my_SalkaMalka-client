@@ -29,11 +29,16 @@ export default function LandingPage() {
       const uri = process.env.REACT_APP_API_ENDPOINT + '/search?q=' + encoded;
       axios
       .get(uri)
-      .then(res => setData(res.data))
+      .then(res => {
+        console.log(res.data)
+        setData(res.data)
+      })
       .catch(e => console.log(e));
       return;
     }
     sortPosts('date');
+
+    
   }, [pathname, queryString])
 
   // useEffect(() => {
