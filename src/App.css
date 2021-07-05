@@ -1,47 +1,17 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+  border-radius: 5px;
+  font-family: 'Nanum Gothic', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.menu-close{
-  display: none;
-}
-
-.modal{
+/* 모달관리 */
+.signup-modal{
   display: none;
   position: fixed;
   top: 0;
@@ -52,8 +22,320 @@
   background-color: rgba(0, 0, 0, 0.6);
 }
 
-.modal.openModal {
+.signup-modal.open-signup-modal {
   display: flex;
   align-items: center;
   z-index: 1050 !important;
+  background-color: rgba(255, 255, 255, 0.726);
+}
+
+.signup-modal.open-signup-modal main {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-modal.open-signup-modal main * {
+  margin: 10px;
+}
+
+.redirect-modal{
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000 !important;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.redirect-modal.open-redirect-modal {
+  display: flex;
+  align-items: center;
+  z-index: 1050 !important;
+  background-color: rgba(255, 255, 255, 0.726);
+}
+
+.redirect-modal.open-redirect-modal main {
+  display: flex;
+  flex-direction: column;
+}
+
+.redirect-modal.open-redirect-modal main * {
+  margin: 10px;
+}
+
+.write-comment-modal{
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000 !important;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.write-comment-modal.open-write-comment-modal {
+  display: flex;
+  align-items: center;
+  z-index: 1050 !important;
+}
+
+.comment-modal{
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000 !important;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.comment-modal.open-comment-modal {
+  display: flex;
+  align-items: center;
+  z-index: 1050 !important;
+}
+
+.post-modal{
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000 !important;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.post-modal.open-post-modal {
+  display: flex;
+  align-items: center;
+  z-index: 1050 !important;
+}
+
+/* ----------------- */
+
+.landing-page{
+  background-color: grey;
+  /* overflow: auto; */
+  /* display: flex; */
+  /* flex-direction: row; */
+}
+.side-bar{
+  background-color: honeydew;
+  min-width: 5vw;
+  height : 90vh;
+  margin: 1rem;
+  position: fixed;
+  top: 2vh;
+  left: 2vw;
+  display: flex;
+  flex-direction: column;
+}
+.about-page {
+  position: absolute;
+  padding: 10px 10px 0px 10px;
+  bottom: 0;
+  height: 40px;
+}
+.menu-close{
+  display: none;
+}
+.menu-open * {
+  margin: 0.5rem 0rem;
+}
+.lp-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  background-color: lightblue;
+}
+.lp-description{
+  margin-left: 20vw;
+  background-color: indigo;
+  margin: 1rem;
+  display: flex;
+  width: 85vw;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.display-none{
+  display: none;
+}
+.lp-description-text{
+  /* width:30vw; */
+  height: 90vh;
+  flex-grow: 0.4;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  background-color: khaki;
+}
+.lp-description-img-box{
+  /* width: 30vw; */
+  height: 90vh;
+  /* flex-grow: 1; */
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  background-color: ivory;
+}
+.lp-description-img{
+  width: 50vw;
+  height: 90vh;
+}
+.lp-postlist{
+  background-color: lawngreen;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-self: center;
+}
+#search-message {
+  margin: 0.5rem 1rem;
+}
+#sort-btn-container {
+  margin: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+.post-case{
+  background-color: lightcoral;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30vw;
+  align-items: center;
+}
+.post-case-header{
+  background-color: grey;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0.5rem;
+  width: 95%;
+}
+.post-case-title{
+  margin: 0.5rem;
+  background-color: honeydew;
+}
+.post-case-bookmark{
+  margin: 0.5rem;
+  background-color: indianred;
+}
+.post-case-imgbox{
+  margin: 0.5rem;
+  width: 90%;
+  /* text-align: center; */
+  background-color: khaki;
+}
+.post-case-img{
+  width: 90%;
+  height: 90%;
+  margin: 0.3rem;
+  display: block;
+  margin: auto;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.post-case-content{
+  margin: 0.5rem;
+}
+.post-case-likerate{
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+}
+.post-case-sararate{
+  background-color: blue;
+}
+.post-case-mararate{
+  background-color: red;
+}
+.post-case-likeordislike{
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.post-case-best-like-comment{
+  margin: 0.5rem;
+}
+.pose-case-best-dislike-comment{
+  margin: 0.5rem;
+}
+.post-case-best-comment{
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: row;
+}
+.post-case-all-comments{
+  margin: 0.5rem;
+  text-align: center;
+}
+.comment-display{
+  display: flex;
+  flex-direction: rew;
+}
+.comment-item{
+  display: flex;
+  flex-direction: rew;
+}
+
+/* writepage */
+
+.write-page{
+  background-color: grey; 
+  width: 100vw;
+  height: 100vh;
+}
+.wp-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-end;
+    background-color: lightblue;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+.wp-preview-img-box{
+  background-color: #efefef;
+  width: 50vw;
+  height: 30vh;
+}
+.wp-preview-img{
+  width: 100%;
+  height: 100%;
+}
+
+/* 마이페이지 */
+.my-page{
+  background-color: grey; 
+  width: 100vw;
+  height: 100vh;
+}.mp-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
+  background-color: lightblue;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+}
+.mp-postlist{
+  background-color: lawngreen;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-self: center;
+}
+.goodbye-btn {
+  position: fixed;
+  top: 2vh;
+  right: 2vw;
 }

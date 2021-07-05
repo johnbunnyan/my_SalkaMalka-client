@@ -1,93 +1,51 @@
 import './App.css';
-import React, { Component } from "react";
+import React from "react";
 import WritePage from "./pages/WritePage";
 import LandingPage from "./pages/LandingPage";
 import MyPage from "./pages/MyPage";
+import AboutPage from "./pages/AboutPage";
 import {
   Switch,
   BrowserRouter,
   Route,
-  Redirect,
-  withRouter,
-  useHistory,
+  Redirect
 } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
-class App extends Component {
-  state = {
-    isSignIn: true
-  };
-  constructor() {
-    super()
-    this.signIn = this.signIn.bind(this);
-    this.signOut = this.signOut.bind(this);
-    this.signUp = this.signUp.bind(this);
-  }
 
-  signIn = () => {
-    //로그인요청
-    this.setState({
-      isSignIn: true
-    });
-  };
-
-  signOut = () => {
-    //로그아웃요청
-    this.setState({
-      isSignIn: false
-    });
-  };
-
-  signUp = () => {
-    console.log('회원가입완료');
-  };
-
-  render() {
-    return (
-      <div>
-        <BrowserRouter>
-          <Switch>
-            
+export default function App() {
+  const { isSignIn, userId } = useSelector(state => state)
+  return (
+    <div>
+      <BrowserRouter>
+        <Switch>
           <Route
-            exact path='/'
-            render={() => {
-         // is logged in
-                return <Redirect to="/LandingPage" />;
+              exact path='/'
+              render={() => {
+                return <Redirect to='/main?sort=date' />;
+              }
             }
-          }
-        />
-            <Route path='/LandingPage' render={() =>
-              <LandingPage
-                isSignIn={this.state.isSignIn}
-                signIn={this.signIn}
-                signOut={this.signOut}
-                signUp={this.signUp}
-              ></LandingPage>} />
-            <Route path='/WritePage' render={() => this.state.isSignIn ? (
-              <WritePage
-                isSignIn={this.state.isSignIn}
-                signIn={this.signIn}
-                signOut={this.signOut}
-                signUp={this.signUp}
-              ></WritePage>
-            ) : (
-              <Redirect to="/LandingPage"></Redirect>
-            )} />
-            <Route path='/MyPage' render={() => this.state.isSignIn ? (
-              <MyPage
-                isSignIn={this.state.isSignIn}
-                signIn={this.signIn}
-                signOut={this.signOut}
-                signUp={this.signUp}
-              ></MyPage>
-            ) : (
-              <Redirect to="/LandingPage"></Redirect>
-            )} />
-          </Switch>
-        </BrowserRouter>
-      </div>
-    )
-  }
+          />
+          <Route path='/main' render={() =>
+            <LandingPage></LandingPage>} />
+          <Route path='/search' render={() =>
+            <LandingPage></LandingPage>} />
+          <Route exact path='/posts' render={() => isSignIn ? (
+            <WritePage></WritePage>
+          ) : (
+            <Redirect to="/"></Redirect>
+          )} />
+          <Route path={`/users/${userId}`} render={() => isSignIn ? (
+            <MyPage></MyPage>
+          ) : (
+            <Redirect to="/"></Redirect>
+          )} />
+          <Route path={'/about'} render={() => 
+            <AboutPage></AboutPage>} />
+        </Switch>
+      </BrowserRouter>
+    </div>
+  )
+
 }
 
-
-export default App;
