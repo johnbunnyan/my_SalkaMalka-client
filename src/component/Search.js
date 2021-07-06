@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router";
 import { setQueryString } from '../actions/index'
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 require("dotenv").config();
 
 export default function Search() {

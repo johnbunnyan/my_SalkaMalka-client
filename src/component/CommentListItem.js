@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import data from '../data/dummy.json';
 import { useSelector, useDispatch } from 'react-redux';
 import { setComments } from '../actions/index';
-
 
 export default function CommentListItem(props) {
   const dispatch = useDispatch();
@@ -13,8 +11,6 @@ export default function CommentListItem(props) {
   // console.log(props)
 
   const handleLike = () => {
-    //버튼 추천 서버 요청
-    console.log(props);
     if (!isSignIn) {
       alert('로그인이 필요한 기능이에요')
       return;
@@ -30,9 +26,7 @@ export default function CommentListItem(props) {
   const handleOpenPost = (postId) => {//파라미터부분에 포스트아이디를받음
     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId)
-      .catch((e) => console.log(e))
       .then(res => {
-        // console.log(res.data)
         props.setPostInfo({
           userId: res.data.userId,
           postId: postId,
@@ -43,11 +37,12 @@ export default function CommentListItem(props) {
           sara: res.data.sara,
           mara: res.data.mara,
           comment: res.data.comment,
-          saraRate: (data.posts.sara / (data.posts.sara + data.posts.mara) * 100) + '%',
-          maraRate: (data.posts.sara / (data.posts.sara + data.posts.mara) * 100) + '%',
+          saraRate: (res.data.sara / (res.data.sara + res.data.mara) * 100) + '%',
+          maraRate: (res.data.sara / (res.data.sara + res.data.mara) * 100) + '%',
         })
       })
       .then(res => props.setOpenPost(true))
+      .catch((e) => console.log(e))
   }
 
   const deleteComment = () => {
@@ -73,20 +68,16 @@ export default function CommentListItem(props) {
       return;
     }
   }
-  // console.log(props.userId === userId)
-  // console.log(userId)
+
   return (
     <div className={'comment-item'}>
       <div className={'comment-item-content'}>{props.content}</div>
       {props.userId === userId || !props.isOpen ?
-        null : <button onClick={handleLike}>추천</button>
+        <button onClick={deleteComment}>X</button> : <button onClick={handleLike}>추천</button>
       }
       <div>{props.like}</div>
       {props.isInMyComment ? 
         <button onClick={() => { handleOpenPost(props.postId) }}>게시물 보기</button> : null
-      }
-      {props.userId === userId ?
-        <button onClick={deleteComment}>X</button> : null
       }
     </div>
   )

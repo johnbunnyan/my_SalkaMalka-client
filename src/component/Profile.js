@@ -78,12 +78,13 @@ export default function Profile() {
     });
   }
 
-  let options;
-  if (isSignIn) {
-    options = ['WritePost', 'MyPage', 'LogOut'];
-  }
-  else {
-    options = ['LogIn'];
+  const options = () => {
+    if (isSignIn) {
+      return ['WritePost', 'MyPage', 'LogOut'];
+    }
+    else {
+      return['LogIn'];
+    }
   }
 
   const activeButton = (el) => {
@@ -108,7 +109,7 @@ export default function Profile() {
       </div>
       <div className={isMenuOpen ? 'menu-open' : 'menu-close'}>
         {
-          options.map((el) => {
+          options().map((el) => {
             // console.log(el)
             return (
               <div key={el} onClick={() => activeButton(el)}>{el}</div>

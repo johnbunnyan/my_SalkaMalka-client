@@ -1,25 +1,18 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../component/SideBar";
-import myPostData from "../data/dummyMyPost.json"
-import myCommentData from "../data/dummyMyComment.json"
-import myBookMarkData from "../data/dummyMyBookMark.json"
 import MyBookMarkContent from "../component/MyBookMarkContent";
 import MyPostContent from "../component/MyPostContent";
 import MyCommentContent from "../component/MyCommentContent";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from "axios";
 import { useHistory } from "react-router";
 import persistor from '../index';
 import { setBookmarks, setPosts, setComments, setClosed } from '../actions/index';
-import { useDispatch } from 'react-redux';
 
 export default function MyPage() {
   const dispatch = useDispatch();
   const history = useHistory();
-
-
   const { accessToken, userId } = useSelector(state => state);
-  const pathname = window.location.pathname;
   const [myPostData, setMyPostData] = useState([])
   const [myCommentData, setMyCommentData] = useState([])
   const [myBookMarkData, setMyBookMarkData] = useState([])

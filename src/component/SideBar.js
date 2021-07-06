@@ -5,7 +5,7 @@ import Profile from "./Profile";
 import { useHistory } from "react-router";
 
 export default function SideBar(props) {
-  let pathName = window.location.pathname
+  const pathName = window.location.pathname
   const history = useHistory();
 
   const renderSwtichMenu = (param) => {
@@ -47,6 +47,14 @@ export default function SideBar(props) {
     )
   }
   else if (pathName === '/posts') {
+    return (
+      <div className={'side-bar'}>
+        <Logo></Logo>
+        <Profile></Profile>
+      </div>
+    )
+  }
+  else if (pathName === '/about') {
     return (
       <div className={'side-bar'}>
         <Logo></Logo>

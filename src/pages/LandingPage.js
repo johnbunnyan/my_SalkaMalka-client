@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "../component/SideBar";
 import PostCase from "../component/PostCase";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from "react-router";
 import axios from "axios";
-import { Route } from "react-router-dom";
 require("dotenv").config();
 
 export default function LandingPage() {
-  const dispatch = useDispatch();
   const history = useHistory();
   const pathname = window.location.pathname;
   const [postOptions, setPostOptions] = useState({
@@ -33,6 +31,10 @@ export default function LandingPage() {
         .catch(e => console.log(e));
       return;
     }
+<<<<<<< HEAD
+=======
+    sortPosts('date');
+>>>>>>> 245d261fbdbc602a8e3996c9745a528063d5ded1
   }, [pathname, queryString])
 
   useEffect(() => {
