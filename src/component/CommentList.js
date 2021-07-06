@@ -30,6 +30,8 @@ export default function CommentList(props) {
               commentId={el._id}
               userId={el.userId}
               isOpen={props.isOpen}
+              setCommentList={props.setCommentList}
+              setCommented={props.setCommented}
             ></CommentListItem>
           )
         })}
@@ -48,6 +50,8 @@ export default function CommentList(props) {
               commentId={el._id}
               userId={el.userId}
               isOpen={props.isOpen}
+              setCommentList={props.setCommentList}
+              setCommented={props.setCommented}
             ></CommentListItem>
           )
         })}

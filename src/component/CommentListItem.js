@@ -57,6 +57,9 @@ export default function CommentListItem(props) {
             withCredentials: true,
           })
         .then(res => {
+          console.log('댓글삭제응답요청댓글길이:',res.data.comments.length)
+          props.setCommentList(res.data.comments)
+          props.setCommented(false)
           if (window.location.pathname === `/users/${userId}`) {
             const coms = comments.slice();
             coms.splice(coms.indexOf(props.commentId), 1);

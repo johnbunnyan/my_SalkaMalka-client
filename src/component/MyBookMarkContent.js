@@ -2,7 +2,7 @@ import React from "react";
 import PostCase from './PostCase.js'
 
 export default function MyBookMarkContent(props) {
-  console.log(props)
+  // console.log(props)
   return (
     <div className={'mp-postlist'}>
       {props.displayData.map((el) => {

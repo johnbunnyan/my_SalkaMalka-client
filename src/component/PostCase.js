@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CommentList from "./CommentList";
 import CommentListItem from "./CommentListItem";
 import axios from 'axios';
@@ -20,6 +20,46 @@ export default function PostCase(props) {
   const { postId } = props;
   const history = useHistory();
   const [commentList, setCommentList] = useState(props.comment);
+  // console.log(commentList)
+  const getBestComment = (type, data) => {
+    let result = data.filter(i => i.type === type);
+    result.sort(function (a, b) {
+      return a.like > b.like ? -1 : a.like < b.like ? 1 : 0;
+    }).slice(0, 3)
+    return result.slice(0, 3);
+  }
+
+  const [bestSara, setBestSara] = useState(getBestComment('sara', commentList));
+  const [bestMara, setBestMara] = useState(getBestComment('mara', commentList));
+
+  useEffect(() => {
+    for (let key of commentList) {
+      if (key.userId === userId) {
+        setCommented(true)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    console.log('코멘트갯수:', commentList.length)
+    setBestSara(
+      commentList.filter(el => el.type === 'sara')
+        .sort(function (a, b) {
+          return a.like > b.like ? -1 : a.like < b.like ? 1 : 0;
+        })
+        .slice(0, 3)
+    )
+    setBestMara(
+      commentList.filter(el => el.type === 'mara')
+        .sort(function (a, b) {
+          return a.like > b.like ? -1 : a.like < b.like ? 1 : 0;
+        })
+        .slice(0, 3)
+    )
+    // console.log(bestSara.length, bestMara.length)
+  }, [commentList])
+
+
 
   const handleSaraMara = (target) => {
     if (!isSignIn) {
@@ -36,9 +76,9 @@ export default function PostCase(props) {
     }
   }
 
-  const handleComment = (event) => {
+  const handleComment = async (event) => {
     const comment = event.target.previousElementSibling.value;
-    axios
+    await axios
       .post(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId + '/comments',
         {
           userId: userId,
@@ -47,8 +87,9 @@ export default function PostCase(props) {
         }
       )
       .then(res => {
+        // setTimeout(setCommentList(res.data.comments),100)
+        console.log('댓글작성응답요청코멘트길이:',res.data.comments.length)
         setCommentList(res.data.comments)
-        console.log(res.data)
       })
       .then(() => setCommentModalOpen(false))
       .then(() => setCommented(true))
@@ -65,14 +106,8 @@ export default function PostCase(props) {
       return (props.mara / (props.sara + props.mara) * 100) + '%';
     }
   }
-  
-  const getBestComment = (type) => {
-    let result = commentList.filter(i => i.type === type);
-    result.sort(function (a, b) {
-      return a.like > b.like ? -1 : a.like < b.like ? 1 : 0;
-    })
-    return result.slice(0, 3);
-  }
+
+
 
   const handleBookmark = () => {
     if (!isSignIn) {
@@ -183,7 +218,7 @@ export default function PostCase(props) {
   }
 
   function handleImageURL(image) {
-    if(image) {
+    if (image) {
       return (<img src={`${process.env.REACT_APP_API_ENDPOINT}/${image}`}></img>)
     }
   }
@@ -240,7 +275,7 @@ export default function PostCase(props) {
         )}
         <div className={'post-case-best-comment'}>
           <div className={'post-case-best-like-comment'}>
-            {getBestComment('sara').map((el) => {
+            {bestSara.map((el) => {
               return (
                 <CommentListItem
                   key={el._id}
@@ -252,12 +287,14 @@ export default function PostCase(props) {
                   commentId={el._id}
                   userId={el.userId}
                   isOpen={props.isOpen}
+                  setCommentList={setCommentList}
+                  setCommented={setCommented}
                 ></CommentListItem>
               )
             })}
           </div>
           <div className={'post-case-best-dislike-comment'}>
-            {getBestComment('mara').map((el) => {
+            {bestMara.map((el) => {
               return (
                 <CommentListItem
                   key={el._id}
@@ -269,6 +306,8 @@ export default function PostCase(props) {
                   commentId={el._id}
                   userId={el.userId}
                   isOpen={props.isOpen}
+                  setCommentList={setCommentList}
+                  setCommented={setCommented}
                 ></CommentListItem>
               )
             })}
@@ -278,7 +317,7 @@ export default function PostCase(props) {
           <div className='post-case-all-comments' onClick={() => { setDisplayCommentModal(true) }}>모든 댓글 보기</div>
         )}
       </div>
-      
+
       {/* 댓글등록 모달창 */}
       <div className={isCommentModalOpen ? 'open-write-comment-modal write-comment-modal' : 'write-comment-modal'}>
         <section>
@@ -309,6 +348,8 @@ export default function PostCase(props) {
               comment={commentList}
               postId={postId}
               isOpen={props.isOpen}
+              setCommentList={setCommentList}
+              setCommented={setCommented}
             ></CommentList>
           </main>
         </section>
