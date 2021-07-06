@@ -43,6 +43,7 @@ export default function WritePage() {
   }
 
   const handleSubmit = (event) => {
+    // console.log(2)
     if (!inputs.image) {
       const formData = new FormData();
       formData.append("title", inputs.title);
