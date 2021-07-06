@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from "axios";
 import { useHistory } from "react-router";
 import persistor from '../index';
-import { setBookmarks, setPosts, setComments, setClosed, setReplied } from '../actions/index';
+import { setBookmarks, setPosts, setComments, setClosed } from '../actions/index';
 
 export default function MyPage() {
   const dispatch = useDispatch();
@@ -44,7 +44,6 @@ export default function MyPage() {
         console.log(res.data.comments.map(i => i.commentId))
         setMyCommentData(res.data.comments)
         dispatch(setComments(res.data.comments.map(i => i.commentId)));
-        dispatch(setReplied(res.data.comments.map(i => i.postId)));
       })
       .catch((e) => console.log(e))
     axios

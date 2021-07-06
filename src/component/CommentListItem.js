@@ -58,13 +58,9 @@ export default function CommentListItem(props) {
           })
         .then(res => {
           console.log('댓글삭제응답요청댓글길이:',res.data.comments.length)
-          props.setCommentList(res.data.comments)
-          props.setCommented(false)
-          if (window.location.pathname === `/users/${userId}`) {
-            const coms = comments.slice();
-            coms.splice(coms.indexOf(props.commentId), 1);
-            dispatch(setComments(coms));
-          }
+          props.setCommentList(res.data.comments);
+          props.setCommented(false);
+          dispatch(res.data.comments);
         })
         .catch((e) => console.log(e))
     } else {
