@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import { GoogleLogin } from 'react-google-login';
-import { userSignIn } from '../actions/index';
+import { userSignIn, setReplied } from '../actions/index';
 import { useDispatch } from 'react-redux';
 require("dotenv").config();
 
@@ -32,6 +32,18 @@ export default function SignInModal(props) {
     })
   }
 
+  const getRepliedPosts = (userId, accessToken) => {
+    axios
+      .get(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/comments', {
+        headers: {
+          Authorization: `bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(res => dispatch(setReplied(res.data.comments.map(i => i.postId))))
+      .catch(e => console.log(e))
+  }
+
   const signInHandler = (email, password) => {
     if (!email || !password) {
       handleError('all', '아이디와 비밀번호 모두 입력하세요');
@@ -57,6 +69,7 @@ export default function SignInModal(props) {
           bookmarks: res.data.bookmarks
         }
         dispatch(userSignIn(data));
+        getRepliedPosts(data.userId, data.accessToken);
         props.closeModal();
         history.push('/');
       })
@@ -147,6 +160,7 @@ export default function SignInModal(props) {
         bookmarks: res.data.bookmarks
       }
       dispatch(userSignIn(data));
+      getRepliedPosts(data.userId, data.accessToken);
       props.closeModal();
       history.push('/');
     })
@@ -179,6 +193,7 @@ export default function SignInModal(props) {
               bookmarks: res.data.bookmarks
             }
             dispatch(userSignIn(data));
+            getRepliedPosts(data.userId, data.accessToken);
             props.closeModal();
             history.push('/');
           })

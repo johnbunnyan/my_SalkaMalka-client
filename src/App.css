@@ -9,8 +9,31 @@
 
 }
 
+body, #root, #root > *, #root > * > * {
+  border-radius: 0px;
+}
 
+button {
+  border: none;
+  color: inherit;
+  background-color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+}
 
+textarea {
+  padding: 5px 10px;
+  border: none;
+}
+
+input {
+  padding: 5px 10px;
+  border: none;
+}
+
+input:focus, textarea:focus {
+  outline: 0;
+}
 
 /* 모달관리 */
 .signup-modal{
@@ -132,7 +155,18 @@
   position: fixed;
   display: flex;
   flex-direction: column;
-  border-radius: 0px;
+}
+#search-bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+#search-bar * {
+  font-size: 0.75rem;
+}
+#search-input {
+  width: 70%;
+  border: 1px black solid;
 }
 .about-page {
   position: absolute;
@@ -152,17 +186,15 @@
   width: 82vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   background-color: lightblue;
-  padding-bottom: 20vh;
-  border-radius: 0px;
+  padding: 10vh;
+  min-height: 100vh;
 }
 .lp-description{
   width: 70vw;
   background-color: indigo;
   display: flex;
-  flex-direction: row;
   justify-content: space-around;
   margin: 2rem;
 }
@@ -190,20 +222,19 @@
   height: 90vh;
 }
 .lp-postlist{
-  background-color: lawngreen;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  min-width: 60vw;
 }
 #search-message {
   margin: 0.5rem 1rem;
 }
 #sort-btn-container {
   margin: 0.5rem 1rem;
+  width: 55vw;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .post-case{
   background-color: lightcoral;
@@ -211,7 +242,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 50vw;
+  width: 55vw;
   align-items: center;
 }
 .post-case.closed{
@@ -220,82 +251,100 @@
 .post-case-header{
   background-color: grey;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   margin: 0.5rem;
+  margin-top: 1.5rem;
   width: 95%;
 }
-.post-case-title{
-  margin: 0.5rem;
-  background-color: honeydew;
+.btn-center {
+  padding: 0.5rem 1rem;
 }
-.post-case-imgbox{
-  margin: 0.5rem;
-  width: 90%;
-  /* text-align: center; */
-  background-color: khaki;
+.btn-center button {
+  margin: 0 0.25rem;
+}
+.post-case-title{
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+}
+.post-case-img-box {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1rem;
 }
 .post-case-img{
-  width: 90%;
-  height: 90%;
-  margin: 0.3rem;
-  display: block;
-  margin: auto;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
 .post-case-body {
-  margin: 0.5rem;
+  padding: 0.75rem;
   width: 95%;
-}
-.post-case-content{
-  margin: 0.5rem;
-}
-.post-case-likerate{
-  margin: 0.5rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+}
+.post-case-body > * {
+  margin: 0.5rem 0;
+}
+.post-case-content {
+  padding-bottom: 1rem;
+}
+.post-case-likerate {
+  height: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 0px;
+}
+.post-case-likerate > * {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 0px;
 }
 .post-case-sararate{
   background-color: blue;
+  height: 1rem;
+  border-radius: 0px;
 }
 .post-case-mararate{
   background-color: red;
+  height: 1rem;
+  border-radius: 0px;
 }
 .post-case-likeordislike{
-  margin: 0.5rem;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
 }
+.post-case-likeordislike * {
+  width: 49%;
+}
 .post-case-best-comment{
-  margin: 0.5rem;
   display: flex;
-  flex-direction: row;
-
   justify-content: space-between;
 }
 .post-case-best-comment > * {
   border: solid 1px black;
   padding: 0.5rem;
-  margin: 0.5rem;
-  width: 50%;
+  width: 49%;
   min-height: 6.4375rem;
+  display: flex;
+  flex-direction: column;
 }
 .post-case-best-comment > * > * {
   margin: 0.25rem;
 }
-.post-case-all-comments{
-  margin: 0.5rem;
-  text-align: center;
-}
 .comment-display{
   display: flex;
-  flex-direction: rew;
 }
 .comment-item{
   display: flex;
-  flex-direction: rew;
+  justify-content: space-between;
+}
+.comment-item button {
+  padding: 0px;
+}
+.comment-item-content{
+  width: 80%;
+  overflow: hidden;
 }
 
 /* writepage */
@@ -306,19 +355,29 @@
   height: 100vh;
 }
 .wp-content{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: flex-end;
-    background-color: lightblue;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+  position: relative;
+  left: 18vw;
+  width: 82vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: lightblue;
+  padding: 10vh;
+  min-height: 100vh;
+}
+.wp-content > * {
+  border: black 1px solid;
+  width: 55vw;
+}
+#wp-img-upload {
+  display: flex;
+  align-items: flex-end
 }
 .wp-preview-img-box{
   background-color: #efefef;
-  width: 50vw;
-  height: 30vh;
+  width: 20vh;
+  height: 20vh;
 }
 .wp-preview-img{
   width: 100%;
@@ -326,39 +385,58 @@
 }
 
 /* 마이페이지 */
-.my-page{
+.my-page {
   background-color: grey; 
   width: 100vw;
   height: 100vh;
-}.mp-content{
+}
+#mp-title {
+  font-size: 2rem;
+  margin: 0.5rem 1rem;
+  width: 55vw;
+}
+.mp-content {
+  position: relative;
+  left: 18vw;
+  width: 82vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: flex-end;
-  background-color: lightblue;
   align-items: center;
-  width: 100%;
+  background-color: lightblue;
+  padding: 10vh;
   min-height: 100vh;
 }
-.mp-postlist{
-  background-color: lawngreen;
+.mp-postlist {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-self: center;
 }
-.goodbye-btn {
+#hello-msg {
+  position: absolute;
+  top: 2vh;
+  left: 2vw;
+}
+#goodbye-btn {
   position: fixed;
   top: 2vh;
   right: 2vw;
 }
+.mp-content .comment-item {
+  width: 55vw;
+  margin: 1rem;
+  padding: .75rem;
+  background-color: lightcoral;
+}
+.comment-item button {
+  background-color: inherit;
+}
 
-
+/* 어바웃페이지 */
 #ap-content{
   position: relative;
   left: 18vw;
   width: 82vw;
   background-color: lightblue;
   padding: 5vh 5vw;
-  border-radius: 0px;
 }

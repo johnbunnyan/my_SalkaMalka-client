@@ -7,16 +7,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from "axios";
 import { useHistory } from "react-router";
 import persistor from '../index';
-import { setBookmarks, setPosts, setComments, setClosed } from '../actions/index';
+import { setBookmarks, setPosts, setComments, setClosed, setReplied } from '../actions/index';
 
 export default function MyPage() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { accessToken, userId } = useSelector(state => state);
+  const { accessToken, userId, email, provider } = useSelector(state => state);
   const [myPostData, setMyPostData] = useState([])
   const [myCommentData, setMyCommentData] = useState([])
   const [myBookMarkData, setMyBookMarkData] = useState([])
-  const [whatIsDisplayed, setWhatIsDispalyed] = useState('MyPost')
+  const [whatIsDisplayed, setWhatIsDisplayed] = useState('MyPost')
 
   useEffect(() => {
     axios
@@ -44,6 +44,7 @@ export default function MyPage() {
         console.log(res.data.comments.map(i => i.commentId))
         setMyCommentData(res.data.comments)
         dispatch(setComments(res.data.comments.map(i => i.commentId)));
+        dispatch(setReplied(res.data.comments.map(i => i.postId)));
       })
       .catch((e) => console.log(e))
     axios
@@ -64,13 +65,13 @@ export default function MyPage() {
   const handleCategory = (category) => {
     switch (category) {
       case 'MyPost':
-        setWhatIsDispalyed(category)
+        setWhatIsDisplayed(category)
         break;
       case 'MyComment':
-        setWhatIsDispalyed(category)
+        setWhatIsDisplayed(category)
         break;
       case 'MyBookMark':
-        setWhatIsDispalyed(category)
+        setWhatIsDisplayed(category)
         break;
       default:
         break;
@@ -133,8 +134,10 @@ export default function MyPage() {
         handleCategory={handleCategory}
       ></SideBar>
       <div className={'mp-content'}>
+        <div id='hello-msg'>{`${email}님, 안녕하세요?`}</div>
+        <button id='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
+        <div id='mp-title'>{whatIsDisplayed}</div>
         {renderSwitchParam(whatIsDisplayed)}
-        <button className='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
       </div>
     </div>
   )
