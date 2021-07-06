@@ -9,5 +9,6 @@ export const initialState =
     bookmarks: [],
     openPosts: [],
     closedPosts: [],
-    comments: []
+    comments: [],
+    repliedPosts: []
 }

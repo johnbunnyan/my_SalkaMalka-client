@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route } from "react-router-dom";
 import { useHistory } from "react-router";
-import { setBookmarks, setPosts, setClosed } from '../actions/index';
+import { setBookmarks, setPosts, setClosed, setReplied } from '../actions/index';
 require("dotenv").config();
 
 
@@ -14,9 +14,8 @@ export default function PostCase(props) {
   const pathName = window.location.pathname;
   const [isCommentModalOpen, setCommentModalOpen] = useState(false); //코멘트 모달창 관리
   const [saraMara, setSaraMara] = useState(''); // 전송용 사라 마라 상태 관리
-  const [isCommented, setCommented] = useState(false); // 댓글을 달았는지 안달았는지
   const [isDisplayCommentModal, setDisplayCommentModal] = useState(false);
-  const { userId, isSignIn, accessToken, bookmarks, openPosts, closedPosts } = useSelector(state => state);
+  const { userId, isSignIn, accessToken, bookmarks, openPosts, closedPosts, repliedPosts } = useSelector(state => state);
   const { postId } = props;
   const history = useHistory();
   const [commentList, setCommentList] = useState(props.comment);
@@ -48,10 +47,9 @@ export default function PostCase(props) {
       )
       .then(res => {
         setCommentList(res.data.comments)
-        console.log(res.data)
       })
       .then(() => setCommentModalOpen(false))
-      .then(() => setCommented(true))
+      .then(() => dispatch(setReplied([postId])))
       .catch(e => {
         if (e.response && (e.response.status === 404 || e.response.status === 409)) alert(e.response.data);
       });
@@ -194,25 +192,26 @@ export default function PostCase(props) {
         <div className={'post-case-title'}>{props.title}</div>
         <Route
           render={() => {
-            if (userId === props.userId) return null;
-            if (bookmarks.includes(postId)) {
-              return <button onClick={handleUnBookmark}>북마크 해제</button>
+            if (userId === props.userId) { // 내 글: 닫기+삭제 or 삭제
+              if (props.isOpen) {
+                return <div className='btn-center'>
+                  <button onClick={handlePostClose}>닫기</button>
+                  <button onClick={handlePostDelete}>삭제</button>
+                </div>
+              } else {
+                return <div className='btn-center'>
+                  <button onClick={handlePostDelete}>삭제</button>
+                </div>
+              }
+            }
+            else if (bookmarks.includes(postId)) { // 남의 글: 북마크 or 북마크 해제
+              return <div className='btn-center'>
+                <button onClick={handleUnBookmark}>북마크 해제</button>
+              </div>
             } else {
-              return <button onClick={handleBookmark}>북마크</button>
-            }
-          }}
-        />
-        <Route
-          render={() => {
-            if (userId === props.userId && props.isOpen) {
-              return <button onClick={handlePostClose}>닫기</button>
-            }
-          }}
-        />
-        <Route
-          render={() => {
-            if (userId === props.userId) {
-              return <button onClick={handlePostDelete}>삭제</button>
+              return <div className='btn-center'>
+                <button onClick={handleBookmark}>북마크</button>
+              </div>
             }
           }}
         />
@@ -226,11 +225,16 @@ export default function PostCase(props) {
           null
         )}
         <div className={'post-case-content'}>{props.content}</div>
-
-        {isCommented || !props.isOpen || userId === props.userId ? (
+        {!props.isOpen || userId === props.userId || repliedPosts.includes(postId) ? (
           <div className={'post-case-likerate'}>
-            <div style={{ width: getRate('sara') }} className={'post-case-sararate'}>sara : {props.sara}</div>
-            <div style={{ width: getRate('mara') }} className={'post-case-mararate'}>mara : {props.mara}</div>
+            <div>
+              <div>sara : {props.sara}</div>
+              <div>mara : {props.mara}</div>
+            </div>
+            <div>
+              <div style={{ width: getRate('sara') }} className={'post-case-sararate'}></div>
+              <div style={{ width: getRate('mara') }} className={'post-case-mararate'}></div>
+            </div>
           </div>
         ) : (
           <div className={'post-case-likeordislike'}>
@@ -275,7 +279,7 @@ export default function PostCase(props) {
           </div>
         </div>
         {isDisplayCommentModal ? (null) : (
-          <div className='post-case-all-comments' onClick={() => { setDisplayCommentModal(true) }}>모든 댓글 보기</div>
+          <button className='post-case-all-comments' onClick={() => { setDisplayCommentModal(true) }}>모든 댓글 보기</button>
         )}
       </div>
       

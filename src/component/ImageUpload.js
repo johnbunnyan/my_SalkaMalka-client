@@ -8,7 +8,7 @@ export default function ImageUpload(props) {
   }
 
   return (
-    <div>
+    <div id='wp-img-upload'>
       <div className="wp-preview-img-box">
         {handleImageURL()}
       </div>

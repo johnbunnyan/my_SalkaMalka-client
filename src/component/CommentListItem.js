@@ -72,10 +72,13 @@ export default function CommentListItem(props) {
   return (
     <div className={'comment-item'}>
       <div className={'comment-item-content'}>{props.content}</div>
-      {props.userId === userId || !props.isOpen ?
-        <button onClick={deleteComment}>X</button> : <button onClick={handleLike}>추천</button>
-      }
       <div>{props.like}</div>
+      {props.userId === userId && props.isOpen ?
+        <button onClick={deleteComment}>삭제</button> : null
+      }
+      {props.userId !== userId && props.isOpen ?
+        <button onClick={handleLike}>추천</button> : null
+      }
       {props.isInMyComment ? 
         <button onClick={() => { handleOpenPost(props.postId) }}>게시물 보기</button> : null
       }

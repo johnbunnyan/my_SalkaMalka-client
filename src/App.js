@@ -16,35 +16,33 @@ import { useSelector } from 'react-redux';
 export default function App() {
   const { isSignIn, userId } = useSelector(state => state)
   return (
-    <div>
-      <BrowserRouter>
-        <Switch>
-          <Route
-              exact path='/'
-              render={() => {
-                return <Redirect to='/main?sort=date' />;
-              }
+    <BrowserRouter>
+      <Switch>
+        <Route
+            exact path='/'
+            render={() => {
+              return <Redirect to='/main?sort=date' />;
             }
-          />
-          <Route path='/main' render={() =>
-            <LandingPage></LandingPage>} />
-          <Route path='/search' render={() =>
-            <LandingPage></LandingPage>} />
-          <Route exact path='/posts' render={() => isSignIn ? (
-            <WritePage></WritePage>
-          ) : (
-            <Redirect to="/"></Redirect>
-          )} />
-          <Route path={`/users/${userId}`} render={() => isSignIn ? (
-            <MyPage></MyPage>
-          ) : (
-            <Redirect to="/"></Redirect>
-          )} />
-          <Route path={'/about'} render={() => 
-            <AboutPage></AboutPage>} />
-        </Switch>
-      </BrowserRouter>
-    </div>
+          }
+        />
+        <Route path='/main' render={() =>
+          <LandingPage></LandingPage>} />
+        <Route path='/search' render={() =>
+          <LandingPage></LandingPage>} />
+        <Route exact path='/posts' render={() => isSignIn ? (
+          <WritePage></WritePage>
+        ) : (
+          <Redirect to="/"></Redirect>
+        )} />
+        <Route path={`/users/${userId}`} render={() => isSignIn ? (
+          <MyPage></MyPage>
+        ) : (
+          <Redirect to="/"></Redirect>
+        )} />
+        <Route path={'/about'} render={() => 
+          <AboutPage></AboutPage>} />
+      </Switch>
+    </BrowserRouter>
   )
 
 }
