@@ -78,12 +78,3 @@ export const setClosed = (posts) => {
     }
   }
 }
-
-export const setReplied = (posts) => {
-  return {
-    type: SETREPLIED,
-    payload: {
-      repliedPosts: posts
-    }
-  }
-}

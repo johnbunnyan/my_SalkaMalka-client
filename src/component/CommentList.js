@@ -2,17 +2,8 @@ import React from "react";
 import CommentListItem from "./CommentListItem";
 
 export default function CommentList(props) {
-  const sara = []
-  const mara = []
-
-  props.comment.forEach((el) => {
-    if (el.type === 'sara') {
-      sara.push(el)
-    }
-    else if (el.type === 'mara') {
-      mara.push(el)
-    }
-  })
+  const sara = props.comment.filter(i => i.type === 'sara');
+  const mara = props.comment.filter(i => i.type === 'mara');
 
   return (
     <div className={'comment-display'}>

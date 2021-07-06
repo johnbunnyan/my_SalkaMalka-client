@@ -59,23 +59,23 @@ export default function LandingPage() {
   }, [sortValue])
 
 
-  useEffect(() => {
-    // console.log(inView)
-    if (inView) {
-      console.log(true)
-      axios
-        .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sortValue)
-        .then(res => {
-          console.log(postOptions.preItmes, postOptions.itmes)
-          setData(pre => [...pre, res.data.posts.slice(postOptions.itmes, postOptions.itmes + 5)])
-        })
-        .then(setPostOptions({
-          preItmes: postOptions.itmes,
-          items: postOptions.items + 5
-        }))
-        .catch(e => console.log(e));
-    }
-  }, [inView])
+  // useEffect(() => {
+  //   // console.log(inView)
+  //   if (inView) {
+  //     console.log(true)
+  //     axios
+  //       .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sortValue)
+  //       .then(res => {
+  //         console.log(postOptions.preItmes, postOptions.itmes)
+  //         setData(pre => [...pre, res.data.posts.slice(postOptions.itmes, postOptions.itmes + 5)])
+  //       })
+  //       .then(setPostOptions({
+  //         preItmes: postOptions.itmes,
+  //         items: postOptions.items + 5
+  //       }))
+  //       .catch(e => console.log(e));
+  //   }
+  // }, [inView])
   // const infiniteScroll = () => {
   //   let scrollHeight = Math.max(
   //     document.documentElement.scrollHeight,

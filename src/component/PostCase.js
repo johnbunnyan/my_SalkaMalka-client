@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route } from "react-router-dom";
 import { useHistory } from "react-router";
-import { setBookmarks, setPosts, setClosed, setReplied } from '../actions/index';
+import { setBookmarks, setPosts, setClosed } from '../actions/index';
 require("dotenv").config();
 
 
@@ -19,7 +19,9 @@ export default function PostCase(props) {
   const { postId } = props;
   const history = useHistory();
   const [commentList, setCommentList] = useState(props.comment);
+  const [commented, setCommented] = useState(false);
   // console.log(commentList)
+  
   const getBestComment = (type, data) => {
     let result = data.filter(i => i.type === type);
     result.sort(function (a, b) {
@@ -41,24 +43,10 @@ export default function PostCase(props) {
 
   useEffect(() => {
     console.log('코멘트갯수:', commentList.length)
-    setBestSara(
-      commentList.filter(el => el.type === 'sara')
-        .sort(function (a, b) {
-          return a.like > b.like ? -1 : a.like < b.like ? 1 : 0;
-        })
-        .slice(0, 3)
-    )
-    setBestMara(
-      commentList.filter(el => el.type === 'mara')
-        .sort(function (a, b) {
-          return a.like > b.like ? -1 : a.like < b.like ? 1 : 0;
-        })
-        .slice(0, 3)
-    )
+    setBestSara(getBestComment('sara', commentList));
+    setBestMara(getBestComment('mara', commentList));
     // console.log(bestSara.length, bestMara.length)
   }, [commentList])
-
-
 
   const handleSaraMara = (target) => {
     if (!isSignIn) {
@@ -261,7 +249,7 @@ export default function PostCase(props) {
           null
         )}
         <div className={'post-case-content'}>{props.content}</div>
-        {!props.isOpen || userId === props.userId || repliedPosts.includes(postId) ? (
+        {!commented || !props.isOpen || userId === props.userId ? (
           <div className={'post-case-likerate'}>
             <div>
               <div>sara : {props.sara}</div>
