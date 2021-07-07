@@ -33,7 +33,7 @@ export default function PostCase(props) {
   const [bestMara, setBestMara] = useState(getBestComment('mara', commentList));
 
   useEffect(() => {
-    console.log('코멘트갯수:', commentList.length)
+    // console.log('코멘트갯수:', commentList.length)
     setBestSara(getBestComment('sara', commentList));
     setBestMara(getBestComment('mara', commentList));
     // console.log(bestSara.length, bestMara.length)

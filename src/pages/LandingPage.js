@@ -6,6 +6,7 @@ import { useHistory } from "react-router";
 import axios from "axios";
 import queryStringModule from 'query-string';
 import { useInView, userInView } from 'react-intersection-observer';
+import { load } from "dotenv";
 require("dotenv").config();
 
 export default function LandingPage() {
@@ -14,26 +15,17 @@ export default function LandingPage() {
   const [data, setData] = useState([]);
   const [ref, inView] = useInView()
   // const [page, setPage] = useState(1)
-  // const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [sortValue, setSortValue] = useState('date')
   const [postOptions, setPostOptions] = useState({
-    preItmes: 0,
-    itmes: 5
+    preItems: 0,
+    items: 5
+  })
+  const [initPostOptions, setInitPostOptions] = useState({
+    preItems: 0,
+    items: 5
   })
   const { isSignIn, queryString } = useSelector(state => state);
-
-
-  // const sortPosts = useCallback(async (sort) => {
-  //   history.push(`/main?sort=${sort}`);
-  //   await axios
-  //     .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
-  //     .then(res => {
-  //       // console.log(res.data.posts)
-  //       // console.log(res.data.posts)
-  //       setData(pre => [...pre, ...res.data.posts])
-  //     })
-  //     .catch(e => console.log(e));
-  // }, [page])
 
   useEffect(() => {
     if (pathname === '/search') {
@@ -49,52 +41,56 @@ export default function LandingPage() {
     // sortPosts('date');
   }, [pathname, queryString]) // 검색시 리랜더링
 
+  const sortPosts = useCallback(async (sort) => {
+    if (postOptions.preItems !== 0) {
+      setLoading(true)
+      history.push(`/main?sort=${sort}`);
+      await axios
+        .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
+        .then(res => {
+          let post = res.data.posts.slice(postOptions.preItems, postOptions.items)
+          setData(pre => [...pre, ...post])
+        })
+        .catch(e => console.log(e));
+    }
+  }, [postOptions])
+
+
+
   useEffect(() => {
+    sortPosts(sortValue)
+    setLoading(false)
+  }, [sortPosts])
+
+  useEffect(() => {
+    console.log('sibla')
     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sortValue)
       .then(res => {
-        setData(res.data.posts.slice(0, postOptions.itmes))
+        let post = res.data.posts.slice(initPostOptions.preItems, initPostOptions.items)
+        setData(post)
       })
+      .then(setPostOptions({
+        preItems: 0,
+        items: 5
+      }))
       .catch(e => console.log(e));
   }, [sortValue])
 
+  useEffect(() => {
+    if (inView && !loading) {
+      setPostOptions({
+        preItems: postOptions.items,
+        items: postOptions.items + 5
+      })
+    }
+  }, [inView, loading])
 
-  // useEffect(() => {
-  //   // console.log(inView)
-  //   if (inView) {
-  //     console.log(true)
-  //     axios
-  //       .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sortValue)
-  //       .then(res => {
-  //         console.log(postOptions.preItmes, postOptions.itmes)
-  //         setData(pre => [...pre, res.data.posts.slice(postOptions.itmes, postOptions.itmes + 5)])
-  //       })
-  //       .then(setPostOptions({
-  //         preItmes: postOptions.itmes,
-  //         items: postOptions.items + 5
-  //       }))
-  //       .catch(e => console.log(e));
-  //   }
-  // }, [inView])
-  // const infiniteScroll = () => {
-  //   let scrollHeight = Math.max(
-  //     document.documentElement.scrollHeight,
-  //     document.body.scrollHeight
-  //   );
-  //   let scrollTop = Math.max(
-  //     document.documentElement.scrollTop,
-  //     document.body.scrollTop
-  //   );
-  //   let clientHeight = document.documentElement.clientHeight;
-  //   if (scrollTop + clientHeight >= scrollHeight) {
-  //     // console.log('activate')
-  //     setPostOptions({
-  //       preItems: postOptions.items,
-  //       items: postOptions.items + 5,
-  //     });
-  //   }
-  // };
-  // console.log(data)
+  const handleQuery = (sortValue) =>{
+    history.push(`/main?sort=${sortValue}`);
+    setSortValue(sortValue)
+  }
+
   return (
     <div className={'landing-page'}>
       <SideBar />
@@ -109,9 +105,9 @@ export default function LandingPage() {
         <div className={'lp-postlist'}>
           {pathname === '/search' ? <div id='search-message'>{'검색어: ' + queryString}</div> : null}
           <div id='sort-btn-container'>
-            <button onClick={() => { setSortValue('date') }}>최신순</button>
-            <button onClick={() => { setSortValue('popular') }}>인기글</button>
-            <button onClick={() => { setSortValue('hot-topic') }}>뜨거운 감자</button>
+            <button onClick={() => { handleQuery('date') }}>최신순</button>
+            <button onClick={() => { handleQuery('popular') }}>인기글</button>
+            <button onClick={() => { handleQuery('hot-topic') }}>뜨거운 감자</button>
           </div>
           {data.map((el, idx) => {
             if (data.length - 1 === idx) {
