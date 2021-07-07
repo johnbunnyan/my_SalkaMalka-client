@@ -1,3 +1,4 @@
+/* global styles */
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +7,6 @@
   border-radius: 5px;
   font-family: 'Nanum Gothic', sans-serif;
   overflow-x: hidden;
-
 }
 
 body, #root, #root > *, #root > * > * {
@@ -36,95 +36,146 @@ input:focus, textarea:focus {
 }
 
 /* 모달관리 */
+.signup-modal.open-signup-modal svg {
+  font-size: 1.5rem;
+  padding: 0;
+}
+
 .signup-modal{
   display: none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1000 !important;
-  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .signup-modal.open-signup-modal {
-  display: flex;
-  align-items: center;
-  z-index: 1050 !important;
-  background-color: rgba(255, 255, 255, 0.726);
-}
-
-.signup-modal.open-signup-modal main {
-  display: flex;
-  flex-direction: column;
-}
-
-.signup-modal.open-signup-modal main * {
-  margin: 10px;
-}
-
-.redirect-modal{
-  display: none;
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1000 !important;
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-.redirect-modal.open-redirect-modal {
+  height: 100vh;
+  width: 100vw;
+  top: 50%;
+  left: 50%;
+  margin-top: -50vh;
+  margin-left: -50vw;
   display: flex;
   align-items: center;
+  justify-content: center;
   z-index: 1050 !important;
-  background-color: rgba(255, 255, 255, 0.726);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-.redirect-modal.open-redirect-modal main {
+.signup-modal.open-signup-modal section {
+  height: 60vh;
+  width: 30vw;
+  background-color: white;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  padding: 0.5rem;
 }
 
-.redirect-modal.open-redirect-modal main * {
-  margin: 10px;
+#signup-modal-main {
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+#signup-modal-main input {
+  border: 1px black solid;
+}
+
+.signup-modal.open-signup-modal .btn-center {
+  display: flex;
+  align-items: center;
+}
+
+#signup-modal-main .input-center {
+  width: 66%;
+}
+
+.signup-modal.open-signup-modal button {
+  display: block;
+}
+
+#signup-email,
+#signup-password,
+#signup-password-check {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+}
+
+
+
+#signup-modal-main label {
+  line-height: 2rem
+}
+
+#signup-btn {
+  display: flex;
+}
+#signup-btn * {
+  border: 1px black solid;
+}
+
+.error-msg {
+  color: red;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  font-size: 0.75rem;
 }
 
 .write-comment-modal{
   display: none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1000 !important;
-  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .write-comment-modal.open-write-comment-modal {
+  position: fixed;
+  height: 40vh;
+  width: 50vw;
+  top: 50%;
+  left: 50%;
+  margin-top: -20vh;
+  margin-left: -15vw;
   display: flex;
   align-items: center;
+  justify-content: center;
   z-index: 1050 !important;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.write-comment-modal.open-write-comment-modal * {
+  border: 1px black solid;
+  padding: 1rem;
+  background-color: white;
 }
 
 .comment-modal{
   display: none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1000 !important;
-  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .comment-modal.open-comment-modal {
+  position: fixed;
+  height: 40vh;
+  width: 50vw;
+  top: 50%;
+  left: 50%;
+  margin-top: -20vh;
+  margin-left: -15vw;
   display: flex;
   align-items: center;
+  justify-content: center;
   z-index: 1050 !important;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-.post-modal{
+.comment-modal.open-comment-modal * {
+  border: 1px black solid;
+  padding: 1rem;
+  background-color: white;
+}
+
+/* .post-modal{
   display: none;
   position: fixed;
   top: 0;
@@ -139,22 +190,27 @@ input:focus, textarea:focus {
   display: flex;
   align-items: center;
   z-index: 1050 !important;
-}
+} */
 
-/* ----------------- */
-
-.landing-page{
-  background-color: grey;
-}
+/* 사이드바 */
 .side-bar{
   background-color: honeydew;
   z-index: 1000;
   width: 18vw;
   height: 100vh;
-  padding: 1rem;
+  padding: 2rem;
   position: fixed;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+#logo * {
+  margin: 0.5rem 0;
+}
+.side-bar img {
+  width: 100%;
+  cursor: pointer;
 }
 #search-bar {
   width: 100%;
@@ -165,20 +221,43 @@ input:focus, textarea:focus {
   font-size: 0.75rem;
 }
 #search-input {
-  width: 70%;
+  width: 80%;
   border: 1px black solid;
 }
-.about-page {
-  position: absolute;
-  padding: 10px 10px 0px 10px;
-  bottom: 0;
-  height: 40px;
+.profile {
+  width: 100%;
+  border: none;
+  flex-grow: 1;
+  padding: 1rem;
+}
+.profile > div {
+  text-align: center;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: 900;
 }
 .menu-close{
-  display: none;
+  visibility: hidden;
 }
-.menu-open * {
+.menu-open *, .menu-close * {
   margin: 0.5rem 0rem;
+}
+#about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+#to-about-page {
+  font-size: 1.25rem;
+}
+#since {
+  font-size: 0.75rem;
+}
+
+/* 랜딩페이지 */
+.landing-page{
+  background-color: grey;
 }
 .lp-content{
   position: relative;
@@ -191,14 +270,14 @@ input:focus, textarea:focus {
   padding: 10vh;
   min-height: 100vh;
 }
-.lp-description{
+.lp-description {
   width: 70vw;
   background-color: indigo;
   display: flex;
   justify-content: space-around;
   margin: 2rem;
 }
-.display-none{
+.display-none {
   display: none;
 }
 .lp-description-text{
@@ -210,9 +289,7 @@ input:focus, textarea:focus {
   background-color: khaki;
 }
 .lp-description-img-box{
-  /* width: 30vw; */
   height: 90vh;
-  /* flex-grow: 1; */
   margin-top: 2rem;
   margin-bottom: 2rem;
   background-color: ivory;
@@ -228,7 +305,9 @@ input:focus, textarea:focus {
   align-items: center;
 }
 #search-message {
-  margin: 0.5rem 1rem;
+  margin: 1rem;
+  font-size: 2rem;
+  align-self: flex-start;
 }
 #sort-btn-container {
   margin: 0.5rem 1rem;
@@ -245,6 +324,8 @@ input:focus, textarea:focus {
   width: 55vw;
   align-items: center;
 }
+
+/* post-case */
 .post-case.closed{
   background-color: white;
 }
@@ -332,6 +413,8 @@ input:focus, textarea:focus {
 .post-case-best-comment > * > * {
   margin: 0.25rem;
 }
+
+/* comment */
 .comment-display{
   display: flex;
 }
@@ -348,7 +431,6 @@ input:focus, textarea:focus {
 }
 
 /* writepage */
-
 .write-page{
   background-color: grey; 
   width: 100vw;

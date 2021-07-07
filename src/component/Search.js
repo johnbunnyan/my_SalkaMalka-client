@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 require("dotenv").config();
 
 export default function Search() {
+  const pathName = window.location.pathname
   const dispatch = useDispatch();
   const history = useHistory();
   function handleSearch(event) {
@@ -18,7 +19,7 @@ export default function Search() {
     history.push(`/search?q=${encoded}`);
   }
   return (
-    <div id="search-bar">
+    <div id='search-bar'>
       <input id="search-input" type="text" />
       <button onClick={handleSearch} className="search-button">검색</button>
     </div>
