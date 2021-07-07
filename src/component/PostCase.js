@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route } from "react-router-dom";
 import { useHistory } from "react-router";
-import { setBookmarks, setPosts, setClosed } from '../actions/index';
+import { setBookmarks, setPosts, setClosed, setReplied } from '../actions/index';
 require("dotenv").config();
 
 
@@ -19,7 +19,6 @@ export default function PostCase(props) {
   const { postId } = props;
   const history = useHistory();
   const [commentList, setCommentList] = useState(props.comment);
-  const [commented, setCommented] = useState(false);
   // console.log(commentList)
   
   const getBestComment = (type, data) => {
@@ -32,14 +31,6 @@ export default function PostCase(props) {
 
   const [bestSara, setBestSara] = useState(getBestComment('sara', commentList));
   const [bestMara, setBestMara] = useState(getBestComment('mara', commentList));
-
-  useEffect(() => {
-    for (let key of commentList) {
-      if (key.userId === userId) {
-        setCommented(true)
-      }
-    }
-  }, [])
 
   useEffect(() => {
     console.log('코멘트갯수:', commentList.length)
@@ -249,7 +240,7 @@ export default function PostCase(props) {
           null
         )}
         <div className={'post-case-content'}>{props.content}</div>
-        {!commented || !props.isOpen || userId === props.userId ? (
+        {repliedPosts.includes(postId) || !props.isOpen || userId === props.userId ? (
           <div className={'post-case-likerate'}>
             <div>
               <div>sara : {props.sara}</div>
@@ -281,7 +272,6 @@ export default function PostCase(props) {
                   userId={el.userId}
                   isOpen={props.isOpen}
                   setCommentList={setCommentList}
-                  setCommented={setCommented}
                 ></CommentListItem>
               )
             })}
@@ -300,7 +290,6 @@ export default function PostCase(props) {
                   userId={el.userId}
                   isOpen={props.isOpen}
                   setCommentList={setCommentList}
-                  setCommented={setCommented}
                 ></CommentListItem>
               )
             })}
@@ -342,7 +331,6 @@ export default function PostCase(props) {
               postId={postId}
               isOpen={props.isOpen}
               setCommentList={setCommentList}
-              setCommented={setCommented}
             ></CommentList>
           </main>
         </section>
