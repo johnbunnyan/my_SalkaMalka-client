@@ -3,10 +3,12 @@ import Logo from "./Logo";
 import Search from "./Search";
 import Profile from "./Profile";
 import { useHistory } from "react-router";
+import { useSelector } from 'react-redux';
 
 export default function SideBar(props) {
   const pathName = window.location.pathname
   const history = useHistory();
+  const { userId } = useSelector(state => state);
 
   const renderSwtichMenu = (param) => {
     switch (param) {
@@ -39,25 +41,23 @@ export default function SideBar(props) {
   if (pathName === '/main' || pathName === '/search') {
     return (
       <div className={'side-bar'}>
-        <Logo></Logo>
-        <Search></Search>
+        <div id='logo'>
+          <Logo></Logo>
+          <Search></Search>
+        </div>
         <Profile></Profile>
-        <div className='about-page' onClick={() => {history.push('/about')}}>About SalkaMalka</div>
+        <div id='about'>
+          <div id='to-about-page' onClick={() => {history.push('/about')}}>About SalkaMalka</div>
+          <div id='since'>Since 2021 by © Troika Inc.</div>
+        </div>
       </div>
     )
   }
-  else if (pathName === '/posts') {
+  else if (pathName === `/users/${userId}`) {
     return (
       <div className={'side-bar'}>
         <Logo></Logo>
-        <Profile></Profile>
-      </div>
-    )
-  }
-  else if (pathName === '/about') {
-    return (
-      <div className={'side-bar'}>
-        <Logo></Logo>
+        {renderSwtichMenu(props.whatIsDisplayed)}
         <Profile></Profile>
       </div>
     )
@@ -66,7 +66,6 @@ export default function SideBar(props) {
     return (
       <div className={'side-bar'}>
         <Logo></Logo>
-        {renderSwtichMenu(props.whatIsDisplayed)}
         <Profile></Profile>
       </div>
     )

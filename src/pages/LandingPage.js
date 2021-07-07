@@ -95,20 +95,18 @@ export default function LandingPage() {
     <div className={'landing-page'}>
       <SideBar />
       <div className={'lp-content'}>
-        <div className={isSignIn ? 'lp-description display-none' : 'lp-description'}>
+        <div className={isSignIn || pathname === '/search' ? 'lp-description display-none' : 'lp-description'}>
           <div className={'lp-description-text'}></div>
           <div className={'lp-description-img-box'}>
             <div className={'lp-description-img'}></div>
           </div>
         </div>
-
         <div className={'lp-postlist'}>
-          {pathname === '/search' ? <div id='search-message'>{'검색어: ' + queryString}</div> : null}
-          <div id='sort-btn-container'>
-            <button onClick={() => { handleQuery('date') }}>최신순</button>
-            <button onClick={() => { handleQuery('popular') }}>인기글</button>
-            <button onClick={() => { handleQuery('hot-topic') }}>뜨거운 감자</button>
-          </div>
+          {pathname === '/main' ? <div id='sort-btn-container'>
+            <button onClick={() => { setSortValue('date') }}>최신순</button>
+            <button onClick={() => { setSortValue('popular') }}>인기글</button>
+            <button onClick={() => { setSortValue('hot-topic') }}>뜨거운 감자</button>
+          </div> : <div id='search-message'>{`검색어: '${queryString}'`}</div>}
           {data.map((el, idx) => {
             if (data.length - 1 === idx) {
               return (

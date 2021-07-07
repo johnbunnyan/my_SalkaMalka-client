@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import logo from "../logo/SalkaMalka_logo_crop.png";
 
 export default function Logo(props) {
   const history = useHistory();
@@ -8,6 +9,6 @@ export default function Logo(props) {
   }
 
   return (
-      <img src="../../public/image/logo.png" alt="logo" onClick={() => backToHome()}/>
+      <img src={logo} alt="logo" onClick={() => backToHome()}/>
   )
 }
