@@ -7,9 +7,10 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 require("dotenv").config();
 
 export default function Search() {
+  const pathName = window.location.pathname;
   const dispatch = useDispatch();
   const history = useHistory();
-  const [target, setTarget] = useState()
+  const [target, setTarget] = useState('')
   function handleSearch(event) {
     if (!target.length) {
       alert('검색어를 입력해주세요');

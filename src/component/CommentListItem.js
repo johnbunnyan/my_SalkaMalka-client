@@ -19,7 +19,9 @@ export default function CommentListItem(props) {
       return;
     }
     axios
-      .patch(process.env.REACT_APP_API_ENDPOINT + '/posts/' + props.postId + '/comments/' + props.commentId, {})
+      .patch(process.env.REACT_APP_API_ENDPOINT + '/posts/' + props.postId + '/comments/' + props.commentId, {
+        userId: userId
+      })
       .then(res => setLikeInfo(res.data.like))
       .catch(e => {
         if (e.response && (e.response.status === 404 || e.response.status === 409)) alert(e.response.data);
