@@ -10,34 +10,6 @@ export default function SideBar(props) {
   const history = useHistory();
   const { userId } = useSelector(state => state);
 
-  const renderSwtichMenu = (param) => {
-    switch (param) {
-      case 'MyPost':
-        return (
-          <div>
-            <div onClick={() => { props.handleCategory('MyComment') }}>MyComment</div>
-            <div onClick={() => { props.handleCategory('MyBookMark') }}>MyBookMark</div>
-          </div>
-        )
-      case 'MyComment':
-        return (
-          <div>
-            <div onClick={() => { props.handleCategory('MyPost') }}>MyPost</div>
-            <div onClick={() => { props.handleCategory('MyBookMark') }}>MyBookMark</div>
-          </div>
-        )
-      case 'MyBookMark':
-        return (
-          <div>
-            <div onClick={() => { props.handleCategory('MyPost') }}>MyPost</div>
-            <div onClick={() => { props.handleCategory('MyComment') }}>MyComment</div>
-          </div>
-        )
-      default:
-        break;
-    }
-  }
-
   if (pathName === '/main' || pathName === '/search') {
     return (
       <div className={'side-bar'}>
@@ -50,15 +22,6 @@ export default function SideBar(props) {
           <div id='to-about-page' onClick={() => {history.push('/about')}}>About SalkaMalka</div>
           <div id='since'>Since 2021 by © Troika Inc.</div>
         </div>
-      </div>
-    )
-  }
-  else if (pathName === `/users/${userId}`) {
-    return (
-      <div className={'side-bar'}>
-        <Logo></Logo>
-        {renderSwtichMenu(props.whatIsDisplayed)}
-        <Profile></Profile>
       </div>
     )
   }

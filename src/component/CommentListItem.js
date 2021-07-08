@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import { setComments } from '../actions/index';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faThumbsUp, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 export default function CommentListItem(props) {
   const dispatch = useDispatch();
@@ -72,10 +74,10 @@ export default function CommentListItem(props) {
       <div className={'comment-item-content'}>{props.content}</div>
       <div>{props.like}</div>
       {props.userId === userId && props.isOpen ?
-        <button onClick={deleteComment}>삭제</button> : null
+        <FontAwesomeIcon icon={faTrash} onClick={deleteComment}/> : null
       }
       {props.userId !== userId && props.isOpen ?
-        <button onClick={handleLike}>추천</button> : null
+        <FontAwesomeIcon icon={faThumbsUp} onClick={handleLike}/> : null
       }
       {props.isInMyComment ? 
         <button onClick={() => { handleOpenPost(props.postId) }}>게시물 보기</button> : null

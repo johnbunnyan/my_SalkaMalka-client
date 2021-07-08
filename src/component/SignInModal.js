@@ -206,7 +206,7 @@ export default function SignInModal(props) {
 
   const mainContent = (sectionType === 'signIn') ? (
     <div id='signup-modal-main'>
-      <div className='input-center'>
+      <div id='input-center'>
         <div id='signup-email'>
           <label htmlFor='email'>이메일</label>
           <input type="text" name='email' onChange={(e) => { setEmail(e.target.value) }}></input>
@@ -217,8 +217,9 @@ export default function SignInModal(props) {
           <input type="password" name='password' onChange={(e) => { setPassword(e.target.value) }}></input>
         </div>
       </div>
-      <div className='error-msg'>{errorMessage.all === ' ' ? errorMessage.wrong : errorMessage.all}</div>
-      <div className='btn-center'>
+      <div id='signup-btn'>
+        <div className='error-msg'>{errorMessage.all === ' ' ? errorMessage.wrong : errorMessage.all}</div>
+        <div className='btn-center'>
         <button onClick={() => { signInHandler(email, password) }}>login</button>
         <GoogleLogin 
             clientId={process.env.REACT_APP_GOOGLE_OAUTH_CODE}
@@ -229,33 +230,33 @@ export default function SignInModal(props) {
         />
         <button onClick={kakaoLogin}>카카오</button>
       </div>
-      <div onClick={() => { setSectionType('signUp') }}>살까말까에 회원가입할래요</div>
+      </div>
+      <div id='change-section' onClick={() => { setSectionType('signUp') }}>회원가입할래요 -&gt;</div>
     </div>
   ) : (
     <div id='signup-modal-main'>
-
-<div className='input-center'>
-      <div id='signup-email'>
-        <label htmlFor='email'>이메일</label>
-        <input type="text" name='email' onChange={(e) => { setEmail(e.target.value) }}></input>
-      </div>
-      <div className='error-msg'>{errorMessage.email}</div>
-      <div id='signup-password'>
-        <label htmlFor='password'>비밀번호</label>
-        <input type="password" name='password' onChange={(e) => { setPassword(e.target.value) }}></input>
-      </div>
-      <div className='error-msg'>{errorMessage.password}</div>
-      <div id='signup-password-check'>
-        <label htmlFor='password-check'>비밀번호 확인</label>
-        <input type="password" name='password-check' onChange={(e) => { setPassword(e.target.value) }}></input>
-      </div>
-      <div className='error-msg'>{''}</div>
+      <div id='input-center'>
+        <div id='signup-email'>
+          <label htmlFor='email'>이메일</label>
+          <input type="text" name='email' onChange={(e) => { setEmail(e.target.value) }}></input>
+        </div>
+        <div className='error-msg'>{errorMessage.email}</div>
+        <div id='signup-password'>
+          <label htmlFor='password'>비밀번호</label>
+          <input type="password" name='password' onChange={(e) => { setPassword(e.target.value) }}></input>
+        </div>
+        <div className='error-msg'>{errorMessage.password}</div>
+        <div id='signup-password-check'>
+          <label htmlFor='password-check'>비밀번호 확인</label>
+          <input type="password" name='password-check' onChange={(e) => { setPassword(e.target.value) }}></input>
+        </div>
+        <div className='error-msg'>{errorMessage.match}</div>
       </div>
       <div id='signup-btn'>
-      <div className='error-msg'>{errorMessage.all}</div>
-      <button onClick={() => { signUpHandler(email, password, checkPassword) }}>회원가입</button>
+        <div className='error-msg'>{errorMessage.all}</div>
+        <button onClick={() => { signUpHandler(email, password, checkPassword) }}>회원가입</button>
       </div>
-      <span onClick={() => { setSectionType('signIn') }}>로그인창으로 돌아갈래요</span>
+      <div id='change-section' onClick={() => { setSectionType('signIn') }}>&lt;- 로그인창으로 돌아갈래요</div>
     </div>
   )
 

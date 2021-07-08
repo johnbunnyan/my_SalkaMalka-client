@@ -21,6 +21,10 @@ button {
   padding: 0.5rem;
 }
 
+svg {
+  cursor: pointer
+}
+
 textarea {
   padding: 5px 10px;
   border: none;
@@ -61,7 +65,6 @@ input:focus, textarea:focus {
 }
 
 .signup-modal.open-signup-modal section {
-  height: 60vh;
   width: 30vw;
   background-color: white;
   display: flex;
@@ -81,15 +84,25 @@ input:focus, textarea:focus {
 
 #signup-modal-main input {
   border: 1px black solid;
+  width: 65%;
+  font-size: 0.9rem;
+}
+
+#signup-modal-main > * {
+  width: 100%;
 }
 
 .signup-modal.open-signup-modal .btn-center {
+  width: 70%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 0;
 }
 
-#signup-modal-main .input-center {
-  width: 66%;
+#input-center {
+  width: 70%;
+  min-height: 9rem;
 }
 
 .signup-modal.open-signup-modal button {
@@ -105,17 +118,20 @@ input:focus, textarea:focus {
   margin: 0.5rem 0;
 }
 
-
-
 #signup-modal-main label {
   line-height: 2rem
 }
 
 #signup-btn {
   display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  align-items: center;
 }
-#signup-btn * {
-  border: 1px black solid;
+
+#change-section {
+  margin: 1.5rem 0;
+  text-align: center;
 }
 
 .error-msg {
@@ -131,12 +147,12 @@ input:focus, textarea:focus {
 
 .write-comment-modal.open-write-comment-modal {
   position: fixed;
-  height: 40vh;
-  width: 50vw;
+  height: 100vh;
+  width: 100vw;
   top: 50%;
   left: 50%;
-  margin-top: -20vh;
-  margin-left: -15vw;
+  margin-top: -50vh;
+  margin-left: -50vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -144,10 +160,48 @@ input:focus, textarea:focus {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.write-comment-modal.open-write-comment-modal * {
-  border: 1px black solid;
-  padding: 1rem;
+.write-comment-modal section {
+  height: 20vh;
+  width: 30vw;
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+
+.write-comment-modal header {
+  display: flex;
+  align-items: center;
+}
+
+.write-comment-modal header div {
+  font-size: 0.75rem;
+  margin-left: 0.5rem;
+}
+
+.write-comment-modal svg {
+  font-size: 1.5rem;
+  padding: 0;
+}
+
+.write-comment-modal main {
+  display: flex;
+  align-items: center;
+  height: 85%;
+}
+
+.write-comment-modal textarea{
+  flex-grow: 1;
+  height: 80%;
+  margin: 0.5rem;
+  border: 1px black solid;
+}
+
+.write-comment-modal button{
+  height: 80%;
+  margin: 0.5rem;
+  border: 1px black solid;
 }
 
 .comment-modal{
@@ -156,12 +210,12 @@ input:focus, textarea:focus {
 
 .comment-modal.open-comment-modal {
   position: fixed;
-  height: 40vh;
-  width: 50vw;
+  height: 100vh;
+  width: 100vw;
   top: 50%;
   left: 50%;
-  margin-top: -20vh;
-  margin-left: -15vw;
+  margin-top: -50vh;
+  margin-left: -50vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -169,10 +223,49 @@ input:focus, textarea:focus {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.comment-modal.open-comment-modal * {
+/* .comment-modal.open-comment-modal * {
   border: 1px black solid;
-  padding: 1rem;
+} */
+
+.comment-modal section {
+  width: 60vw;
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.comment-modal svg {
+  font-size: 1.5rem;
+  padding: 0;
+  height: 100%;
+}
+
+.comment-modal header {
+  margin-bottom: 1rem;
+}
+
+.comment-modal .comment-item {
+  border-radius: 0;
+  display: flex;
+  width: 100%;
+  padding: 0.5rem;
+  border-bottom: 1px black dashed;
+}
+
+.comment-modal .like-comment-display {
+  background-color: rgba(255, 0, 0, 0.5);
+  overflow-y: auto;
+}
+
+.comment-modal .dislike-comment-display {
+  background-color: rgba(0, 0, 255, 0.5);
+  overflow-y: auto;
+}
+
+.comment-modal .comment-item  * {
+  line-height: 2rem;
 }
 
 /* .post-modal{
@@ -215,14 +308,24 @@ input:focus, textarea:focus {
 #search-bar {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
 }
 #search-bar * {
   font-size: 0.75rem;
 }
+#search-bar svg {
+  position: absolute;
+  left: 14rem;
+  font-size: 1rem;
+  line-height: 2.5rem;
+  border-radius: 50%;
+  margin: 0;
+}
 #search-input {
-  width: 80%;
+  width: 100%;
   border: 1px black solid;
+  border-radius: 2.5rem;
+  height: 2.5rem;
 }
 .profile {
   width: 100%;
@@ -230,17 +333,13 @@ input:focus, textarea:focus {
   flex-grow: 1;
   padding: 1rem;
 }
-.profile > div {
-  text-align: center;
+.menu-open * {
+  margin: 2rem 0rem;
+  font-size: 1.75rem;
+  font-family: 'Leckerli One', sans-serif;
   cursor: pointer;
-  font-size: 1.5rem;
-  font-weight: 900;
-}
-.menu-close{
-  visibility: hidden;
-}
-.menu-open *, .menu-close * {
-  margin: 0.5rem 0rem;
+  text-align: center;
+  color: lightcoral;
 }
 #about {
   display: flex;
@@ -348,6 +447,10 @@ input:focus, textarea:focus {
   padding: 0.5rem 1rem;
   font-size: 1.5rem;
 }
+.post-case-header svg {
+
+  font-size: 1.5rem;
+}
 .post-case-img-box {
   display: flex;
   justify-content: center;
@@ -417,7 +520,16 @@ input:focus, textarea:focus {
 /* comment */
 .comment-display{
   display: flex;
+  justify-content: space-between;
 }
+
+.comment-display > * {
+  padding: 0.5rem 1rem;
+  width: 49%;
+  display: flex;
+  flex-direction: column;
+}
+
 .comment-item{
   display: flex;
   justify-content: space-between;
@@ -473,9 +585,14 @@ input:focus, textarea:focus {
   height: 100vh;
 }
 #mp-title {
-  font-size: 2rem;
   margin: 0.5rem 1rem;
   width: 55vw;
+}
+#mp-title * {
+  margin: 0.5rem;
+}
+#current-page {
+  font-size: 2rem;
 }
 .mp-content {
   position: relative;
@@ -504,14 +621,19 @@ input:focus, textarea:focus {
   top: 2vh;
   right: 2vw;
 }
-.mp-content .comment-item {
+#mp-comments .comment-item {
   width: 55vw;
   margin: 1rem;
   padding: .75rem;
   background-color: lightcoral;
 }
-.comment-item button {
+
+#mp-comments .comment-item button {
   background-color: inherit;
+}
+
+#to-comments {
+  padding: 1rem;
 }
 
 /* 어바웃페이지 */

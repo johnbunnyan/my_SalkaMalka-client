@@ -6,6 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Route } from "react-router-dom";
 import { useHistory } from "react-router";
 import { setBookmarks, setPosts, setClosed, setReplied } from '../actions/index';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes, faBookmark as fasfaBookmark } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark as farfaBookmark } from '@fortawesome/free-regular-svg-icons'
 require("dotenv").config();
 
 
@@ -221,11 +224,11 @@ export default function PostCase(props) {
             }
             else if (bookmarks.includes(postId)) { // 남의 글: 북마크 or 북마크 해제
               return <div className='btn-center'>
-                <button onClick={handleUnBookmark}>북마크 해제</button>
+                <FontAwesomeIcon icon={fasfaBookmark} onClick={handleUnBookmark}/>
               </div>
             } else {
               return <div className='btn-center'>
-                <button onClick={handleBookmark}>북마크</button>
+                <FontAwesomeIcon icon={farfaBookmark} onClick={handleBookmark}/>
               </div>
             }
           }}
@@ -304,13 +307,12 @@ export default function PostCase(props) {
       <div className={isCommentModalOpen ? 'open-write-comment-modal write-comment-modal' : 'write-comment-modal'}>
         <section>
           <header>
-            <button className={"close"} onClick={() => { setCommentModalOpen(false) }}>
-              {" "}x
-            </button>
+            <FontAwesomeIcon icon={faTimes} onClick={() => { setCommentModalOpen(false) }}/>
+            <div>내용 없이 사라마라를 보내려면 지금 바로 등록 버튼을 눌러주세요!</div>
           </header>
           <main>
-            <input onFocus={(e) => e.target.value = ''} type={'text'} defaultValue={'댓글은 필수가 아닙니다'}></input>
-            <button onClick={(e) => { handleComment(e) }}>댓글 등록</button>
+            <textarea onFocus={(e) => e.target.value = ''} type={'text'}></textarea>
+            <button onClick={(e) => { handleComment(e) }}>등록</button>
           </main>
         </section>
       </div>
@@ -319,9 +321,8 @@ export default function PostCase(props) {
       <div className={isDisplayCommentModal ? 'open-comment-modal comment-modal' : 'comment-modal'}>
         <section>
           <header>
-            <button className={"close"} onClick={() => { setDisplayCommentModal(false) }}>
-              X
-            </button>
+            <FontAwesomeIcon icon={faTimes} onClick={() => { setDisplayCommentModal(false) }}/>
+            <div></div>
           </header>
           <main>
             <CommentList

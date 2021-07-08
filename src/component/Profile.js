@@ -95,34 +95,31 @@ export default function Profile() {
 
   const options = () => {
     if (isSignIn) {
-      return ['WritePost', 'MyPage', 'Signout'];
+      return ['Write', 'My Page', 'Log Out'];
     }
     else {
-      return['LogIn'];
+      return['Log In'];
     }
   }
 
   const activeButton = (el) => {
-    if (el === 'LogIn') {
+    if (el === 'Log In') {
       openModal();
     }
-    else if (el === 'Signout') {
+    else if (el === 'Log Out') {
       handleSignout();
     }
-    else if (el === 'WritePost') {
+    else if (el === 'Write') {
       history.push('/posts');
     }
-    else if (el === 'MyPage') {
+    else if (el === 'My Page') {
       history.push(`/users/${userId}`);
     }
   }
 
   return (
     <div className='profile'>
-      <div onClick={handleMenu}>
-        profile
-      </div>
-      <div className={isMenuOpen ? 'menu-open' : 'menu-close'}>
+      <div className={'menu-open'}>
         {options().map(el => <div key={el} onClick={() => activeButton(el)}>{el}</div>)}
       </div>
       <SignInModal
