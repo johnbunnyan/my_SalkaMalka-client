@@ -1,4 +1,13 @@
-import { SIGNIN, SETQUERYSTRING, SETACCESSTOKEN, SETBOOKMARKS, SETPOSTS, SETCOMMENTS, SETCLOSED } from "../actions/index";
+import {
+  SIGNIN,
+  SETQUERYSTRING,
+  SETACCESSTOKEN,
+  SETBOOKMARKS,
+  SETPOSTS,
+  SETCOMMENTS,
+  SETCLOSED,
+  SETREPLIED
+} from "../actions/index";
 import { initialState } from "./initialState";
 import { PURGE } from "redux-persist";
 
@@ -20,6 +29,14 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, action.payload);
     case SETCLOSED:
       return Object.assign({}, state, action.payload);
+    case SETREPLIED:
+      const arr = [
+        ...state.repliedPosts,
+        ...action.payload.repliedPosts
+      ]
+      return Object.assign({}, state, {
+        repliedPosts: arr.filter((el, index) => arr.indexOf(el) === index)
+      });
 
     default:
       return state;

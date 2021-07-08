@@ -1,29 +1,22 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../component/SideBar";
-import myPostData from "../data/dummyMyPost.json"
-import myCommentData from "../data/dummyMyComment.json"
-import myBookMarkData from "../data/dummyMyBookMark.json"
 import MyBookMarkContent from "../component/MyBookMarkContent";
 import MyPostContent from "../component/MyPostContent";
 import MyCommentContent from "../component/MyCommentContent";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from "axios";
 import { useHistory } from "react-router";
 import persistor from '../index';
-import { setBookmarks, setPosts, setComments, setClosed } from '../actions/index';
-import { useDispatch } from 'react-redux';
+import { setBookmarks, setPosts, setComments, setClosed, setReplied } from '../actions/index';
 
 export default function MyPage() {
   const dispatch = useDispatch();
   const history = useHistory();
-
-
-  const { accessToken, userId } = useSelector(state => state);
-  const pathname = window.location.pathname;
+  const { accessToken, userId, email, provider } = useSelector(state => state);
   const [myPostData, setMyPostData] = useState([])
   const [myCommentData, setMyCommentData] = useState([])
   const [myBookMarkData, setMyBookMarkData] = useState([])
-  const [whatIsDisplayed, setWhatIsDispalyed] = useState('MyPost')
+  const [whatIsDisplayed, setWhatIsDisplayed] = useState('Posts')
 
   useEffect(() => {
     axios
@@ -51,6 +44,7 @@ export default function MyPage() {
         console.log(res.data.comments.map(i => i.commentId))
         setMyCommentData(res.data.comments)
         dispatch(setComments(res.data.comments.map(i => i.commentId)));
+        dispatch(setReplied(res.data.comments.map(i => i.postId)));
       })
       .catch((e) => console.log(e))
     axios
@@ -65,19 +59,18 @@ export default function MyPage() {
         dispatch(setBookmarks(res.data.bookmarks.map(i => i._id)));
       })
       .catch((e) => console.log(e))
-
   }, [])
 
   const handleCategory = (category) => {
     switch (category) {
-      case 'MyPost':
-        setWhatIsDispalyed(category)
+      case 'Posts':
+        setWhatIsDisplayed(category)
         break;
-      case 'MyComment':
-        setWhatIsDispalyed(category)
+      case 'Comments':
+        setWhatIsDisplayed(category)
         break;
-      case 'MyBookMark':
-        setWhatIsDispalyed(category)
+      case 'Bookmarks':
+        setWhatIsDisplayed(category)
         break;
       default:
         break;
@@ -86,12 +79,37 @@ export default function MyPage() {
 
   const renderSwitchParam = (param) => {
     switch (param) {
-      case 'MyPost':
+      case 'Posts':
         return (<MyPostContent displayData={myPostData}></MyPostContent>)
-      case 'MyComment':
+      case 'Comments':
         return (<MyCommentContent displayData={myCommentData}></MyCommentContent>)
-      case 'MyBookMark':
+      case 'Bookmarks':
         return (<MyBookMarkContent displayData={myBookMarkData}></MyBookMarkContent>)
+      default:
+        break;
+    }
+  }
+
+  const getHeader = (param) => {
+    switch (param) {
+      case 'Posts':
+        return (<header id='mp-title'>
+          <span id='current-page'>{param}</span>
+          <span onClick={(e) => {handleCategory(e.target.textContent)}}>Comments</span>
+          <span onClick={(e) => {handleCategory(e.target.textContent)}}>Bookmarks</span>
+        </header>)
+      case 'Comments':
+        return (<header id='mp-title'>
+          <span id='current-page'>{param}</span>
+          <span onClick={(e) => {handleCategory(e.target.textContent)}}>Posts</span>
+          <span onClick={(e) => {handleCategory(e.target.textContent)}}>Bookmarks</span>
+        </header>)
+      case 'Bookmarks':
+        return (<header id='mp-title'>
+          <span id='current-page'>{param}</span>
+          <span onClick={(e) => {handleCategory(e.target.textContent)}}>Posts</span>
+          <span onClick={(e) => {handleCategory(e.target.textContent)}}>Comments</span>
+        </header>)
       default:
         break;
     }
@@ -140,8 +158,10 @@ export default function MyPage() {
         handleCategory={handleCategory}
       ></SideBar>
       <div className={'mp-content'}>
+        <div id='hello-msg'>{`${email}님, 안녕하세요?`}</div>
+        <button id='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
+        {getHeader(whatIsDisplayed)}
         {renderSwitchParam(whatIsDisplayed)}
-        <button className='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
       </div>
     </div>
   )

@@ -1,10 +1,13 @@
 import React from "react";
 import { useHistory } from "react-router";
 import { setQueryString } from '../actions/index'
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 require("dotenv").config();
 
 export default function Search() {
+  const pathName = window.location.pathname
   const dispatch = useDispatch();
   const history = useHistory();
   function handleSearch(event) {
@@ -18,9 +21,9 @@ export default function Search() {
     history.push(`/search?q=${encoded}`);
   }
   return (
-    <div id="search-bar">
+    <div id='search-bar'>
       <input id="search-input" type="text" />
-      <button onClick={handleSearch} className="search-button">검색</button>
+      <FontAwesomeIcon icon={faSearch} onClick={handleSearch}/>
     </div>
   )
 }

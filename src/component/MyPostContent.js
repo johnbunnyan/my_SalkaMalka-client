@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 export default function MyPostContent(props) {
   // console.log(props)
   const { openPosts, closedPosts } = useSelector(state => state);
-  console.log(props.displayData);
   return (
     <div className={'mp-postlist'}>
       {props.displayData.map((el) => {

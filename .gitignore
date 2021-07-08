@@ -28,4 +28,4 @@ localhost*
 # Optional eslint cache
 .eslintcache
 
-App2.js
+/src/logo/backup

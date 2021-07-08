@@ -24,7 +24,33 @@ export default function Profile() {
     menuOpenSet(cur => !cur);
   }
 
-  const handleLogout = () => {
+  const handleSocialSignout = () => {
+    // 카카오 로그인이 되어있는 경우
+    if (provider === 'kakao') {
+      if (!window.Kakao.Auth) {
+        window.Kakao.init(process.env.REACT_APP_KAKAO_KEY);
+      }
+      if (window.Kakao.Auth.getAccessToken() !== null) {
+        window.Kakao.Auth.logout(function() {
+          console.log(window.Kakao.Auth.getAccessToken());
+        })
+      }
+    }
+
+    // 구글 로그인이 되어있는 경우
+    else if (provider === 'google') {
+      if (gapi.auth2) {
+        if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+          gapi.auth2.getAuthInstance().signOut().then(function() {
+            console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
+          })
+          gapi.auth2.getAuthInstance().disconnect();
+        }
+      }
+    }
+  }
+
+  const handleSignout = () => {
     axios
     .post(process.env.REACT_APP_API_ENDPOINT + '/auth/signout', {}, {
       headers: {
@@ -35,33 +61,9 @@ export default function Profile() {
     })
     .then(res => {
       console.log('res', res);
-      // 카카오 로그인이 되어있는 경우
-      if (provider === 'kakao') {
-        if (!window.Kakao.Auth) {
-          window.Kakao.init(process.env.REACT_APP_KAKAO_KEY);
-        }
-        if (window.Kakao.Auth.getAccessToken() !== null) {
-          window.Kakao.Auth.logout(function() {
-            console.log(window.Kakao.Auth.getAccessToken());
-          })
-        }
-      }
-
-      // 구글 로그인이 되어있는 경우
-      else if (provider === 'google') {
-        if (gapi.auth2) {
-          if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
-            gapi.auth2.getAuthInstance().signOut().then(function() {
-              console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
-            })
-            gapi.auth2.getAuthInstance().disconnect();
-          }
-        }
-      }
-
-      // store 초기화
-      persistor.purge();
+      handleSocialSignout();
     })
+    .then(() => persistor.purge())
     .then(() => history.push('/'))
     .catch(e => {
       if (e.response && e.response.status === 401) {
@@ -69,52 +71,56 @@ export default function Profile() {
         .post(process.env.REACT_APP_API_ENDPOINT + '/auth/refreshtoken', {}, {
           withCredentials: true,
         })
-        .then(res => {
-          dispatch(setAccessToken(res.data.accessToken));
-          return handleLogout();
+        .then(res => dispatch(setAccessToken(res.data.accessToken)))
+        .then(() => {
+          axios
+          .post(process.env.REACT_APP_API_ENDPOINT + '/auth/signout', {}, {
+            headers: {
+              'Authorization': `Bearer ${accessToken}`,
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+          })
+          .then(res => {
+            console.log('res', res);
+            handleSocialSignout();
+          })
+          .then(() => persistor.purge())
+          .then(() => history.push('/'))
         })
         .catch(e => console.log(e));
       }
     });
   }
 
-  let options;
-  if (isSignIn) {
-    options = ['WritePost', 'MyPage', 'LogOut'];
-  }
-  else {
-    options = ['LogIn'];
+  const options = () => {
+    if (isSignIn) {
+      return ['Write', 'My Page', 'Log Out'];
+    }
+    else {
+      return['Log In'];
+    }
   }
 
   const activeButton = (el) => {
-    if (el === 'LogIn') {
+    if (el === 'Log In') {
       openModal();
     }
-    else if (el === 'LogOut') {
-      handleLogout();
+    else if (el === 'Log Out') {
+      handleSignout();
     }
-    else if (el === 'WritePost') {
+    else if (el === 'Write') {
       history.push('/posts');
     }
-    else if (el === 'MyPage') {
+    else if (el === 'My Page') {
       history.push(`/users/${userId}`);
     }
   }
 
   return (
     <div className='profile'>
-      <div onClick={handleMenu}>
-        profile
-      </div>
-      <div className={isMenuOpen ? 'menu-open' : 'menu-close'}>
-        {
-          options.map((el) => {
-            // console.log(el)
-            return (
-              <div key={el} onClick={() => activeButton(el)}>{el}</div>
-            )
-          })
-        }
+      <div className={'menu-open'}>
+        {options().map(el => <div key={el} onClick={() => activeButton(el)}>{el}</div>)}
       </div>
       <SignInModal
         isModalOpen={isModalOpen}

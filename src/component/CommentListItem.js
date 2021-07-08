@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import data from '../data/dummy.json';
 import { useSelector, useDispatch } from 'react-redux';
 import { setComments } from '../actions/index';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faThumbsUp, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 export default function CommentListItem(props) {
   const dispatch = useDispatch();
@@ -13,8 +13,6 @@ export default function CommentListItem(props) {
   // console.log(props)
 
   const handleLike = () => {
-    //버튼 추천 서버 요청
-    console.log(props);
     if (!isSignIn) {
       alert('로그인이 필요한 기능이에요')
       return;
@@ -30,9 +28,7 @@ export default function CommentListItem(props) {
   const handleOpenPost = (postId) => {//파라미터부분에 포스트아이디를받음
     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId)
-      .catch((e) => console.log(e))
       .then(res => {
-        // console.log(res.data)
         props.setPostInfo({
           userId: res.data.userId,
           postId: postId,
@@ -43,11 +39,12 @@ export default function CommentListItem(props) {
           sara: res.data.sara,
           mara: res.data.mara,
           comment: res.data.comment,
-          saraRate: (data.posts.sara / (data.posts.sara + data.posts.mara) * 100) + '%',
-          maraRate: (data.posts.sara / (data.posts.sara + data.posts.mara) * 100) + '%',
+          saraRate: (res.data.sara / (res.data.sara + res.data.mara) * 100) + '%',
+          maraRate: (res.data.sara / (res.data.sara + res.data.mara) * 100) + '%',
         })
       })
       .then(res => props.setOpenPost(true))
+      .catch((e) => console.log(e))
   }
 
   const deleteComment = () => {
@@ -62,31 +59,28 @@ export default function CommentListItem(props) {
             withCredentials: true,
           })
         .then(res => {
-          if (window.location.pathname === `/users/${userId}`) {
-            const coms = comments.slice();
-            coms.splice(coms.indexOf(props.commentId), 1);
-            dispatch(setComments(coms));
-          }
+          console.log('댓글삭제응답요청댓글길이:',res.data.comments.length)
+          props.setCommentList(res.data.comments);
+          dispatch(res.data.comments);
         })
         .catch((e) => console.log(e))
     } else {
       return;
     }
   }
-  // console.log(props.userId === userId)
-  // console.log(userId)
+
   return (
     <div className={'comment-item'}>
       <div className={'comment-item-content'}>{props.content}</div>
-      {props.userId === userId || !props.isOpen ?
-        null : <button onClick={handleLike}>추천</button>
-      }
       <div>{props.like}</div>
+      {props.userId === userId && props.isOpen ?
+        <FontAwesomeIcon icon={faTrash} onClick={deleteComment}/> : null
+      }
+      {props.userId !== userId && props.isOpen ?
+        <FontAwesomeIcon icon={faThumbsUp} onClick={handleLike}/> : null
+      }
       {props.isInMyComment ? 
         <button onClick={() => { handleOpenPost(props.postId) }}>게시물 보기</button> : null
-      }
-      {props.userId === userId ?
-        <button onClick={deleteComment}>X</button> : null
       }
     </div>
   )

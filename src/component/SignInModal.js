@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import { GoogleLogin } from 'react-google-login';
-import { userSignIn } from '../actions/index';
+import { userSignIn, setReplied } from '../actions/index';
 import { useDispatch } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
+
 require("dotenv").config();
 
 export default function SignInModal(props) {
@@ -32,6 +35,18 @@ export default function SignInModal(props) {
     })
   }
 
+  const getRepliedPosts = (userId, accessToken) => {
+    axios
+      .get(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/comments', {
+        headers: {
+          Authorization: `bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(res => dispatch(setReplied(res.data.comments.map(i => i.postId))))
+      .catch(e => console.log(e))
+  }
+
   const signInHandler = (email, password) => {
     if (!email || !password) {
       handleError('all', '아이디와 비밀번호 모두 입력하세요');
@@ -58,7 +73,7 @@ export default function SignInModal(props) {
         }
         dispatch(userSignIn(data));
         props.closeModal();
-        history.push('/');
+        getRepliedPosts(data.userId, data.accessToken);
       })
       .catch(e => {
         if (e.response && e.response.status === 404) {
@@ -147,8 +162,8 @@ export default function SignInModal(props) {
         bookmarks: res.data.bookmarks
       }
       dispatch(userSignIn(data));
+      getRepliedPosts(data.userId, data.accessToken);
       props.closeModal();
-      history.push('/');
     })
     .catch(e => console.log(e));
   }
@@ -179,8 +194,8 @@ export default function SignInModal(props) {
               bookmarks: res.data.bookmarks
             }
             dispatch(userSignIn(data));
+            getRepliedPosts(data.userId, data.accessToken);
             props.closeModal();
-            history.push('/');
           })
           .catch(e => console.log(e));
         },
@@ -190,55 +205,72 @@ export default function SignInModal(props) {
   }
 
   const mainContent = (sectionType === 'signIn') ? (
-    <main>
-      <div>email</div>
-      <input type="text" onChange={(e) => { setEmail(e.target.value) }}></input>
-      <div>password</div>
-      <input type="password" onChange={(e) => { setPassword(e.target.value) }}></input>
-      <div>{errorMessage.all === ' ' ? errorMessage.wrong : errorMessage.all}</div>
-      <button onClick={() => { signInHandler(email, password) }}>login</button>
-      <GoogleLogin 
-          clientId={process.env.REACT_APP_GOOGLE_OAUTH_CODE}
-          onSuccess={googleHandler}
-          onFailure={(err) => console.log('err', err)}
-          cookiePolicy={'single_host_origin'}
-          render={renderProps => <button onClick={renderProps.onClick}>구글 계정으로 로그인할래요</button>}
-      />
-      <button onClick={kakaoLogin}>카카오 계정으로 로그인할래요</button>
-      <span onClick={() => { setSectionType('signUp') }}>살까말까에 회원가입할래요</span>
-    </main>
+    <div id='signup-modal-main'>
+      <div id='input-center'>
+        <div id='signup-email'>
+          <label htmlFor='email'>이메일</label>
+          <input type="text" name='email' onChange={(e) => { setEmail(e.target.value) }}></input>
+        </div>
+        <div className='error-msg'>{' '}</div>
+        <div id='signup-password'>
+          <label htmlFor='password'>비밀번호</label>
+          <input type="password" name='password' onChange={(e) => { setPassword(e.target.value) }}></input>
+        </div>
+      </div>
+      <div id='signup-btn'>
+        <div className='error-msg'>{errorMessage.all === ' ' ? errorMessage.wrong : errorMessage.all}</div>
+        <div className='btn-center'>
+        <button onClick={() => { signInHandler(email, password) }}>login</button>
+        <GoogleLogin 
+            clientId={process.env.REACT_APP_GOOGLE_OAUTH_CODE}
+            onSuccess={googleHandler}
+            onFailure={(err) => console.log('err', err)}
+            cookiePolicy={'single_host_origin'}
+            render={renderProps => <button onClick={renderProps.onClick}>구글</button>}
+        />
+        <button onClick={kakaoLogin}>카카오</button>
+      </div>
+      </div>
+      <div id='change-section' onClick={() => { setSectionType('signUp') }}>회원가입할래요 -&gt;</div>
+    </div>
   ) : (
-    <main>
-      <div>email</div>
-      <input type="text" onChange={(e) => { setEmail(e.target.value) }}></input>
-      <div>{errorMessage.email}</div>
-      <div>password</div>
-      <input type="password" onChange={(e) => { setPassword(e.target.value) }}></input>
-      <div>{errorMessage.password}</div>
-      <div>password check</div>
-      <input type="password" onChange={(e) => { setCheckPassword(e.target.value) }}></input>
-      <div>{errorMessage.match}</div>
-      <div>{errorMessage.all}</div>
-      <button onClick={() => { signUpHandler(email, password, checkPassword) }}>signup</button>
-      <span onClick={() => { setSectionType('signIn') }}>로그인창으로 돌아갈래요</span>
-    </main>
+    <div id='signup-modal-main'>
+      <div id='input-center'>
+        <div id='signup-email'>
+          <label htmlFor='email'>이메일</label>
+          <input type="text" name='email' onChange={(e) => { setEmail(e.target.value) }}></input>
+        </div>
+        <div className='error-msg'>{errorMessage.email}</div>
+        <div id='signup-password'>
+          <label htmlFor='password'>비밀번호</label>
+          <input type="password" name='password' onChange={(e) => { setPassword(e.target.value) }}></input>
+        </div>
+        <div className='error-msg'>{errorMessage.password}</div>
+        <div id='signup-password-check'>
+          <label htmlFor='password-check'>비밀번호 확인</label>
+          <input type="password" name='password-check' onChange={(e) => { setPassword(e.target.value) }}></input>
+        </div>
+        <div className='error-msg'>{errorMessage.match}</div>
+      </div>
+      <div id='signup-btn'>
+        <div className='error-msg'>{errorMessage.all}</div>
+        <button onClick={() => { signUpHandler(email, password, checkPassword) }}>회원가입</button>
+      </div>
+      <div id='change-section' onClick={() => { setSectionType('signIn') }}>&lt;- 로그인창으로 돌아갈래요</div>
+    </div>
   )
 
   return (
     <div className={props.isModalOpen ? 'open-signup-modal signup-modal' : 'signup-modal'}>
       {props.isModalOpen ? (
         <section className={sectionType}>
-          <header>
-            <button className={"close"} onClick={() => {
-              for (let key in errorMessage) {
-                errorMessage[key] = ' ';
-              }
-              setSectionType('signIn');
-              props.closeModal();
-            }}>
-              {" "}x
-            </button>
-          </header>
+          <FontAwesomeIcon icon={faTimes} onClick={() => {
+            for (let key in errorMessage) {
+              errorMessage[key] = ' ';
+            }
+            setSectionType('signIn');
+            props.closeModal();
+          }}/>
           {mainContent}
         </section>
       ) : null}

@@ -1,116 +1,149 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import SideBar from "../component/SideBar";
 import PostCase from "../component/PostCase";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from "react-router";
 import axios from "axios";
-import { Route } from "react-router-dom";
+import queryStringModule from 'query-string';
+import { useInView, userInView } from 'react-intersection-observer';
+import { load } from "dotenv";
 require("dotenv").config();
 
 export default function LandingPage() {
-  const dispatch = useDispatch();
   const history = useHistory();
   const pathname = window.location.pathname;
+  const [data, setData] = useState([]);
+  const [ref, inView] = useInView()
+  // const [page, setPage] = useState(1)
+  const [loading, setLoading] = useState(false)
+  const [sortValue, setSortValue] = useState('date')
   const [postOptions, setPostOptions] = useState({
-    items: 5,
-    preItems: 0
+    preItems: 0,
+    items: 5
   })
-  const [postData, setPostData] = useState([]);
-  const [data, setData] = useState({
-    posts: []
-  });
-
+  const [initPostOptions, setInitPostOptions] = useState({
+    preItems: 0,
+    items: 5
+  })
   const { isSignIn, queryString } = useSelector(state => state);
 
   useEffect(() => {
-    console.log('load landing');
     if (pathname === '/search') {
       const encoded = encodeURI(encodeURIComponent(queryString));
       const uri = process.env.REACT_APP_API_ENDPOINT + '/search?q=' + encoded;
       axios
-      .get(uri)
-      .then(res => {
-        console.log(res.data)
-        setData(res.data)
-      })
-      .catch(e => console.log(e));
+        .get(uri)
+        .then(res => setData(res.data.posts))
+        // .then(console.log(data))
+        .catch(e => console.log(e));
       return;
     }
-    sortPosts('date');
+    // sortPosts('date');
+  }, [pathname, queryString]) // 검색시 리랜더링
 
-    
-  }, [pathname, queryString])
+  const sortPosts = useCallback(async (sort) => {
+    if (postOptions.preItems !== 0) {
+      setLoading(true)
+      history.push(`/main?sort=${sort}`);
+      await axios
+        .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
+        .then(res => {
+          let post = res.data.posts.slice(postOptions.preItems, postOptions.items)
+          setData(pre => [...pre, ...post])
+        })
+        .catch(e => console.log(e));
+    }
+  }, [postOptions])
 
-  // useEffect(() => {
-  //   console.log('fired')
-  //   const displayPost = data.posts.slice(postOptions.preItems, postOptions.items);
-  //   const arr = [...postData, ...displayPost];
-  //   setPostData(arr.filter((el, idx) => arr.indexOf(el) === idx));
-    
-  //   window.addEventListener("scroll", infiniteScroll, true);
-  //   setPostData(data.posts);
-  // }, [data, postOptions])
 
-  const sortPosts = (sort) => {
-    history.push(`/main?sort=${sort}`);
+
+  useEffect(() => {
+    sortPosts(sortValue)
+    setLoading(false)
+  }, [sortPosts])
+
+  useEffect(() => {
+    console.log('sibla')
     axios
-    .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
-    .then(res => setData(res.data))
-    .catch(e => console.log(e));
-  }
+      .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sortValue)
+      .then(res => {
+        let post = res.data.posts.slice(initPostOptions.preItems, initPostOptions.items)
+        setData(post)
+      })
+      .then(setPostOptions({
+        preItems: 0,
+        items: 5
+      }))
+      .catch(e => console.log(e));
+  }, [sortValue])
 
-  const infiniteScroll = () => {
-    let scrollHeight = Math.max(
-      document.documentElement.scrollHeight,
-      document.body.scrollHeight
-    );
-    let scrollTop = Math.max(
-      document.documentElement.scrollTop,
-      document.body.scrollTop
-    );
-    let clientHeight = document.documentElement.clientHeight;
-    if (scrollTop + clientHeight >= scrollHeight) {
+  useEffect(() => {
+    if (inView && !loading) {
       setPostOptions({
         preItems: postOptions.items,
-        items: postOptions.items + 10,
-      });
+        items: postOptions.items + 5
+      })
     }
-  };
+  }, [inView, loading])
 
-  // console.log(postData)
+  const handleQuery = (sortValue) =>{
+    history.push(`/main?sort=${sortValue}`);
+    setSortValue(sortValue)
+  }
+
   return (
     <div className={'landing-page'}>
       <SideBar />
       <div className={'lp-content'}>
-        <div className={isSignIn ? 'lp-description display-none' : 'lp-description'}>
+        <div className={isSignIn || pathname === '/search' ? 'lp-description display-none' : 'lp-description'}>
           <div className={'lp-description-text'}></div>
           <div className={'lp-description-img-box'}>
             <div className={'lp-description-img'}></div>
           </div>
         </div>
-            
         <div className={'lp-postlist'}>
-          {pathname === '/search' ? <div id='search-message'>{'검색어: ' + queryString}</div> : null}
-          <div id='sort-btn-container'>
-            <button onClick={() => {sortPosts('date')}}>최신순</button>
-            <button onClick={() => {sortPosts('popular')}}>인기글</button>
-            <button onClick={() => {sortPosts('hot-topic')}}>뜨거운 감자</button>
-          </div>
-          {data.posts.map((el) => {
-            return (
-              <PostCase
-                key={el._id}
-                sara={el.sara}
-                mara={el.mara}
-                postId={el._id}
-                userId={el.userId}
-                title={el.title}
-                image={el.image}
-                content={el.content}
-                isOpen={el.isOpen}
-                comment={el.comment}>
-              </PostCase>
-            )
+          {pathname === '/main' ? <div id='sort-btn-container'>
+            <button onClick={() => { setSortValue('date') }}>최신순</button>
+            <button onClick={() => { setSortValue('popular') }}>인기글</button>
+            <button onClick={() => { setSortValue('hot-topic') }}>뜨거운 감자</button>
+          </div> : <div id='search-message'>{`검색어: '${queryString}'`}</div>}
+          {data.map((el, idx) => {
+            if (data.length - 1 === idx) {
+              return (
+                <div ref={ref}>
+                  <PostCase
+                    key={el._id}
+                    sara={el.sara}
+                    mara={el.mara}
+                    postId={el._id}
+                    userId={el.userId}
+                    title={el.title}
+                    image={el.image}
+                    content={el.content}
+                    isOpen={el.isOpen}
+                    comment={el.comment}
+                  />
+                </div>
+              )
+            }
+            else {
+              return (
+                <div>
+                  <PostCase
+                    key={el._id}
+                    sara={el.sara}
+                    mara={el.mara}
+                    postId={el._id}
+                    userId={el.userId}
+                    title={el.title}
+                    image={el.image}
+                    content={el.content}
+                    isOpen={el.isOpen}
+                    comment={el.comment}
+                  />
+                </div>
+              )
+            }
           })}
         </div>
       </div>

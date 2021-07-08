@@ -6,7 +6,7 @@ export const SETBOOKMARKS = "SETBOOKMARKS";
 export const SETPOSTS = "SETPOSTS";
 export const SETCOMMENTS = "SETCOMMENTS";
 export const SETCLOSED = "SETCLOSED";
-
+export const SETREPLIED = "SETREPLIED";
 
 export const userSignIn = (data) => {
   const { email, userId, accessToken, provider, bookmarks } = data;
@@ -78,3 +78,12 @@ export const setClosed = (posts) => {
     }
   }
 }
+
+export const setReplied = (posts) => {
+  return {
+    type: SETREPLIED,
+    payload: {
+      repliedPosts: posts
+    }
+  }
+} 

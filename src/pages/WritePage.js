@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState } from "react";
 import SideBar from "../component/SideBar";
 import ImageUpload from "../component/ImageUpload";
 import imageCompression from "browser-image-compression";
@@ -43,6 +43,7 @@ export default function WritePage() {
   }
 
   const handleSubmit = (event) => {
+    // console.log(2)
     if (!inputs.image) {
       const formData = new FormData();
       formData.append("title", inputs.title);
@@ -126,7 +127,7 @@ export default function WritePage() {
         <textarea
           name='content'
           defaultValue={'내용을 입력하세요'}
-          rows="4"
+          rows="12"
           onFocus={(e) => {
             if (e.target.value === e.target.defaultValue) {
               e.target.value = ''
