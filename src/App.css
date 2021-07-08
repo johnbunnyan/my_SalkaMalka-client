@@ -480,6 +480,21 @@ input:focus, textarea:focus {
   background-color: rgba(128, 122, 122, 0.5);
 }
 
+.lp-up-btn{
+  background-color: honeydew;
+  z-index: 1050;
+  /* width: 3rem; */
+  /* height: 3rem; */
+  padding: 2rem;
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: space-between; */
+  /* align-items: center; */
+}
+
 .post-case.closed .post-case-header,
 .post-case.closed .post-case-content,
 .post-case.closed .post-case-best-comment > * {

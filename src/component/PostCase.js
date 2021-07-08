@@ -22,7 +22,9 @@ export default function PostCase(props) {
   const { postId } = props;
   const history = useHistory();
   const [commentList, setCommentList] = useState(props.comment);
-  // console.log(commentList)
+  const [sara , setSara] = useState(props.sara)
+  const [mara, setMara] = useState(props.mara)
+  console.log(props.title, sara,mara)
   
   const getBestComment = (type, data) => {
     let result = data.filter(i => i.type === type);
@@ -33,13 +35,11 @@ export default function PostCase(props) {
   }
 
   const [bestSara, setBestSara] = useState(getBestComment('sara', commentList));
-  const [bestMara, setBestMara] = useState(getBestComment('mara', commentList));
+  const [bestMara, setBestMara] = useState(getBestComment('mara', commentList)); // 상위 3개 댓글 추출
 
   useEffect(() => {
-    // console.log('코멘트갯수:', commentList.length)
     setBestSara(getBestComment('sara', commentList));
     setBestMara(getBestComment('mara', commentList));
-    // console.log(bestSara.length, bestMara.length)
   }, [commentList])
 
   const handleSaraMara = (target) => {
@@ -68,8 +68,8 @@ export default function PostCase(props) {
         }
       )
       .then(res => {
-        // setTimeout(setCommentList(res.data.comments),100)
-        console.log('댓글작성응답요청코멘트길이:',res.data.comments.length)
+        setSara(res.data.sara)
+        setMara(res.data.mara)
         setCommentList(res.data.comments)
       })
       .then(() => setCommentModalOpen(false))
@@ -79,13 +79,12 @@ export default function PostCase(props) {
       });
   }
 
-  //댓글 차트로 표시하기 위한 백분율/
   const getRate = (type) => {
     if (!props.sara && !props.mara) return;
     if (type === 'sara') {
-      return (props.sara / (props.sara + props.mara) * 100);
+      return (sara / (sara + mara) * 100) + '%';
     } else {
-      return (props.mara / (props.sara + props.mara) * 100);
+      return (mara / (sara + mara) * 100) + '%';
     }
   }
 
@@ -246,8 +245,14 @@ export default function PostCase(props) {
         <div className={'post-case-content'}>{props.content}</div>
         {repliedPosts.includes(postId) || !props.isOpen || userId === props.userId ? (
           <div className={'post-case-likerate'}>
-            <div style={{ width: getRate('sara') + '%' }} className={'post-case-sararate'}>{Math.round(getRate('sara') * 100) / 100 + '%' }</div>
-            <div style={{ width: getRate('mara') + '%' }} className={'post-case-mararate'}>{Math.round(getRate('mara') * 100) / 100 + '%' }</div>
+            <div>
+              <div>sara : {sara}</div>
+              <div>mara : {mara}</div>
+            </div>
+            <div>
+              <div style={{ width: getRate('sara') }} className={'post-case-sararate'}></div>
+              <div style={{ width: getRate('mara') }} className={'post-case-mararate'}></div>
+            </div>
           </div>
         ) : (
           <div className={'post-case-likeordislike'}>

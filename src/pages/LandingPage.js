@@ -44,7 +44,7 @@ export default function LandingPage() {
   const sortPosts = useCallback(async (sort) => {
     if (postOptions.preItems !== 0) {
       setLoading(true)
-      history.push(`/main?sort=${sort}`);
+      // history.push(`/main?sort=${sort}`);
       await axios
         .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
         .then(res => {
@@ -85,9 +85,17 @@ export default function LandingPage() {
     }
   }, [inView, loading])
 
-  const handleQuery = (sortValue) =>{
+  const handleQuery = (sortValue) => {
     history.push(`/main?sort=${sortValue}`);
     setSortValue(sortValue)
+  }
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    })
   }
 
   return (
@@ -146,6 +154,7 @@ export default function LandingPage() {
           })}
         </div>
       </div>
+      <div className={'lp-up-btn'} onClick={scrollToTop}>맨위로</div>
     </div>
   )
 }
