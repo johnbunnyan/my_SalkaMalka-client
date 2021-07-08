@@ -2,6 +2,8 @@ import React from "react";
 import { useHistory } from "react-router";
 import { setQueryString } from '../actions/index'
 import { useDispatch } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 require("dotenv").config();
 
 export default function Search() {
@@ -21,7 +23,7 @@ export default function Search() {
   return (
     <div id='search-bar'>
       <input id="search-input" type="text" />
-      <button onClick={handleSearch} className="search-button">검색</button>
+      <FontAwesomeIcon icon={faSearch} onClick={handleSearch}/>
     </div>
   )
 }

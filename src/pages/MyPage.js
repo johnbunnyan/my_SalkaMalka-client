@@ -16,7 +16,7 @@ export default function MyPage() {
   const [myPostData, setMyPostData] = useState([])
   const [myCommentData, setMyCommentData] = useState([])
   const [myBookMarkData, setMyBookMarkData] = useState([])
-  const [whatIsDisplayed, setWhatIsDisplayed] = useState('MyPost')
+  const [whatIsDisplayed, setWhatIsDisplayed] = useState('Posts')
 
   useEffect(() => {
     axios
@@ -63,13 +63,13 @@ export default function MyPage() {
 
   const handleCategory = (category) => {
     switch (category) {
-      case 'MyPost':
+      case 'Posts':
         setWhatIsDisplayed(category)
         break;
-      case 'MyComment':
+      case 'Comments':
         setWhatIsDisplayed(category)
         break;
-      case 'MyBookMark':
+      case 'Bookmarks':
         setWhatIsDisplayed(category)
         break;
       default:
@@ -79,12 +79,37 @@ export default function MyPage() {
 
   const renderSwitchParam = (param) => {
     switch (param) {
-      case 'MyPost':
+      case 'Posts':
         return (<MyPostContent displayData={myPostData}></MyPostContent>)
-      case 'MyComment':
+      case 'Comments':
         return (<MyCommentContent displayData={myCommentData}></MyCommentContent>)
-      case 'MyBookMark':
+      case 'Bookmarks':
         return (<MyBookMarkContent displayData={myBookMarkData}></MyBookMarkContent>)
+      default:
+        break;
+    }
+  }
+
+  const getHeader = (param) => {
+    switch (param) {
+      case 'Posts':
+        return (<header id='mp-title'>
+          <span id='current-page'>{param}</span>
+          <span onClick={(e) => {handleCategory(e.target.textContent)}}>Comments</span>
+          <span onClick={(e) => {handleCategory(e.target.textContent)}}>Bookmarks</span>
+        </header>)
+      case 'Comments':
+        return (<header id='mp-title'>
+          <span id='current-page'>{param}</span>
+          <span onClick={(e) => {handleCategory(e.target.textContent)}}>Posts</span>
+          <span onClick={(e) => {handleCategory(e.target.textContent)}}>Bookmarks</span>
+        </header>)
+      case 'Bookmarks':
+        return (<header id='mp-title'>
+          <span id='current-page'>{param}</span>
+          <span onClick={(e) => {handleCategory(e.target.textContent)}}>Posts</span>
+          <span onClick={(e) => {handleCategory(e.target.textContent)}}>Comments</span>
+        </header>)
       default:
         break;
     }
@@ -135,7 +160,7 @@ export default function MyPage() {
       <div className={'mp-content'}>
         <div id='hello-msg'>{`${email}님, 안녕하세요?`}</div>
         <button id='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
-        <div id='mp-title'>{whatIsDisplayed}</div>
+        {getHeader(whatIsDisplayed)}
         {renderSwitchParam(whatIsDisplayed)}
       </div>
     </div>
