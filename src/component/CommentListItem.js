@@ -3,13 +3,14 @@ import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import { setComments } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
 
 export default function CommentListItem(props) {
   const dispatch = useDispatch();
   const [postInfo, setPostInfo] = useState({})
   const { isSignIn, userId, accessToken, comments } = useSelector(state => state);
-  
+  const [likeInfo, setLikeInfo] = useState(props.like)
+  // console.log(props.like)
   // console.log(props)
 
   const handleLike = () => {
@@ -18,8 +19,10 @@ export default function CommentListItem(props) {
       return;
     }
     axios
-      .patch(process.env.REACT_APP_API_ENDPOINT + '/posts/' + props.postId + '/comments/' + props.commentId, {})
-      .then(res => console.log(res))
+      .patch(process.env.REACT_APP_API_ENDPOINT + '/posts/' + props.postId + '/comments/' + props.commentId, {
+        userId: userId
+      })
+      .then(res => setLikeInfo(res.data.like))
       .catch(e => {
         if (e.response && (e.response.status === 404 || e.response.status === 409)) alert(e.response.data);
       });
@@ -59,7 +62,7 @@ export default function CommentListItem(props) {
             withCredentials: true,
           })
         .then(res => {
-          console.log('댓글삭제응답요청댓글길이:',res.data.comments.length)
+          console.log('댓글삭제응답요청댓글길이:', res.data.comments.length)
           props.setCommentList(res.data.comments);
           dispatch(res.data.comments);
         })
@@ -72,14 +75,14 @@ export default function CommentListItem(props) {
   return (
     <div className={'comment-item'}>
       <div className={'comment-item-content'}>{props.content}</div>
-      <div>{props.like}</div>
+      <div>{likeInfo}</div>
       {props.userId === userId && props.isOpen ?
-        <FontAwesomeIcon icon={faTrash} onClick={deleteComment}/> : null
+        <FontAwesomeIcon icon={faTrashAlt} onClick={deleteComment}/> : null
       }
       {props.userId !== userId && props.isOpen ?
-        <FontAwesomeIcon icon={faThumbsUp} onClick={handleLike}/> : null
+        <FontAwesomeIcon icon={faThumbsUp} onClick={handleLike} /> : null
       }
-      {props.isInMyComment ? 
+      {props.isInMyComment ?
         <button onClick={() => { handleOpenPost(props.postId) }}>게시물 보기</button> : null
       }
     </div>
