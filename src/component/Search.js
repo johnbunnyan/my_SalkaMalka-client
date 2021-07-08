@@ -20,9 +20,9 @@ export default function Search() {
     history.push(`/search?q=${encoded}`);
   }
   return (
-    <div id='search-bar'>
-      <input id="search-input" onChange={(e) => setTarget(e.target.value)} type="text" />
-      <FontAwesomeIcon icon={faSearch} onClick={handleSearch} />
+    <div className={pathName !== '/main' && pathName !== '/search' ? 'search-bar hidden' : 'search-bar'}>
+      <input id="search-input" type="text" />
+      <FontAwesomeIcon icon={faSearch} onClick={handleSearch}/>
     </div>
   )
 }

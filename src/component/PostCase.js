@@ -7,8 +7,8 @@ import { Route } from "react-router-dom";
 import { useHistory } from "react-router";
 import { setBookmarks, setPosts, setClosed, setReplied } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faBookmark as fasfaBookmark } from '@fortawesome/free-solid-svg-icons'
-import { faBookmark as farfaBookmark } from '@fortawesome/free-regular-svg-icons'
+import { faTimes, faBookmark as fasfaBookmark, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark as farfaBookmark, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
 require("dotenv").config();
 
 
@@ -80,6 +80,7 @@ export default function PostCase(props) {
   }
 
   const getRate = (type) => {
+    if (!props.sara && !props.mara) return;
     if (type === 'sara') {
       return (sara / (sara + mara) * 100) + '%';
     } else {
@@ -213,11 +214,11 @@ export default function PostCase(props) {
               if (props.isOpen) {
                 return <div className='btn-center'>
                   <button onClick={handlePostClose}>닫기</button>
-                  <button onClick={handlePostDelete}>삭제</button>
+                  <FontAwesomeIcon icon={faTrashAlt} onClick={handlePostDelete}/>
                 </div>
               } else {
                 return <div className='btn-center'>
-                  <button onClick={handlePostDelete}>삭제</button>
+                  <FontAwesomeIcon icon={faTrashAlt} onClick={handlePostDelete}/>
                 </div>
               }
             }
@@ -255,8 +256,8 @@ export default function PostCase(props) {
           </div>
         ) : (
           <div className={'post-case-likeordislike'}>
-            <button className={'post-case-likebtn'} name={'sara'} onClick={(e) => { handleSaraMara(e.target.name) }}>사라</button>
-            <button className={'post-case-dislikebtn'} name={'mara'} onClick={(e) => { handleSaraMara(e.target.name) }}>마라</button>
+            <button className={'post-case-likebtn'} name={'sara'} onClick={(e) => { handleSaraMara(e.target.name) }}>Sara!</button>
+            <button className={'post-case-dislikebtn'} name={'mara'} onClick={(e) => { handleSaraMara(e.target.name) }}>Mara!</button>
           </div>
         )}
         <div className={'post-case-best-comment'}>
@@ -297,9 +298,12 @@ export default function PostCase(props) {
             })}
           </div>
         </div>
-        {isDisplayCommentModal ? (null) : (
-          <button className='post-case-all-comments' onClick={() => { setDisplayCommentModal(true) }}>모든 댓글 보기</button>
-        )}
+        <div className={isDisplayCommentModal ? 'post-case-all-comments hidden' : 'post-case-all-comments'} onClick={() => { setDisplayCommentModal(true) }}>
+          <span>Sara</span>
+          <span>Mara</span>
+          <span> 더 보러가기 </span>
+          <FontAwesomeIcon icon={faArrowRight} />
+        </div>
       </div>
 
       {/* 댓글등록 모달창 */}
@@ -335,7 +339,6 @@ export default function PostCase(props) {
           </main>
         </section>
       </div>
-
     </div>
   )
 }

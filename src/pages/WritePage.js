@@ -5,6 +5,8 @@ import imageCompression from "browser-image-compression";
 import { useSelector } from 'react-redux';
 import axios from "axios";
 import { useHistory } from "react-router";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencilAlt, faImage } from '@fortawesome/free-solid-svg-icons'
 require("dotenv").config();
 
 export default function WritePage() {
@@ -140,7 +142,9 @@ export default function WritePage() {
           handleImage={handleImage}
           imgBase64={imgBase64}
         ></ImageUpload>
-        <button onClick={handleSubmit}>작성</button>
+        <div id='wp-submit' onClick={handleSubmit}>
+          <FontAwesomeIcon icon={faPencilAlt} />
+        </div>
       </div>
     </div>
   )
