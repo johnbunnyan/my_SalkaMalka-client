@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import { setComments } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
 
 export default function CommentListItem(props) {
   const dispatch = useDispatch();
@@ -74,7 +74,7 @@ export default function CommentListItem(props) {
       <div className={'comment-item-content'}>{props.content}</div>
       <div>{props.like}</div>
       {props.userId === userId && props.isOpen ?
-        <FontAwesomeIcon icon={faTrash} onClick={deleteComment}/> : null
+        <FontAwesomeIcon icon={faTrashAlt} onClick={deleteComment}/> : null
       }
       {props.userId !== userId && props.isOpen ?
         <FontAwesomeIcon icon={faThumbsUp} onClick={handleLike}/> : null

@@ -21,7 +21,7 @@ export default function Search() {
     history.push(`/search?q=${encoded}`);
   }
   return (
-    <div id='search-bar'>
+    <div className={pathName !== '/main' && pathName !== '/search' ? 'search-bar hidden' : 'search-bar'}>
       <input id="search-input" type="text" />
       <FontAwesomeIcon icon={faSearch} onClick={handleSearch}/>
     </div>

@@ -63,7 +63,6 @@ export default function LandingPage() {
   }, [sortPosts])
 
   useEffect(() => {
-    console.log('sibla')
     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sortValue)
       .then(res => {

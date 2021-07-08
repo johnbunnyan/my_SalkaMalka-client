@@ -18,18 +18,24 @@ export default function SideBar(props) {
           <Search></Search>
         </div>
         <Profile></Profile>
-        <div id='about'>
-          <div id='to-about-page' onClick={() => {history.push('/about')}}>About SalkaMalka</div>
-          <div id='since'>Since 2021 by © Troika Inc.</div>
+        <div id='to-about-page' onClick={() => {history.push('/about')}}>
+          <span>About </span>
+          <span>Salka</span>
+          <span>Malka</span>
         </div>
+        <div id='since'>Since 2021 by © Troika Inc.</div>
       </div>
     )
   }
   else {
     return (
       <div className={'side-bar'}>
-        <Logo></Logo>
+        <div id='logo'>
+          <Logo></Logo>
+          <Search></Search>
+        </div>
         <Profile></Profile>
+        <div id='since'>Since 2021 by © Troika Inc.</div>
       </div>
     )
   };

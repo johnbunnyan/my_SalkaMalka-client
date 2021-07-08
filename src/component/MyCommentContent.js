@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import CommentListItem from "./CommentListItem";
 import PostCase from "./PostCase";
 import { useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 export default function MyCommentContent(props) {
   // console.log(props)
@@ -51,7 +53,10 @@ export default function MyCommentContent(props) {
           isOpen={postInfo.isOpen}
           comment={postInfo.comment}
         ></PostCase>
-        <div id='to-comments' onClick={() => { setOpenPost(false) }}>&lt;- 내 댓글 목록으로 돌아가기</div>
+        <div id='to-comments' onClick={() => { setOpenPost(false) }}>
+          <FontAwesomeIcon icon={faArrowLeft} />
+          <span> 내 댓글 목록으로 돌아가기</span>
+        </div>
       </div>
     )
   }

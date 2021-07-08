@@ -7,6 +7,14 @@
   border-radius: 5px;
   font-family: 'Nanum Gothic', sans-serif;
   overflow-x: hidden;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+#root {
+  --salka-blue: rgba(59,180,252);
+  --malka-red: rgba(251,89,95);
+  --background: rgb(160,220,251);
+  --sidebar: #e7f6fd;
 }
 
 body, #root, #root > *, #root > * > * {
@@ -16,7 +24,7 @@ body, #root, #root > *, #root > * > * {
 button {
   border: none;
   color: inherit;
-  background-color: white;
+  background-color: inherit;
   cursor: pointer;
   padding: 0.5rem;
 }
@@ -287,7 +295,7 @@ input:focus, textarea:focus {
 
 /* 사이드바 */
 .side-bar{
-  background-color: honeydew;
+  background-color: var(--sidebar);
   z-index: 1000;
   width: 18vw;
   height: 100vh;
@@ -305,27 +313,41 @@ input:focus, textarea:focus {
   width: 100%;
   cursor: pointer;
 }
-#search-bar {
+.search-bar {
   width: 100%;
   display: flex;
   align-items: center;
 }
-#search-bar * {
-  font-size: 0.75rem;
+.hidden {
+  visibility: hidden;
 }
-#search-bar svg {
+.search-bar svg {
   position: absolute;
   left: 14rem;
   font-size: 1rem;
   line-height: 2.5rem;
   border-radius: 50%;
   margin: 0;
+  color: var(--background);
 }
 #search-input {
+  border: var(--background) solid 3px;
+  background-color: var(--sidebar);
   width: 100%;
-  border: 1px black solid;
   border-radius: 2.5rem;
   height: 2.5rem;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--salka-blue);
+  font-weight: 800;
+}
+.search-bar:hover svg {
+  color: var(--salka-blue);
+}
+
+#search-input:focus,
+.search-bar:hover #search-input {
+  border: var(--salka-blue) solid 3px;
 }
 .profile {
   width: 100%;
@@ -335,23 +357,41 @@ input:focus, textarea:focus {
 }
 .menu-open * {
   margin: 2rem 0rem;
-  font-size: 1.75rem;
-  font-family: 'Leckerli One', sans-serif;
+  font-size: 2rem;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
   cursor: pointer;
   text-align: center;
-  color: lightcoral;
+  color: var(--salka-blue);
 }
-#about {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+.menu-open *:hover {
+  color: var(--malka-red);
 }
 #to-about-page {
-  font-size: 1.25rem;
+  opacity: 0.5;
+  cursor: pointer;
+  margin: 1rem 0;
+}
+#to-about-page:hover {
+  opacity: 1;
+}
+#to-about-page span {
+  font-size: 1.5rem;
+}
+#to-about-page span:first-child {
+  font-family: 'Nanum Myeongjo', serif;
+}
+#to-about-page span:nth-child(2) {
+  color: var(--salka-blue);
+  font-family: 'Leckerli One', sans-serif;
+}
+#to-about-page span:nth-child(3) {
+  color: var(--malka-red);
+  font-family: 'Barlow', sans-serif;
 }
 #since {
   font-size: 0.75rem;
+  font-family: 'Nanum Myeongjo', serif;
 }
 
 /* 랜딩페이지 */
@@ -365,7 +405,7 @@ input:focus, textarea:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: lightblue;
+  background-color: var(--background);
   padding: 10vh;
   min-height: 100vh;
 }
@@ -414,107 +454,169 @@ input:focus, textarea:focus {
   display: flex;
   justify-content: space-around;
 }
+#sort-btn-container * {
+  width: 4rem;
+  height: 4rem;
+  background-color: rgba(255, 255, 255, 0.4);
+  color: #002f4d;
+}
+#sort-btn-container *:hover {
+  background-color: white
+}
+
+/* post-case */
 .post-case{
-  background-color: lightcoral;
+  background-color: rgba(255, 255, 255, 0.4);
   margin: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 55vw;
   align-items: center;
+  padding: 2rem;
+  padding-bottom: 1rem;
+}
+.post-case.closed {
+  background-color: rgba(128, 122, 122, 0.5);
 }
 
-/* post-case */
-.post-case.closed{
-  background-color: white;
+.post-case.closed .post-case-header,
+.post-case.closed .post-case-content,
+.post-case.closed .post-case-best-comment > * {
+  background-color: rgba(255, 255, 255, 0.2);
+  opacity: 0.6;
 }
+
+.post-case.closed .post-case-sararate,
+.post-case.closed .post-case-mararate,
+.post-case.closed .post-case-all-comments {
+  opacity: 0.5;
+}
+
 .post-case-header{
-  background-color: grey;
+  background-color: var(--background);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0.5rem;
-  margin-top: 1.5rem;
   width: 95%;
+  padding: 0.5rem 1rem;
+  margin: 2rem 0;
+  font-weight: 800;
 }
 .btn-center {
-  padding: 0.5rem 1rem;
-}
-.btn-center button {
-  margin: 0 0.25rem;
+  display: flex;
+  align-items: center;
 }
 .post-case-title{
-  padding: 0.5rem 1rem;
   font-size: 1.5rem;
 }
 .post-case-header svg {
-
   font-size: 1.5rem;
+  margin: 0.5rem 1rem;
 }
 .post-case-img-box {
   display: flex;
   justify-content: center;
-  padding-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 .post-case-img{
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 2rem;
 }
 .post-case-body {
-  padding: 0.75rem;
   width: 95%;
   display: flex;
   flex-direction: column;
-}
-.post-case-body > * {
-  margin: 0.5rem 0;
+  padding: 0 1rem;
+  align-items: stretch;
 }
 .post-case-content {
-  padding-bottom: 1rem;
+  margin-bottom: 3rem;
+  line-height: 1.5rem;
+  min-height: 5rem;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.6);
 }
 .post-case-likerate {
   height: 2.5rem;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  justify-content: stretch;
   border-radius: 0px;
+  margin-bottom: 2rem;
 }
 .post-case-likerate > * {
-  display: flex;
-  justify-content: space-between;
+  height: 2rem;
   border-radius: 0px;
+  line-height: 2rem;
+  padding: 0 0.5rem;
 }
 .post-case-sararate{
-  background-color: blue;
-  height: 1rem;
-  border-radius: 0px;
+  background-color: rgba(59,180,252, 0.6);
 }
 .post-case-mararate{
-  background-color: red;
-  height: 1rem;
-  border-radius: 0px;
+  background-color: rgba(251,89,95, 0.6);
+  text-align: right;
 }
 .post-case-likeordislike{
   display: flex;
   justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 .post-case-likeordislike * {
+  font-size: 2.5rem;
   width: 49%;
+  padding: 0;
+}
+.post-case-likebtn {
+  color: var(--salka-blue);
+  font-family: 'Leckerli One', sans-serif;
+}
+.post-case-dislikebtn {
+  color: var(--malka-red);
+  font-family: 'Barlow', sans-serif;
 }
 .post-case-best-comment{
   display: flex;
   justify-content: space-between;
+  margin-bottom: 2rem;
 }
 .post-case-best-comment > * {
-  border: solid 1px black;
+  background-color: rgba(255, 255, 255, 0.6);
   padding: 0.5rem;
   width: 49%;
   min-height: 6.4375rem;
   display: flex;
   flex-direction: column;
 }
+
 .post-case-best-comment > * > * {
   margin: 0.25rem;
+}
+
+.post-case-all-comments {
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.hidden {
+  visibility: hidden;
+}
+.post-case-all-comments {
+  text-align: center;
+  padding: 0.75rem;
+}
+.post-case-all-comments span {
+  line-height: 2rem;
+  font-size: 1.25rem;
+}
+.post-case-all-comments span:first-child {
+  color: var(--salka-blue);
+  font-family: 'Leckerli One', sans-serif;
+  font-size: 1.5rem;
+}
+.post-case-all-comments span:nth-child(2) {
+  color: var(--malka-red);
+  font-family: 'Barlow', sans-serif;
+  font-size: 1.5rem;
 }
 
 /* comment */
@@ -556,26 +658,68 @@ input:focus, textarea:focus {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: lightblue;
+  background-color: var(--background);
   padding: 10vh;
   min-height: 100vh;
 }
+.wp-content input[name=title],
+.wp-content textarea {
+  background-color: var(--sidebar);
+  padding: 1rem;
+}
 .wp-content > * {
-  border: black 1px solid;
-  width: 55vw;
+  width: 30vw;
 }
 #wp-img-upload {
   display: flex;
-  align-items: flex-end
+  align-items: center;
 }
 .wp-preview-img-box{
-  background-color: #efefef;
-  width: 20vh;
-  height: 20vh;
+  background-color: var(--sidebar);
+  width: 9.5rem;
+  height: 9.5rem;
+  overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+.wp-preview-img-box svg {
+  font-size: 5rem;
+  height: 100%;
+  line-height: 100%;
+  text-align: center;
+  cursor: auto;
+}
+
+.wp-preview-img-box svg * {
+  color: var(--background);
+}
+
 .wp-preview-img{
   width: 100%;
   height: 100%;
+  object-fit: cover;
+}
+#wp-submit {
+  background-color: var(--salka-blue);
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+#wp-submit svg {
+  font-size: 2rem;
+  line-height: 4rem;
+}
+#wp-submit svg * {
+  color: var(--sidebar);
+}
+#wp-submit:hover {
+  background-color: var(--malka-red);
 }
 
 /* 마이페이지 */
@@ -585,14 +729,18 @@ input:focus, textarea:focus {
   height: 100vh;
 }
 #mp-title {
-  margin: 0.5rem 1rem;
+  margin: 0.5rem 1rem 0 1rem;
   width: 55vw;
 }
 #mp-title * {
   margin: 0.5rem;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 800;
+  cursor: pointer;
 }
 #current-page {
-  font-size: 2rem;
+  font-size: 3rem;
 }
 .mp-content {
   position: relative;
@@ -601,7 +749,7 @@ input:focus, textarea:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: lightblue;
+  background-color: var(--background);
   padding: 10vh;
   min-height: 100vh;
 }
@@ -620,20 +768,19 @@ input:focus, textarea:focus {
   position: fixed;
   top: 2vh;
   right: 2vw;
+  background-color: rgba(255, 255, 255, 0.4);
 }
 #mp-comments .comment-item {
   width: 55vw;
   margin: 1rem;
-  padding: .75rem;
-  background-color: lightcoral;
-}
-
-#mp-comments .comment-item button {
-  background-color: inherit;
+  padding: 1.5rem;
+  line-height: 1.5rem;
+  background-color: rgba(251,89,95, 0.4);
 }
 
 #to-comments {
-  padding: 1rem;
+  padding: 1rem 2rem;
+  cursor: pointer;
 }
 
 /* 어바웃페이지 */
@@ -641,6 +788,6 @@ input:focus, textarea:focus {
   position: relative;
   left: 18vw;
   width: 82vw;
-  background-color: lightblue;
+  background-color: var(--background);
   padding: 5vh 5vw;
 }
