@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { setQueryString } from '../actions/index'
 import { useDispatch } from 'react-redux';
@@ -7,23 +7,22 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 require("dotenv").config();
 
 export default function Search() {
-  const pathName = window.location.pathname
   const dispatch = useDispatch();
   const history = useHistory();
+  const [target, setTarget] = useState()
   function handleSearch(event) {
-    const queryString = event.target.previousElementSibling.value;
-    if (!queryString.length) {
+    if (!target.length) {
       alert('검색어를 입력해주세요');
       return;
     }
-    const encoded = encodeURI(encodeURIComponent(queryString));
-    dispatch(setQueryString(queryString));
+    const encoded = encodeURI(encodeURIComponent(target));
+    dispatch(setQueryString(target));
     history.push(`/search?q=${encoded}`);
   }
   return (
     <div id='search-bar'>
-      <input id="search-input" type="text" />
-      <FontAwesomeIcon icon={faSearch} onClick={handleSearch}/>
+      <input id="search-input" onChange={(e) => setTarget(e.target.value)} type="text" />
+      <FontAwesomeIcon icon={faSearch} onClick={handleSearch} />
     </div>
   )
 }

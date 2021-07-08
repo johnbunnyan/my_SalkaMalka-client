@@ -424,6 +424,21 @@ input:focus, textarea:focus {
   align-items: center;
 }
 
+.lp-up-btn{
+  background-color: honeydew;
+  z-index: 1050;
+  /* width: 3rem; */
+  /* height: 3rem; */
+  padding: 2rem;
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: space-between; */
+  /* align-items: center; */
+}
+
 /* post-case */
 .post-case.closed{
   background-color: white;
