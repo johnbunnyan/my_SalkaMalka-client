@@ -163,6 +163,7 @@ export default function MyPage() {
         {getHeader(whatIsDisplayed)}
         {renderSwitchParam(whatIsDisplayed)}
       </div>
+      
     </div>
   )
 }

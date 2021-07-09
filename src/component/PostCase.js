@@ -49,10 +49,12 @@ export default function PostCase(props) {
     }
     if (target === 'sara') {
       setSaraMara('sara')
+      console.log(saraMara === 'sara')
       setCommentModalOpen(true)
     }
     else if (target === 'mara') {
       setSaraMara('mara')
+      console.log(saraMara === 'sara')
       setCommentModalOpen(true)
     }
   }
@@ -207,9 +209,15 @@ export default function PostCase(props) {
       return (<img src={`${process.env.REACT_APP_API_ENDPOINT}/${image}`}></img>)
     }
   }
+  
+  const sliceBestComment = (content) => {
+    if (content.length < 50) return content;
+    return content.slice(0,50) + ' (...)'
+  }
 
   return (
     <div className={props.isOpen ? 'post-case' : 'post-case closed'}>
+      {props.isOpen ? null : <div>닫혀 있는 살까말까에는 사라마라를 보낼 수 없어요.</div>}
       <div className={'post-case-header'}>
         <div className={'post-case-title'}>{props.title}</div>
         <Route
@@ -272,7 +280,7 @@ export default function PostCase(props) {
                   key={el._id}
                   isInMyPage={props.isInMyPage}
                   type={el.type}
-                  content={el.content}
+                  content={sliceBestComment(el.content)}
                   like={el.like}
                   postId={postId}
                   commentId={el._id}
@@ -290,7 +298,7 @@ export default function PostCase(props) {
                   key={el._id}
                   isInMyPage={props.isInMyPage}
                   type={el.type}
-                  content={el.content}
+                  content={sliceBestComment(el.content)}
                   like={el.like}
                   postId={postId}
                   commentId={el._id}
@@ -313,7 +321,7 @@ export default function PostCase(props) {
 
       {/* 댓글등록 모달창 */}
       <div className={isCommentModalOpen ? 'open-write-comment-modal write-comment-modal' : 'write-comment-modal'}>
-        <section>
+        <section className={saraMara === 'sara' ? 'write-sara-comment' : 'write-mara-comment'}>
           <header>
             <FontAwesomeIcon icon={faTimes} onClick={() => { setCommentModalOpen(false) }}/>
             <div>내용 없이 사라마라를 보내려면 지금 바로 등록 버튼을 눌러주세요!</div>
@@ -330,7 +338,7 @@ export default function PostCase(props) {
         <section>
           <header>
             <FontAwesomeIcon icon={faTimes} onClick={() => { setDisplayCommentModal(false) }}/>
-            <div></div>
+            {props.isOpen ? null : <div>닫혀 있는 살까말까에는 사라마라를 보낼 수 없어요.</div>}
           </header>
           <main>
             <CommentList

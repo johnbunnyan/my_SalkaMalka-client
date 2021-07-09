@@ -4,9 +4,11 @@ import PostCase from "../component/PostCase";
 import { useSelector } from 'react-redux';
 import { useHistory } from "react-router";
 import axios from "axios";
-import queryStringModule from 'query-string';
 import { useInView, userInView } from 'react-intersection-observer';
-import { load } from "dotenv";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAward, faFire, faThumbsUp, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import { faClock } from '@fortawesome/free-regular-svg-icons'
+
 require("dotenv").config();
 
 export default function LandingPage() {
@@ -110,9 +112,18 @@ export default function LandingPage() {
         </div>
         <div className={'lp-postlist'}>
           {pathname === '/main' ? <div id='sort-btn-container'>
-            <button onClick={() => { setSortValue('date') }}>최신순</button>
-            <button onClick={() => { setSortValue('popular') }}>인기글</button>
-            <button onClick={() => { setSortValue('hot-topic') }}>뜨거운 감자</button>
+            <div className='sort-btn' onClick={() => { setSortValue('date') }}>
+              <FontAwesomeIcon icon={faClock} className='fa-3x' />
+              <div>최신 등록</div>
+            </div>
+            <div className='sort-btn' onClick={() => { setSortValue('popular') }}>
+              <FontAwesomeIcon icon={faAward} className='fa-3x' />
+              <div>댓글 많은</div>
+            </div>
+            <div className='sort-btn' onClick={() => { setSortValue('hot-topic') }}>
+              <FontAwesomeIcon icon={faFire} className='fa-3x' />
+              <div>뜨거운 감자</div>
+            </div>
           </div> : <div id='search-message'>{`검색어: '${queryString}'`}</div>}
           {data.map((el, idx) => {
             if (data.length - 1 === idx) {
@@ -154,7 +165,9 @@ export default function LandingPage() {
           })}
         </div>
       </div>
-      <div className={'lp-up-btn'} onClick={scrollToTop}>맨위로</div>
+      <div className={'lp-up-btn'} onClick={scrollToTop}>
+        <FontAwesomeIcon icon={faChevronUp} className='fa-2x' />
+      </div>
     </div>
   )
 }
