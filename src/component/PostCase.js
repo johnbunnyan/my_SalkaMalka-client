@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CommentList from "./CommentList";
 import CommentListItem from "./CommentListItem";
+import Nothing from './Nothing'
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route } from "react-router-dom";
@@ -22,10 +23,9 @@ export default function PostCase(props) {
   const { postId } = props;
   const history = useHistory();
   const [commentList, setCommentList] = useState(props.comment);
-  const [sara , setSara] = useState(props.sara)
+  const [sara, setSara] = useState(props.sara)
   const [mara, setMara] = useState(props.mara)
-  console.log(props.title, sara,mara)
-  
+
   const getBestComment = (type, data) => {
     let result = data.filter(i => i.type === type);
     result.sort(function (a, b) {
@@ -214,21 +214,21 @@ export default function PostCase(props) {
               if (props.isOpen) {
                 return <div className='btn-center'>
                   <button onClick={handlePostClose}>닫기</button>
-                  <FontAwesomeIcon icon={faTrashAlt} onClick={handlePostDelete}/>
+                  <FontAwesomeIcon icon={faTrashAlt} onClick={handlePostDelete} />
                 </div>
               } else {
                 return <div className='btn-center'>
-                  <FontAwesomeIcon icon={faTrashAlt} onClick={handlePostDelete}/>
+                  <FontAwesomeIcon icon={faTrashAlt} onClick={handlePostDelete} />
                 </div>
               }
             }
             else if (bookmarks.includes(postId)) { // 남의 글: 북마크 or 북마크 해제
               return <div className='btn-center'>
-                <FontAwesomeIcon icon={fasfaBookmark} onClick={handleUnBookmark}/>
+                <FontAwesomeIcon icon={fasfaBookmark} onClick={handleUnBookmark} />
               </div>
             } else {
               return <div className='btn-center'>
-                <FontAwesomeIcon icon={farfaBookmark} onClick={handleBookmark}/>
+                <FontAwesomeIcon icon={farfaBookmark} onClick={handleBookmark} />
               </div>
             }
           }}
@@ -261,42 +261,51 @@ export default function PostCase(props) {
           </div>
         )}
         <div className={'post-case-best-comment'}>
-          <div className={'post-case-best-like-comment'}>
-            {bestSara.map((el) => {
-              return (
-                <CommentListItem
-                  key={el._id}
-                  isInMyPage={props.isInMyPage}
-                  type={el.type}
-                  content={el.content}
-                  like={el.like}
-                  postId={postId}
-                  commentId={el._id}
-                  userId={el.userId}
-                  isOpen={props.isOpen}
-                  setCommentList={setCommentList}
-                ></CommentListItem>
-              )
-            })}
-          </div>
-          <div className={'post-case-best-dislike-comment'}>
-            {bestMara.map((el) => {
-              return (
-                <CommentListItem
-                  key={el._id}
-                  isInMyPage={props.isInMyPage}
-                  type={el.type}
-                  content={el.content}
-                  like={el.like}
-                  postId={postId}
-                  commentId={el._id}
-                  userId={el.userId}
-                  isOpen={props.isOpen}
-                  setCommentList={setCommentList}
-                ></CommentListItem>
-              )
-            })}
-          </div>
+          {sara === 0 ? (
+            // console.log(1)
+            <Nothing></Nothing>
+          ) : (
+            <div className={'post-case-best-like-comment'}>
+              {bestSara.map((el) => {
+                return (
+                  <CommentListItem
+                    key={el._id}
+                    isInMyPage={props.isInMyPage}
+                    type={el.type}
+                    content={el.content}
+                    like={el.like}
+                    postId={postId}
+                    commentId={el._id}
+                    userId={el.userId}
+                    isOpen={props.isOpen}
+                    setCommentList={setCommentList}
+                  ></CommentListItem>
+                )
+              })}
+            </div>
+          )}
+          {mara === 0 ? (
+            <Nothing></Nothing>
+          ) : (
+            <div className={'post-case-best-dislike-comment'}>
+              {bestMara.map((el) => {
+                return (
+                  <CommentListItem
+                    key={el._id}
+                    isInMyPage={props.isInMyPage}
+                    type={el.type}
+                    content={el.content}
+                    like={el.like}
+                    postId={postId}
+                    commentId={el._id}
+                    userId={el.userId}
+                    isOpen={props.isOpen}
+                    setCommentList={setCommentList}
+                  ></CommentListItem>
+                )
+              })}
+            </div>
+          )}
         </div>
         <div className={isDisplayCommentModal ? 'post-case-all-comments hidden' : 'post-case-all-comments'} onClick={() => { setDisplayCommentModal(true) }}>
           <span>Sara</span>
@@ -310,7 +319,7 @@ export default function PostCase(props) {
       <div className={isCommentModalOpen ? 'open-write-comment-modal write-comment-modal' : 'write-comment-modal'}>
         <section>
           <header>
-            <FontAwesomeIcon icon={faTimes} onClick={() => { setCommentModalOpen(false) }}/>
+            <FontAwesomeIcon icon={faTimes} onClick={() => { setCommentModalOpen(false) }} />
             <div>내용 없이 사라마라를 보내려면 지금 바로 등록 버튼을 눌러주세요!</div>
           </header>
           <main>
@@ -324,7 +333,7 @@ export default function PostCase(props) {
       <div className={isDisplayCommentModal ? 'open-comment-modal comment-modal' : 'comment-modal'}>
         <section>
           <header>
-            <FontAwesomeIcon icon={faTimes} onClick={() => { setDisplayCommentModal(false) }}/>
+            <FontAwesomeIcon icon={faTimes} onClick={() => { setDisplayCommentModal(false) }} />
             <div></div>
           </header>
           <main>

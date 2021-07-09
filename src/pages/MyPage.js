@@ -18,6 +18,7 @@ export default function MyPage() {
   const [myBookMarkData, setMyBookMarkData] = useState([])
   const [whatIsDisplayed, setWhatIsDisplayed] = useState('Posts')
 
+
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/posts', {
@@ -27,7 +28,7 @@ export default function MyPage() {
         }
       })
       .then((res) => {
-        console.log(res.data.posts)
+        // console.log(res.data.posts)
         setMyPostData(res.data.posts)
         dispatch(setPosts(res.data.posts.filter(i => i.isOpen).map(i => i._id)));
         dispatch(setClosed(res.data.posts.filter(i => !i.isOpen).map(i => i._id)));
@@ -65,11 +66,14 @@ export default function MyPage() {
     switch (category) {
       case 'Posts':
         setWhatIsDisplayed(category)
+        history.push('/mypage/myposts')
         break;
       case 'Comments':
+        history.push('/mypage/mycomments')
         setWhatIsDisplayed(category)
         break;
       case 'Bookmarks':
+        history.push('/mypage/mybookmarks')
         setWhatIsDisplayed(category)
         break;
       default:

@@ -34,7 +34,7 @@ export default function App() {
         ) : (
           <Redirect to="/"></Redirect>
         )} />
-        <Route path={`/users/${userId}`} render={() => isSignIn ? (
+        <Route path={`/mypage`} render={() => isSignIn ? (
           <MyPage></MyPage>
         ) : (
           <Redirect to="/"></Redirect>

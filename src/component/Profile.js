@@ -113,7 +113,7 @@ export default function Profile() {
       history.push('/posts');
     }
     else if (el === 'My Page') {
-      history.push(`/users/${userId}`);
+      history.push(`/mypage`);
     }
   }
 
