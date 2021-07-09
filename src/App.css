@@ -582,7 +582,8 @@ input:focus, textarea:focus {
 .sort-btn svg * {
   color: var(--salka-blue);
 }
-.sort-btn:hover * {
+.sort-btn:hover *,
+.sort-btn.current * {
   color: var(--malka-red);
   cursor: pointer;
 }
