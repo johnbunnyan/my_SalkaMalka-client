@@ -18,6 +18,7 @@ export default function MyPage() {
   const [myBookMarkData, setMyBookMarkData] = useState([])
   const [whatIsDisplayed, setWhatIsDisplayed] = useState('Posts')
 
+
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/posts', {
@@ -27,7 +28,7 @@ export default function MyPage() {
         }
       })
       .then((res) => {
-        console.log(res.data.posts)
+        // console.log(res.data.posts)
         setMyPostData(res.data.posts)
         dispatch(setPosts(res.data.posts.filter(i => i.isOpen).map(i => i._id)));
         dispatch(setClosed(res.data.posts.filter(i => !i.isOpen).map(i => i._id)));
@@ -65,11 +66,14 @@ export default function MyPage() {
     switch (category) {
       case 'Posts':
         setWhatIsDisplayed(category)
+        history.push('/mypage/myposts')
         break;
       case 'Comments':
+        history.push('/mypage/mycomments')
         setWhatIsDisplayed(category)
         break;
       case 'Bookmarks':
+        history.push('/mypage/mybookmarks')
         setWhatIsDisplayed(category)
         break;
       default:
@@ -116,38 +120,40 @@ export default function MyPage() {
   }
 
   const deleteAccount = () => {
-    axios
-    .delete(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId, {
-      headers: {
-        Authorization: `bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(res => {
-      // 카카오 로그인이 되어있는 경우
-      if (provider === 'kakao') {
-        if (window.Kakao.Auth.getAccessToken() !== null) {
-          window.Kakao.Auth.logout(function() {
-            console.log(window.Kakao.Auth.getAccessToken());
-          })
+    if (confirm('정말로 탈퇴하시겠어요?')) {
+      axios
+      .delete(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId, {
+        headers: {
+          Authorization: `bearer ${accessToken}`,
+          'Content-Type': 'application/json',
         }
-      }
-
-      // 구글 로그인이 되어있는 경우
-      else if (provider === 'google') {
-        if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
-          gapi.auth2.getAuthInstance().signOut().then(function() {
-            console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
-          })
-          gapi.auth2.getAuthInstance().disconnect();
+      })
+      .then(res => {
+        // 카카오 로그인이 되어있는 경우
+        if (provider === 'kakao') {
+          if (window.Kakao.Auth.getAccessToken() !== null) {
+            window.Kakao.Auth.logout(function() {
+              console.log(window.Kakao.Auth.getAccessToken());
+            })
+          }
         }
-      }
 
-      // store 초기화
-      persistor.purge();
-    })
-    .then(() => history.push('/'))
-    .catch(e => console.log(e));
+        // 구글 로그인이 되어있는 경우
+        else if (provider === 'google') {
+          if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+            gapi.auth2.getAuthInstance().signOut().then(function() {
+              console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
+            })
+            gapi.auth2.getAuthInstance().disconnect();
+          }
+        }
+
+        // store 초기화
+        persistor.purge();
+      })
+      .then(() => history.push('/'))
+      .catch(e => console.log(e));
+    }
   }
 
 

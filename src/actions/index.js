@@ -43,7 +43,7 @@ export const setQueryString = (queryString) => {
 }
 
 export const setBookmarks = (bookmarks) => {
-  console.log(bookmarks)
+  // console.log(bookmarks)
   return {
     type: SETBOOKMARKS,
     payload: {
