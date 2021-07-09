@@ -35,6 +35,7 @@ export default function CommentListItem(props) {
       .then(res => setLikeInfo(res.data.like))
       .catch(e => {
         if (e.response && (e.response.status === 404 || e.response.status === 409)) alert(e.response.data);
+        else if (e.response && (e.response.status === 400)) alert('이미 좋아요를 보냈습니다');
       });
   }
 

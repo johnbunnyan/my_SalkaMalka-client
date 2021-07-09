@@ -49,10 +49,12 @@ export default function PostCase(props) {
     }
     if (target === 'sara') {
       setSaraMara('sara')
+      console.log(saraMara === 'sara')
       setCommentModalOpen(true)
     }
     else if (target === 'mara') {
       setSaraMara('mara')
+      console.log(saraMara === 'sara')
       setCommentModalOpen(true)
     }
   }
@@ -80,15 +82,19 @@ export default function PostCase(props) {
   }
 
   const getRate = (type) => {
-    if (!props.sara && !props.mara) return;
     if (type === 'sara') {
-      return (sara / (sara + mara) * 100) + '%';
+      return (sara / (sara + mara) * 100);
     } else {
-      return (mara / (sara + mara) * 100) + '%';
+      return (mara / (sara + mara) * 100);
     }
   }
 
-
+  const formatRate = (rate) => {
+    if (!isNaN(rate)) {
+      return Math.round(rate * 10) / 10;
+    }
+    return 0;
+  }
 
   const handleBookmark = () => {
     if (!isSignIn) {
@@ -203,9 +209,15 @@ export default function PostCase(props) {
       return (<img src={`${process.env.REACT_APP_API_ENDPOINT}/${image}`}></img>)
     }
   }
+  
+  const sliceBestComment = (content) => {
+    if (content.length < 50) return content;
+    return content.slice(0,50) + ' (...)'
+  }
 
   return (
     <div className={props.isOpen ? 'post-case' : 'post-case closed'}>
+      {props.isOpen ? null : <div>닫혀 있는 살까말까에는 사라마라를 보낼 수 없어요.</div>}
       <div className={'post-case-header'}>
         <div className={'post-case-title'}>{props.title}</div>
         <Route
@@ -245,13 +257,13 @@ export default function PostCase(props) {
         <div className={'post-case-content'}>{props.content}</div>
         {repliedPosts.includes(postId) || !props.isOpen || userId === props.userId ? (
           <div className={'post-case-likerate'}>
-            <div>
-              <div>sara : {sara}</div>
-              <div>mara : {mara}</div>
+            <div className={'post-case-rate'}>
+              <div className={'post-case-sararate'}>{formatRate(getRate('sara')) + '%'}</div>
+              <div className={'post-case-sararate'}>{formatRate(getRate('mara')) + '%'}</div>
             </div>
-            <div>
-              <div style={{ width: getRate('sara') }} className={'post-case-sararate'}></div>
-              <div style={{ width: getRate('mara') }} className={'post-case-mararate'}></div>
+            <div className={'post-case-graph'}>
+              <div style={{ width: getRate('sara') + '%' }} className={'post-case-saragraph'}></div>
+              <div style={{ width: getRate('mara') + '%' }} className={'post-case-maragraph'}></div>
             </div>
           </div>
         ) : (
@@ -307,7 +319,8 @@ export default function PostCase(props) {
             </div>
           )}
         </div>
-        <div className={isDisplayCommentModal ? 'post-case-all-comments hidden' : 'post-case-all-comments'} onClick={() => { setDisplayCommentModal(true) }}>
+        <div className={isDisplayCommentModal ?
+          'post-case-all-comments hidden' : 'post-case-all-comments'} onClick={() => { setDisplayCommentModal(true) }}>
           <span>Sara</span>
           <span>Mara</span>
           <span> 더 보러가기 </span>
@@ -317,7 +330,7 @@ export default function PostCase(props) {
 
       {/* 댓글등록 모달창 */}
       <div className={isCommentModalOpen ? 'open-write-comment-modal write-comment-modal' : 'write-comment-modal'}>
-        <section>
+        <section className={saraMara === 'sara' ? 'write-sara-comment' : 'write-mara-comment'}>
           <header>
             <FontAwesomeIcon icon={faTimes} onClick={() => { setCommentModalOpen(false) }} />
             <div>내용 없이 사라마라를 보내려면 지금 바로 등록 버튼을 눌러주세요!</div>
@@ -333,8 +346,8 @@ export default function PostCase(props) {
       <div className={isDisplayCommentModal ? 'open-comment-modal comment-modal' : 'comment-modal'}>
         <section>
           <header>
-            <FontAwesomeIcon icon={faTimes} onClick={() => { setDisplayCommentModal(false) }} />
-            <div></div>
+            <FontAwesomeIcon icon={faTimes} onClick={() => { setDisplayCommentModal(false) }}/>
+            {props.isOpen ? null : <div>닫혀 있는 살까말까에는 사라마라를 보낼 수 없어요.</div>}
           </header>
           <main>
             <CommentList

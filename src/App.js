@@ -1,5 +1,5 @@
 import './App.css';
-import React from "react";
+import React, { useEffect } from "react";
 import WritePage from "./pages/WritePage";
 import LandingPage from "./pages/LandingPage";
 import MyPage from "./pages/MyPage";
@@ -11,10 +11,25 @@ import {
   Redirect
 } from "react-router-dom";
 import { useSelector } from 'react-redux';
-
+require("dotenv").config();
 
 export default function App() {
-  const { isSignIn, userId } = useSelector(state => state)
+  useEffect(() => {
+    gapi.load('auth2', function() {
+      gapi.auth2.init({
+        client_id: process.env.REACT_APP_GOOGLE_OAUTH_CODE
+      })
+    });
+  }, [])
+
+  useEffect(() => {
+    if (!window.Kakao.Auth) {
+      window.Kakao.init(process.env.REACT_APP_KAKAO_KEY);
+    }
+  }, [])
+
+  const { isSignIn, userId } = useSelector(state => state);
+  
   return (
     <BrowserRouter>
       <Switch>
