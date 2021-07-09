@@ -11,13 +11,14 @@ export default function Search() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [target, setTarget] = useState('')
-  function handleSearch(event) {
-    if (!target.length) {
+  function handleSearch(e) {
+    const queryString = document.querySelector('#search-input').value
+    if (!queryString.length) {
       alert('검색어를 입력해주세요');
       return;
     }
-    const encoded = encodeURI(encodeURIComponent(target));
-    dispatch(setQueryString(target));
+    const encoded = encodeURI(encodeURIComponent(queryString));
+    dispatch(setQueryString(queryString));
     history.push(`/search?q=${encoded}`);
   }
   return (

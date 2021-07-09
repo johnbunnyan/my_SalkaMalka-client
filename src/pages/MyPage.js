@@ -120,38 +120,40 @@ export default function MyPage() {
   }
 
   const deleteAccount = () => {
-    axios
-    .delete(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId, {
-      headers: {
-        Authorization: `bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(res => {
-      // 카카오 로그인이 되어있는 경우
-      if (provider === 'kakao') {
-        if (window.Kakao.Auth.getAccessToken() !== null) {
-          window.Kakao.Auth.logout(function() {
-            console.log(window.Kakao.Auth.getAccessToken());
-          })
+    if (confirm('정말로 탈퇴하시겠어요?')) {
+      axios
+      .delete(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId, {
+        headers: {
+          Authorization: `bearer ${accessToken}`,
+          'Content-Type': 'application/json',
         }
-      }
-
-      // 구글 로그인이 되어있는 경우
-      else if (provider === 'google') {
-        if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
-          gapi.auth2.getAuthInstance().signOut().then(function() {
-            console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
-          })
-          gapi.auth2.getAuthInstance().disconnect();
+      })
+      .then(res => {
+        // 카카오 로그인이 되어있는 경우
+        if (provider === 'kakao') {
+          if (window.Kakao.Auth.getAccessToken() !== null) {
+            window.Kakao.Auth.logout(function() {
+              console.log(window.Kakao.Auth.getAccessToken());
+            })
+          }
         }
-      }
 
-      // store 초기화
-      persistor.purge();
-    })
-    .then(() => history.push('/'))
-    .catch(e => console.log(e));
+        // 구글 로그인이 되어있는 경우
+        else if (provider === 'google') {
+          if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+            gapi.auth2.getAuthInstance().signOut().then(function() {
+              console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
+            })
+            gapi.auth2.getAuthInstance().disconnect();
+          }
+        }
+
+        // store 초기화
+        persistor.purge();
+      })
+      .then(() => history.push('/'))
+      .catch(e => console.log(e));
+    }
   }
 
 

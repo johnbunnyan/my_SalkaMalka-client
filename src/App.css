@@ -587,7 +587,7 @@ input:focus, textarea:focus {
 .lp-up-btn{
   background-color: var(--salka-blue);
   border-radius: 50% !important;
-  z-index: 1050;
+  z-index: 500;
   padding: 1rem;
   position: fixed;
   bottom: 3rem;
