@@ -13,8 +13,6 @@ import {
 import { useSelector } from 'react-redux';
 require("dotenv").config();
 
-
-
 export default function App() {
   useEffect(() => {
     gapi.load('auth2', function() {
@@ -23,7 +21,15 @@ export default function App() {
       })
     });
   }, [])
-  const { isSignIn, userId } = useSelector(state => state)
+
+  useEffect(() => {
+    if (!window.Kakao.Auth) {
+      window.Kakao.init(process.env.REACT_APP_KAKAO_KEY);
+    }
+  }, [])
+
+  const { isSignIn, userId } = useSelector(state => state);
+  
   return (
     <BrowserRouter>
       <Switch>

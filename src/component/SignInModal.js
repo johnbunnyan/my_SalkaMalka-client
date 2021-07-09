@@ -5,7 +5,7 @@ import { GoogleLogin } from 'react-google-login';
 import { userSignIn, setReplied } from '../actions/index';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 require("dotenv").config();
 
@@ -48,6 +48,7 @@ export default function SignInModal(props) {
     if (password === checkPassword) {
       setMatchErr('');
     } else if (password !== checkPassword) {
+      console.log(password, checkPassword)
       setMatchErr('비밀번호가 일치하지 않습니다.');
     }
   }, [password, checkPassword])
@@ -58,6 +59,12 @@ export default function SignInModal(props) {
     setEmailErr('');
     setWrongErr('');
     setAllErr('');
+  }
+
+  const resetInputs = () => {
+    setEmail('');
+    setPassword('');
+    setCheckPassword('');
   }
 
   const getRepliedPosts = (userId, accessToken) => {
@@ -165,9 +172,6 @@ export default function SignInModal(props) {
   }
 
   function kakaoLogin() {
-    if (!window.Kakao.Auth) {
-      window.Kakao.init(process.env.REACT_APP_KAKAO_KEY);
-    }
     window.Kakao.Auth.loginForm(
       {
         success: (auth) => {
@@ -216,7 +220,7 @@ export default function SignInModal(props) {
       <div id='signup-btn'>
         <div className='error-msg'>{allErr === '' ? wrongErr : allErr}</div>
         <div className='btn-center'>
-        <button onClick={() => { signInHandler(email, password) }}>login</button>
+        <button onClick={() => { signInHandler(email, password) }}>로그인</button>
         <GoogleLogin 
             clientId={process.env.REACT_APP_GOOGLE_OAUTH_CODE}
             onSuccess={googleHandler}
@@ -227,7 +231,10 @@ export default function SignInModal(props) {
         <button onClick={kakaoLogin}>카카오</button>
       </div>
       </div>
-      <div id='change-section' onClick={() => { setSectionType('signUp') }}>회원가입할래요 -&gt;</div>
+      <div id='change-section' onClick={() => { setSectionType('signUp') }}>
+        <span>살까말까에 가입할래요 </span>
+        <FontAwesomeIcon icon={faArrowRight} />
+      </div>
     </div>
   ) : (
     <div id='signup-modal-main'>
@@ -252,7 +259,10 @@ export default function SignInModal(props) {
         <div className='error-msg'>{allErr}</div>
         <button onClick={() => { signUpHandler(email, password, checkPassword) }}>회원가입</button>
       </div>
-      <div id='change-section' onClick={() => { setSectionType('signIn') }}>&lt;- 로그인창으로 돌아갈래요</div>
+      <div id='change-section' onClick={() => { setSectionType('signIn') }}>
+        <FontAwesomeIcon icon={faArrowLeft} />
+        <span> 로그인하러 갈래요</span>
+      </div>
     </div>
   )
 
@@ -262,6 +272,7 @@ export default function SignInModal(props) {
         <section className={sectionType}>
           <FontAwesomeIcon icon={faTimes} onClick={() => {
             resetError();
+            resetInputs();
             setSectionType('signIn');
             props.closeModal();
           }}/>

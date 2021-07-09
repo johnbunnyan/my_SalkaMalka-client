@@ -23,9 +23,6 @@ export default function Profile() {
   const handleSocialSignout = () => {
     // 카카오 로그인이 되어있는 경우
     if (provider === 'kakao') {
-      if (!window.Kakao.Auth) {
-        window.Kakao.init(process.env.REACT_APP_KAKAO_KEY);
-      }
       if (window.Kakao.Auth.getAccessToken() !== null) {
         window.Kakao.Auth.logout(function() {
           console.log(window.Kakao.Auth.getAccessToken());
@@ -41,8 +38,8 @@ export default function Profile() {
           .then(() => {
             console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
           })
-          .then(() => gapi.auth2.getAuthInstance().disconnect())
           .catch(e => console.log(e))
+          gapi.auth2.getAuthInstance().disconnect();
         }
       }
     }

@@ -15,6 +15,8 @@
   --malka-red: rgba(251,89,95);
   --background: rgb(160,220,251);
   --sidebar: #e7f6fd;
+  --malka-pink: rgba(250,174,175);
+  --background-red: rgb(251, 238, 235);
 }
 
 body, #root, #root > *, #root > * > * {
@@ -34,12 +36,14 @@ svg {
 }
 
 textarea {
-  padding: 5px 10px;
+  background-color: inherit;
+  padding: 0.5rem;
   border: none;
 }
 
 input {
-  padding: 5px 10px;
+  background-color: inherit;
+  padding: 0.5rem;
   border: none;
 }
 
@@ -48,11 +52,6 @@ input:focus, textarea:focus {
 }
 
 /* 모달관리 */
-.signup-modal.open-signup-modal svg {
-  font-size: 1.5rem;
-  padding: 0;
-}
-
 .signup-modal{
   display: none;
 }
@@ -74,11 +73,28 @@ input:focus, textarea:focus {
 
 .signup-modal.open-signup-modal section {
   width: 30vw;
-  background-color: white;
+  background-color: var(--sidebar);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 0.5rem;
+}
+
+.signup-modal.open-signup-modal svg {
+  font-size: 1.5rem;
+  padding: 0;
+}
+
+.signup-modal.open-signup-modal svg * {
+  color: var(--salka-blue);
+}
+
+.signup-modal.open-signup-modal svg:hover * {
+  color: var(--malka-red);
+}
+
+.signup-modal.open-signup-modal * {
+  font-weight: 700;
 }
 
 #signup-modal-main {
@@ -91,21 +107,25 @@ input:focus, textarea:focus {
 }
 
 #signup-modal-main input {
-  border: 1px black solid;
+  color: var(--salka-blue);
+  border: var(--background) solid 2px;
+  background-color: var(--sidebar);
+  border-radius: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
   width: 65%;
   font-size: 0.9rem;
 }
 
-#signup-modal-main > * {
-  width: 100%;
+#signup-modal-main label {
+  color: var(--salka-blue);
+  background-color: var(--sidebar);
+  height: 2.5rem;
+  line-height: 2.5rem;
 }
 
-.signup-modal.open-signup-modal .btn-center {
-  width: 70%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0;
+#signup-modal-main > * {
+  width: 100%;
 }
 
 #input-center {
@@ -115,6 +135,22 @@ input:focus, textarea:focus {
 
 .signup-modal.open-signup-modal button {
   display: block;
+  margin: 1rem 1.5rem;
+  background-color: var(--salka-blue);
+  color: var(--sidebar);
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  font-size: 0.75rem;
+}
+
+.signup-modal.open-signup-modal button:hover {
+  background-color: var(--malka-red);
+}
+
+.signup-modal.open-signup-modal .signUp button {
+  width: 4rem;
+  height: 4rem;
 }
 
 #signup-email,
@@ -126,10 +162,6 @@ input:focus, textarea:focus {
   margin: 0.5rem 0;
 }
 
-#signup-modal-main label {
-  line-height: 2rem
-}
-
 #signup-btn {
   display: flex;
   flex-direction: column;
@@ -138,12 +170,28 @@ input:focus, textarea:focus {
 }
 
 #change-section {
-  margin: 1.5rem 0;
+  margin: 1rem 0;
   text-align: center;
+  cursor: pointer;
+}
+
+#change-section:hover * {
+  color: var(--malka-red);
+}
+
+#change-section * {
+  height: 100%;
+  line-height: 100%;
+  color: var(--salka-blue);
+}
+
+#change-section svg {
+  font-size: 1rem;
 }
 
 .error-msg {
-  color: red;
+  text-align: center;
+  color: var(--malka-red);
   height: 1.5rem;
   line-height: 1.5rem;
   font-size: 0.75rem;
@@ -169,13 +217,28 @@ input:focus, textarea:focus {
 }
 
 .write-comment-modal section {
-  height: 20vh;
-  width: 30vw;
-  background-color: white;
+  height: 25vh;
+  width: 32.5vw;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0.5rem;
+  padding: 1rem;
+}
+
+.write-sara-comment {
+  background-color: var(--sidebar);
+}
+
+.write-mara-comment {
+  background-color: var(--background-red);
+}
+
+.write-sara-comment svg * {
+  color: var(--salka-blue);
+}
+
+.write-mara-comment svg * {
+  color: var(--malka-red);
 }
 
 .write-comment-modal header {
@@ -183,14 +246,16 @@ input:focus, textarea:focus {
   align-items: center;
 }
 
-.write-comment-modal header div {
-  font-size: 0.75rem;
-  margin-left: 0.5rem;
-}
-
 .write-comment-modal svg {
   font-size: 1.5rem;
   padding: 0;
+}
+
+.write-comment-modal header div {
+  font-size: 0.75rem;
+  margin-left: 0.75rem;
+  color: black;
+  font-weight: 400;
 }
 
 .write-comment-modal main {
@@ -199,17 +264,48 @@ input:focus, textarea:focus {
   height: 85%;
 }
 
-.write-comment-modal textarea{
+.write-sara-comment textarea{
   flex-grow: 1;
   height: 80%;
   margin: 0.5rem;
-  border: 1px black solid;
+  border: var(--background) solid 2px;
 }
 
-.write-comment-modal button{
+.write-sara-comment button{
+  background-color: var(--salka-blue);
+  color: var(--sidebar);
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  margin: 0.5rem;
+  font-weight: 700;
+}
+
+.write-sara-comment button:hover {
+  background-color: var(--malka-red);
+  color: var(--background-red);
+}
+
+.write-mara-comment textarea{
+  flex-grow: 1;
   height: 80%;
   margin: 0.5rem;
-  border: 1px black solid;
+  border: var(--malka-pink) solid 2px;
+}
+
+.write-mara-comment button{
+  background-color: var(--malka-red);
+  color: var(--background-red);
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  margin: 0.5rem;
+  font-weight: 700;
+}
+
+.write-mara-comment button:hover {
+  background-color: var(--salka-blue);
+  color: var(--sidebar);
 }
 
 .comment-modal{
@@ -231,17 +327,17 @@ input:focus, textarea:focus {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* .comment-modal.open-comment-modal * {
-  border: 1px black solid;
-} */
-
 .comment-modal section {
   width: 60vw;
-  background-color: white;
+  background-color: var(--sidebar);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 1rem;
+}
+
+.post-case.closed .comment-modal section {
+  opacity: 0.75;
 }
 
 .comment-modal svg {
@@ -252,6 +348,12 @@ input:focus, textarea:focus {
 
 .comment-modal header {
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.comment-modal header div {
+  margin-left: 0.75rem;
 }
 
 .comment-modal .comment-item {
@@ -259,16 +361,23 @@ input:focus, textarea:focus {
   display: flex;
   width: 100%;
   padding: 0.5rem;
-  border-bottom: 1px black dashed;
+}
+
+.comment-modal .like-comment-display .comment-item {
+  border-bottom: 1px var(--salka-blue) dashed;
+}
+
+.comment-modal .dislike-comment-display .comment-item {
+  border-bottom: 1px var(--malka-red) dashed;
 }
 
 .comment-modal .like-comment-display {
-  background-color: rgba(255, 0, 0, 0.5);
+  border: rgba(59,180,252, 0.5) solid 3px;
   overflow-y: auto;
 }
 
 .comment-modal .dislike-comment-display {
-  background-color: rgba(0, 0, 255, 0.5);
+  border: rgba(251,89,95,0.5) solid 3px;
   overflow-y: auto;
 }
 
@@ -295,7 +404,9 @@ input:focus, textarea:focus {
 
 /* 사이드바 */
 .side-bar{
-  background-color: var(--sidebar);
+  background-color: var(--background);
+  /* 컬러옵션 */
+  /* background-color: var(--sidebar); */
   z-index: 1000;
   width: 18vw;
   height: 100vh;
@@ -362,7 +473,7 @@ input:focus, textarea:focus {
   font-weight: 900;
   cursor: pointer;
   text-align: center;
-  color: var(--salka-blue);
+  color: var(--sidebar);
 }
 .menu-open *:hover {
   color: var(--malka-red);
@@ -405,7 +516,9 @@ input:focus, textarea:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--background);
+  background-color: var(--sidebar);
+  /* 컬러옵션 */
+  /* background-color: var(--background); */
   padding: 10vh;
   min-height: 100vh;
 }
@@ -454,19 +567,51 @@ input:focus, textarea:focus {
   display: flex;
   justify-content: space-around;
 }
-#sort-btn-container * {
-  width: 4rem;
-  height: 4rem;
-  background-color: rgba(255, 255, 255, 0.4);
-  color: #002f4d;
+.sort-btn {
+  text-align: center;
 }
-#sort-btn-container *:hover {
-  background-color: white
+.sort-btn div {
+  margin-top: 1rem;
+  color: var(--salka-blue);
+  font-weight: 800;
+}
+
+.sort-btn svg * {
+  color: var(--salka-blue);
+}
+.sort-btn:hover * {
+  color: var(--malka-red);
+  cursor: pointer;
+}
+
+.lp-up-btn{
+  background-color: var(--salka-blue);
+  border-radius: 50% !important;
+  z-index: 1050;
+  padding: 1rem;
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+}
+
+.lp-up-btn:hover {
+  background-color: var(--malka-red);
+  cursor: pointer;
+}
+
+.lp-up-btn svg * {
+  color: var(--sidebar);
+}
+
+.lp-up-btn:hover svg * {
+  color: var(--background-red);
 }
 
 /* post-case */
 .post-case{
-  background-color: rgba(255, 255, 255, 0.4);
+  border: 2px dotted var(--salka-blue);
+  /* 컬러옵션 */
+  /* background-color: rgba(255, 255, 255, 0.4); */
   margin: 1rem;
   display: flex;
   flex-direction: column;
@@ -480,32 +625,17 @@ input:focus, textarea:focus {
   background-color: rgba(128, 122, 122, 0.5);
 }
 
-.lp-up-btn{
-  background-color: honeydew;
-  z-index: 1050;
-  /* width: 3rem; */
-  /* height: 3rem; */
-  padding: 2rem;
-  position: fixed;
-  bottom: 3rem;
-  right: 3rem;
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* justify-content: space-between; */
-  /* align-items: center; */
-}
-
 .post-case.closed .post-case-header,
 .post-case.closed .post-case-content,
 .post-case.closed .post-case-best-comment > * {
   background-color: rgba(255, 255, 255, 0.2);
-  opacity: 0.6;
+  opacity: 0.75;
 }
 
 .post-case.closed .post-case-sararate,
 .post-case.closed .post-case-mararate,
 .post-case.closed .post-case-all-comments {
-  opacity: 0.5;
+  opacity: 0.75;
 }
 
 .post-case-header{
@@ -549,7 +679,9 @@ input:focus, textarea:focus {
   line-height: 1.5rem;
   min-height: 5rem;
   padding: 1rem;
-  background-color: rgba(255, 255, 255, 0.6);
+  /* background-color: rgba(255, 255, 255, 0.6); */
+  /* 컬러옵션 */
+  background-color: white
 }
 .post-case-likerate {
   width: 100%;
@@ -606,7 +738,9 @@ input:focus, textarea:focus {
   margin-bottom: 2rem;
 }
 .post-case-best-comment > * {
-  background-color: rgba(255, 255, 255, 0.6);
+  /* background-color: rgba(255, 255, 255, 0.6); */
+  /* 컬러옵션 */
+  background-color: white;
   padding: 0.5rem;
   width: 49%;
   min-height: 6.4375rem;
