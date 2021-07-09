@@ -10,8 +10,7 @@ require("dotenv").config();
 export default function Profile() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [isMenuOpen, menuOpenSet] = useState(false)
-  const [isModalOpen, modalOpenset] = useState(false)
+  const [isModalOpen, modalOpenset] = useState(false);
   const { isSignIn, accessToken, provider, userId } = useSelector(state => state);
 
   const openModal = () => {
@@ -19,9 +18,6 @@ export default function Profile() {
   }
   const closeModal = () => {
     modalOpenset(false);
-  }
-  const handleMenu = () => {
-    menuOpenSet(cur => !cur);
   }
 
   const handleSocialSignout = () => {
@@ -41,10 +37,12 @@ export default function Profile() {
     else if (provider === 'google') {
       if (gapi.auth2) {
         if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
-          gapi.auth2.getAuthInstance().signOut().then(function() {
+          gapi.auth2.getAuthInstance().signOut()
+          .then(() => {
             console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
           })
-          gapi.auth2.getAuthInstance().disconnect();
+          .then(() => gapi.auth2.getAuthInstance().disconnect())
+          .catch(e => console.log(e))
         }
       }
     }
