@@ -9,6 +9,6 @@ export default function Logo(props) {
   }
 
   return (
-      <img src={logo} alt="logo" onClick={() => backToHome()}/>
+    <img src={logo} alt="logo" onClick={() => backToHome()}/>
   )
 }

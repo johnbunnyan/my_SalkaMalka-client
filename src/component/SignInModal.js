@@ -4,8 +4,8 @@ import axios from 'axios';
 import { GoogleLogin } from 'react-google-login';
 import { userSignIn, setReplied } from '../actions/index';
 import { useDispatch } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 require("dotenv").config();
 
@@ -20,19 +20,44 @@ export default function SignInModal(props) {
   const passwordRegex = /^[0-9a-zA-Z]/i;
   //10자 이상 대문자+소문자+숫자+특문?
   //const passwordRegex = //i;
-  const [errorMessage, setErrorMessage] = useState({
-    all: ' ',
-    match: ' ',
-    email: ' ',
-    password: ' ',
-    wrong: ' '
-  })
+  const [matchErr, setMatchErr] = useState('');
+  const [passwordErr, setPasswordErr] = useState('');
+  const [emailErr, setEmailErr] = useState('');
+  const [wrongErr, setWrongErr] = useState('');
+  const [allErr, setAllErr] = useState('');
 
-  const handleError = (name, value) => {
-    setErrorMessage({
-      ...errorMessage,
-      [name]: value,
-    })
+  useEffect(() => {
+    const checkEmail = emailRegex.exec(email);
+    if (!email.length || checkEmail) {
+      setEmailErr('');
+    } else {
+      setEmailErr('이메일 형식에 맞지 않습니다.');
+    }
+  }, [email])
+
+  useEffect(() => {
+    const checkPW = passwordRegex.exec(password);
+    if (checkPW || !password.length) {
+      setPasswordErr('');
+    } else if (!checkPW) {
+      setPasswordErr('비밀번호 형식에 맞지 않습니다.');
+    }
+  }, [password])
+
+  useEffect(() => {
+    if (password === checkPassword) {
+      setMatchErr('');
+    } else if (password !== checkPassword) {
+      setMatchErr('비밀번호가 일치하지 않습니다.');
+    }
+  }, [password, checkPassword])
+
+  const resetError = () => {
+    setMatchErr('');
+    setPasswordErr('');
+    setEmailErr('');
+    setWrongErr('');
+    setAllErr('');
   }
 
   const getRepliedPosts = (userId, accessToken) => {
@@ -48,10 +73,11 @@ export default function SignInModal(props) {
   }
 
   const signInHandler = (email, password) => {
+    console.log(email, password);
     if (!email || !password) {
-      handleError('all', '아이디와 비밀번호 모두 입력하세요');
+      setAllErr('이메일과 비밀번호 모두 입력하세요.');
     } else {
-      handleError('all', ' ');
+      setAllErr('');
       axios
       .post(process.env.REACT_APP_API_ENDPOINT + '/auth/signin',
       {
@@ -62,8 +88,7 @@ export default function SignInModal(props) {
         withCredentials: true,
       })
       .then(res => {
-        handleError('wrong', ' ');
-        console.log(res);
+        setWrongErr('')
         const data = {
           email: res.data.email,
           userId: res.data.userId,
@@ -77,50 +102,21 @@ export default function SignInModal(props) {
       })
       .catch(e => {
         if (e.response && e.response.status === 404) {
-          handleError('wrong', e.response.data);
+          setWrongErr(e.response.data);
         }
       });
     }
   };
 
-  useEffect(() => {
-    const checkEmail = emailRegex.exec(email);
-    if (!email.length || checkEmail) {
-      handleError('email', ' ');
-    } else {
-      handleError('email', '이메일 형식에 맞지 않습니다');
-    }
-  }, [email])
-
-  useEffect(() => {
-    if (password === checkPassword) {
-      handleError('match', ' ');
-    } else {
-      handleError('match', '비밀번호가 일치하지 않습니다');
-    }
-  }, [password, checkPassword])
-
-  useEffect(() => {
-    if (password) {
-      const checkPW = passwordRegex.exec(password);
-      if (checkPW) {
-        handleError('password', ' ');
-      } else {
-        handleError('password', '비밀번호 형식에 맞지 않습니다'); // 형식 추후에 정하기
-      }
-    }
-  }, [password])
-
-
   const signUpHandler = () => {
     if (email === '' || password === '' || checkPassword === '') {
-      handleError('all', '아이디와 비밀번호 모두 입력하세요');
+      setAllErr('이메일과 비밀번호 모두 입력하세요.');
     } else {
-      handleError('all', ' ');
-      console.log(errorMessage.email, errorMessage.match, errorMessage.password)
-      if (errorMessage.email === ' '
-      && errorMessage.match === ' '
-      && errorMessage.password === ' ') {
+      setAllErr('');
+      console.log(emailErr, matchErr, passwordErr)
+      if (emailErr === ''
+      && matchErr === ''
+      && passwordErr === '') {
         console.log({email, password})
         axios
         .post(process.env.REACT_APP_API_ENDPOINT + '/auth/signup',
@@ -133,7 +129,7 @@ export default function SignInModal(props) {
         })
         .catch(e => {
           if (e.response && e.response.status === 409) {
-            handleError('all', e.response.data);
+            setAllErr(e.response.data);
           }
         });
       }
@@ -211,14 +207,14 @@ export default function SignInModal(props) {
           <label htmlFor='email'>이메일</label>
           <input type="text" name='email' onChange={(e) => { setEmail(e.target.value) }}></input>
         </div>
-        <div className='error-msg'>{' '}</div>
+        <div className='error-msg'></div>
         <div id='signup-password'>
           <label htmlFor='password'>비밀번호</label>
           <input type="password" name='password' onChange={(e) => { setPassword(e.target.value) }}></input>
         </div>
       </div>
       <div id='signup-btn'>
-        <div className='error-msg'>{errorMessage.all === ' ' ? errorMessage.wrong : errorMessage.all}</div>
+        <div className='error-msg'>{allErr === '' ? wrongErr : allErr}</div>
         <div className='btn-center'>
         <button onClick={() => { signInHandler(email, password) }}>login</button>
         <GoogleLogin 
@@ -240,20 +236,20 @@ export default function SignInModal(props) {
           <label htmlFor='email'>이메일</label>
           <input type="text" name='email' onChange={(e) => { setEmail(e.target.value) }}></input>
         </div>
-        <div className='error-msg'>{errorMessage.email}</div>
+        <div className='error-msg'>{emailErr}</div>
         <div id='signup-password'>
           <label htmlFor='password'>비밀번호</label>
           <input type="password" name='password' onChange={(e) => { setPassword(e.target.value) }}></input>
         </div>
-        <div className='error-msg'>{errorMessage.password}</div>
+        <div className='error-msg'>{passwordErr}</div>
         <div id='signup-password-check'>
           <label htmlFor='password-check'>비밀번호 확인</label>
-          <input type="password" name='password-check' onChange={(e) => { setPassword(e.target.value) }}></input>
+          <input type="password" name='password-check' onChange={(e) => { setCheckPassword(e.target.value) }}></input>
         </div>
-        <div className='error-msg'>{errorMessage.match}</div>
+        <div className='error-msg'>{matchErr}</div>
       </div>
       <div id='signup-btn'>
-        <div className='error-msg'>{errorMessage.all}</div>
+        <div className='error-msg'>{allErr}</div>
         <button onClick={() => { signUpHandler(email, password, checkPassword) }}>회원가입</button>
       </div>
       <div id='change-section' onClick={() => { setSectionType('signIn') }}>&lt;- 로그인창으로 돌아갈래요</div>
@@ -265,9 +261,7 @@ export default function SignInModal(props) {
       {props.isModalOpen ? (
         <section className={sectionType}>
           <FontAwesomeIcon icon={faTimes} onClick={() => {
-            for (let key in errorMessage) {
-              errorMessage[key] = ' ';
-            }
+            resetError();
             setSectionType('signIn');
             props.closeModal();
           }}/>

@@ -552,24 +552,35 @@ input:focus, textarea:focus {
   background-color: rgba(255, 255, 255, 0.6);
 }
 .post-case-likerate {
-  height: 2.5rem;
+  width: 100%;
   display: flex;
-  justify-content: stretch;
+  flex-direction: column;
   border-radius: 0px;
   margin-bottom: 2rem;
 }
-.post-case-likerate > * {
-  height: 2rem;
+.post-case-likerate * {
   border-radius: 0px;
-  line-height: 2rem;
+}
+.post-case-rate {
   padding: 0 0.5rem;
+  display: flex;
+  justify-content: space-between;
 }
-.post-case-sararate{
-  background-color: rgba(59,180,252, 0.6);
+.post-case-graph {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: stretch;
 }
-.post-case-mararate{
-  background-color: rgba(251,89,95, 0.6);
+.post-case-mararate {
   text-align: right;
+}
+.post-case-saragraph{
+  background-color: rgba(59,180,252, 0.6);
+  height: 1rem;
+}
+.post-case-maragraph{
+  background-color: rgba(251,89,95, 0.6);
+  height: 1rem;
 }
 .post-case-likeordislike{
   display: flex;
