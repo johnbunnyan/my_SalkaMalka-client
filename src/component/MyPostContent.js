@@ -1,14 +1,18 @@
 import React from "react";
 import PostCase from './PostCase.js'
 import { useSelector } from 'react-redux';
+import Nothing from './Nothing';
 
 export default function MyPostContent(props) {
   // console.log(props)
   const { openPosts, closedPosts } = useSelector(state => state);
+  const displayData = props.displayData.filter(el => [...openPosts, ...closedPosts].includes(el._id));
   return (
-    <div className={'mp-postlist'}>
-      {props.displayData.map((el) => {
-        if ([...openPosts, ...closedPosts].includes(el._id)) {
+    !displayData.length ?
+      <Nothing whatIsDisplayed={props.whatIsDisplayed}></Nothing>
+    :
+      <div className={'mp-postlist'}>
+        {displayData.map((el) => {
           return (
             <PostCase
               key={el._id}
@@ -23,8 +27,7 @@ export default function MyPostContent(props) {
               comment={el.comment}
             ></PostCase>
           )
-        }
-      })}
-    </div>
+        })}
+      </div>
   )
 }

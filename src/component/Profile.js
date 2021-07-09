@@ -108,7 +108,7 @@ export default function Profile() {
       history.push('/posts');
     }
     else if (el === 'My Page') {
-      history.push(`/mypage`);
+      history.push(`/users/${userId}`);
     }
   }
 

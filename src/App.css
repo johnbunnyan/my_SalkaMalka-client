@@ -434,11 +434,13 @@ input:focus, textarea:focus {
 }
 .search-bar svg {
   position: absolute;
-  left: 14rem;
+  right: 3rem;
   font-size: 1rem;
   line-height: 2.5rem;
   border-radius: 50%;
   margin: 0;
+}
+.search-bar svg * {
   color: var(--background);
 }
 #search-input {
@@ -452,7 +454,8 @@ input:focus, textarea:focus {
   color: var(--salka-blue);
   font-weight: 800;
 }
-.search-bar:hover svg {
+.search-bar:hover svg *,
+#search-input:focus + svg * {
   color: var(--salka-blue);
 }
 
@@ -624,6 +627,9 @@ input:focus, textarea:focus {
 .post-case.closed {
   background-color: rgba(128, 122, 122, 0.5);
 }
+.closed-msg {
+  font-weight: 700;
+}
 
 .post-case.closed .post-case-header,
 .post-case.closed .post-case-content,
@@ -737,9 +743,17 @@ input:focus, textarea:focus {
   justify-content: space-between;
   margin-bottom: 2rem;
 }
-.post-case-best-comment > * {
-  /* background-color: rgba(255, 255, 255, 0.6); */
-  /* 컬러옵션 */
+.post-case-best-comment.nothing .nothing {
+  width: 100%;
+}
+.post-case-best-comment .nothing{
+  justify-content: center;
+  align-items: center;
+}
+
+.post-case-best-comment .nothing,
+.best-like-comment,
+.best-dislike-comment {
   background-color: white;
   padding: 0.5rem;
   width: 49%;
@@ -748,7 +762,8 @@ input:focus, textarea:focus {
   flex-direction: column;
 }
 
-.post-case-best-comment > * > * {
+.best-like-comment > *,
+.best-dislike-comment > * {
   margin: 0.25rem;
 }
 
@@ -777,6 +792,18 @@ input:focus, textarea:focus {
   color: var(--malka-red);
   font-family: 'Barlow', sans-serif;
   font-size: 1.5rem;
+}
+
+.nothing * {
+  color: var(--salka-blue)
+}
+
+.nothing div {
+  font-weight: 700;
+}
+
+.post-case .nothing svg {
+  font-size: 2rem !important;
 }
 
 /* comment */
@@ -818,13 +845,13 @@ input:focus, textarea:focus {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--background);
+  background-color: var(--sidebar);
   padding: 10vh;
   min-height: 100vh;
 }
 .wp-content input[name=title],
 .wp-content textarea {
-  background-color: var(--sidebar);
+  border: 2px dotted var(--salka-blue);
   padding: 1rem;
 }
 .wp-content > * {
@@ -833,9 +860,9 @@ input:focus, textarea:focus {
 #wp-img-upload {
   display: flex;
   align-items: center;
+  border: 2px dotted var(--salka-blue);
 }
 .wp-preview-img-box{
-  background-color: var(--sidebar);
   width: 9.5rem;
   height: 9.5rem;
   overflow-y: hidden;
@@ -894,7 +921,7 @@ input:focus, textarea:focus {
 }
 #mp-title * {
   margin: 0.5rem;
-  color: white;
+  color: var(--salka-blue);
   font-size: 1.5rem;
   font-weight: 800;
   cursor: pointer;
@@ -909,9 +936,33 @@ input:focus, textarea:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--background);
+  background-color: var(--sidebar);
   padding: 10vh;
   min-height: 100vh;
+}
+.check-all {
+  margin: 1rem;
+  width: 55vw;
+  padding: 0 1rem;
+}
+.mp-content .nothing {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.mp-content .nothing svg {
+  font-size: 5rem;
+}
+.mp-content .nothing-msg-default {
+  margin: 1rem 0;
+}
+.mp-content .nothing-msg {
+  font-weight: 700;
+}
+.mp-content .post-case .nothing div {
+  margin: 0;
 }
 .mp-postlist {
   display: flex;
