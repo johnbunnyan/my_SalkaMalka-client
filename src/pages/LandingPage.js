@@ -49,6 +49,7 @@ export default function LandingPage() {
       await axios
         .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
         .then(res => {
+          console.log(res.data.posts.length)
           let post = res.data.posts.slice(postOptions.preItems, postOptions.items)
           setData(pre => [...pre, ...post])
         })
@@ -76,6 +77,7 @@ export default function LandingPage() {
   }, [sortValue])
 
   useEffect(() => {
+    console.log(1 )
     if (inView && !loading) {
       setPostOptions({
         preItems: postOptions.items,

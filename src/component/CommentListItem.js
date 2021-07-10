@@ -19,7 +19,7 @@ export default function CommentListItem(props) {
   useEffect(() => allCheckHandler(), [props.isAllChecked])
   // console.log(props.isAllChecked)
   const checkedHandler = ({ target }) => {
-    console.log(props.checkedItemHandler)
+    // console.log(props.checkedItemHandler)
     setChecked(!bChecked)
     props.checkedItemHandler(target.value, target.checked)
   }
@@ -41,7 +41,7 @@ export default function CommentListItem(props) {
   }
 
   const handleOpenPost = (postId) => {//파라미터부분에 포스트아이디를받음
-    history.push('/mypage/mycomments/post')
+    // history.push('/mypage/mycomments/post')
     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId)
       .then(res => {
