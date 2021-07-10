@@ -437,6 +437,9 @@ input:focus, textarea:focus {
 .side-bar img:hover {
   opacity: 66%;
 }
+.side-bar img:hover {
+  opacity: 66%;
+}
 .search-bar {
   position: absolute;
   left: 50vw;
@@ -1047,7 +1050,6 @@ input:focus, textarea:focus {
   bottom: 11.5rem;
   opacity: 1;
 }
-
 #mp-comments .comment-item {
   width: 55vw;
   margin: 1rem;
