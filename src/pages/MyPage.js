@@ -8,6 +8,8 @@ import axios from "axios";
 import { useHistory } from "react-router";
 import persistor from '../index';
 import { setBookmarks, setPosts, setComments, setClosed, setReplied } from '../actions/index';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
 export default function MyPage() {
   const dispatch = useDispatch();
@@ -18,7 +20,14 @@ export default function MyPage() {
   const [myBookMarkData, setMyBookMarkData] = useState([])
   const [whatIsDisplayed, setWhatIsDisplayed] = useState('Posts')
 
-
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    })
+  }
+  
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/posts', {
@@ -162,11 +171,13 @@ export default function MyPage() {
         handleCategory={handleCategory}
       ></SideBar>
       <div className={'mp-content'}>
-        <div id='hello-msg'>{`${email}님, 안녕하세요?`}</div>
         <button id='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
         {getHeader(whatIsDisplayed)}
         {renderSwitchParam(whatIsDisplayed)}
-      </div> 
+      </div>
+      <div className={'lp-up-btn'} onClick={scrollToTop}>
+        <FontAwesomeIcon icon={faChevronUp} className='fa-2x' />
+      </div>
     </div>
   )
 }
