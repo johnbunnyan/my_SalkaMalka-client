@@ -5,6 +5,9 @@ import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import persistor from '../index';
 import { setAccessToken } from '../actions/index';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+
 require("dotenv").config();
 
 export default function Profile() {
@@ -114,6 +117,9 @@ export default function Profile() {
 
   return (
     <div className='profile'>
+      <div id='to-about-page' onClick={() => {history.push('/about')}}>About</div>
+      <div id='to-main-page' onClick={() => {history.push('/')}}>SalkaMalka</div>
+      <FontAwesomeIcon id='menu' icon={faBars} />
       <div className={'menu-open'}>
         {options().map(el => <div key={el} onClick={() => activeButton(el)}>{el}</div>)}
       </div>

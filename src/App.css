@@ -51,6 +51,10 @@ input:focus, textarea:focus {
   outline: 0;
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 /* 모달관리 */
 .signup-modal{
   display: none;
@@ -404,61 +408,47 @@ input:focus, textarea:focus {
   line-height: 2rem;
 }
 
-/* .post-modal{
-  display: none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1000 !important;
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-.post-modal.open-post-modal {
-  display: flex;
-  align-items: center;
-  z-index: 1050 !important;
-} */
-
 /* 사이드바 */
 .side-bar{
   background-color: var(--background);
-  /* 컬러옵션 */
-  /* background-color: var(--sidebar); */
-  z-index: 1000;
+  /* z-index: 1000;
   width: 18vw;
   height: 100vh;
   padding: 2rem 1rem;
-  position: fixed;
+  position: fixed; */
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   justify-content: space-between;
   align-items: center;
+  padding: 0 1rem;
 }
-#logo * {
-  padding: 0.5rem;
+.side-bar > * {
+  /* border: 2px dotted black !important; */
 }
 .side-bar img {
-  width: 100%;
+  /* width: 100%; */
   cursor: pointer;
+  height: 6rem;
+  padding: 1rem;
 }
 .side-bar img:hover {
   opacity: 66%;
 }
 .search-bar {
-  width: 100%;
+  /* width: 100%; */
+  position: absolute;
+  left: 50vw;
+  margin-left: -20vw;
   display: flex;
   align-items: center;
-}
-.hidden {
-  visibility: hidden;
+  width: 40vw;
 }
 .search-bar svg {
   padding: 0px !important;
-  position: absolute;
+  font-size: 1.5rem;
+  position: relative;
   right: 3rem;
-  line-height: 2.5rem;
+  line-height: 3rem;
 }
 .search-bar svg * {
   color: var(--background);
@@ -467,13 +457,13 @@ input:focus, textarea:focus {
   border: var(--background) solid 3px;
   background-color: var(--sidebar);
   width: 100%;
-  border-radius: 2.5rem;
-  height: 2.5rem;
+  border-radius: 3.5rem;
+  height: 3.5rem;
   text-align: center;
-  font-size: 16px;
+  font-size: 1.5rem;
   color: var(--salka-blue);
-  font-weight: 800;
 }
+
 .search-bar:hover svg *,
 #search-input:focus + svg * {
   color: var(--salka-blue);
@@ -484,46 +474,59 @@ input:focus, textarea:focus {
   border: var(--salka-blue) solid 3px;
 }
 .profile {
-  width: 100%;
-  border: none;
-  flex-grow: 1;
+  /* width: 100%; */
+  /* flex-grow: 1; */
   padding: 1rem;
+  display: flex;
 }
-.menu-open * {
-  margin: 2rem 0rem;
-  font-size: 2rem;
+.profile * {
+  margin: 1rem;
+}
+#to-about-page,
+#to-main-page {
+  font-size: 1.5rem;
   font-family: 'Barlow', sans-serif;
   font-weight: 900;
   cursor: pointer;
   text-align: center;
   color: var(--sidebar);
 }
+#to-about-page:hover,
+#to-main-page:hover {
+  color: var(--malka-red);
+}
+#menu {
+  font-size: 2rem;
+  cursor: pointer;
+}
+#menu * {
+  color: var(--sidebar);
+}
+.menu-open {
+  padding: 1rem;
+  display: none;
+  position: absolute;
+  top: 70px;
+  right: 1rem;
+  z-index: 1;
+  background-color: var(--background);
+  border-radius: 0;
+}
+.menu-open * {
+  font-size: 1.5rem;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  cursor: pointer;
+  text-align: center;
+  color: var(--sidebar);
+  display: block;
+  padding: 0.5rem;
+}
 .menu-open *:hover {
   color: var(--malka-red);
 }
-#to-about-page {
-  text-align: center;
-  /* border: 1px black solid; */
-  opacity: 0.5;
-  cursor: pointer;
-  margin: 1rem 0;
-}
-#to-about-page:hover {
-  opacity: 1;
-}
-#to-about-page span {
-  font-size: 1.5rem;
-}
-#to-about-page span:first-child {
-  font-weight: 800;
-}
-#to-about-page span:nth-child(2) {
-  color: var(--salka-blue);
-  font-family: 'Leckerli One', sans-serif;
-}
-#to-about-page span:nth-child(3) {
-  color: var(--malka-red);
-  font-family: 'Barlow', sans-serif;
+.profile:hover .menu-open {
+  display: block !important;
 }
 #since {
   font-size: 0.75rem;
@@ -535,9 +538,9 @@ input:focus, textarea:focus {
   background-color: grey;
 }
 .lp-content{
-  position: relative;
+  /* position: relative;
   left: 18vw;
-  width: 82vw;
+  width: 82vw; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -805,9 +808,6 @@ input:focus, textarea:focus {
   cursor: pointer;
   text-align: center;
   margin-bottom: 1rem;
-}
-.hidden {
-  visibility: hidden;
 }
 .post-case-all-comments {
   text-align: center;
