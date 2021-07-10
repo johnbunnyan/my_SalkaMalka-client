@@ -85,7 +85,7 @@ export default function CommentListItem(props) {
   }
 
   return (
-    <div className={'comment-item'}>
+    <div className={props.type === 'sara' ? 'comment-item sara' : 'comment-item mara'}>
       {!props.checkedItemHandler ? null : (
         <input type='checkbox' checked={bChecked} value={[props.commentId, props.postId]} onChange={(e) => checkedHandler(e)} />
       )}

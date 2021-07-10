@@ -1,9 +1,7 @@
 import React from "react";
 import CommentListItem from "./CommentListItem";
-import { useSelector } from 'react-redux';
 
-export default function BestCommentSection({ bestSara, bestMara, type, isOpen, setCommentList }) {
-  const { postId } = useSelector(state => state);
+export default function BestCommentSection({ bestSara, bestMara, type, isOpen, setCommentList, postId }) {
   const bestComments = (type) => {
     if (type === 'sara') return bestSara;
     else return bestMara;
@@ -23,11 +21,11 @@ export default function BestCommentSection({ bestSara, bestMara, type, isOpen, s
             type={el.type}
             content={sliceBestComment(el.content)}
             like={el.like}
-            postId={postId}
             commentId={el._id}
             userId={el.userId}
             isOpen={isOpen}
             setCommentList={setCommentList}
+            postId={postId}
           ></CommentListItem>
         )
       })}

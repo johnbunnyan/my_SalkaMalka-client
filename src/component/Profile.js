@@ -118,7 +118,6 @@ export default function Profile() {
   return (
     <div className='profile'>
       <div id='to-about-page' onClick={() => {history.push('/about')}}>About</div>
-      <div id='to-main-page' onClick={() => {history.push('/')}}>SalkaMalka</div>
       <FontAwesomeIcon id='menu' icon={faBars} />
       <div className={'menu-open'}>
         {options().map(el => <div key={el} onClick={() => activeButton(el)}>{el}</div>)}

@@ -2,18 +2,15 @@ import React from "react";
 import SideBar from "../component/SideBar";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
+import logo from "../logo/SalkaMalka_logo_crop.png";
 
 export default function AboutPage() {
   return (
-    <div>
+    <div id='about-page'>
       <SideBar></SideBar>
       <div id='ap-content'>
+        <img src={logo} alt="logo"/>
         <div>
-          <h1 className='about-salkamalka'>
-            <span>About </span>
-            <span>Salka</span>
-            <span>Malka</span>
-          </h1>
           <p className='about-salkamalka'>
             입을까, 말까 고민할 땐 코디 어플,<br></br>
             먹을까, 말까 고민할 땐 배달 어플,<br></br>

@@ -2,7 +2,7 @@ import React from "react";
 import Nothing from './Nothing'
 import BestComments from './BestComments'
 
-export default function BestCommentSection({ bestSara, bestMara, isOpen, setCommentList }) {
+export default function BestCommentSection({ bestSara, bestMara, isOpen, setCommentList, postId }) {
   if (bestSara.length === 0 && bestMara.length === 0) {
     return (
       <div className='post-case-best-comment nothing'>
@@ -14,14 +14,14 @@ export default function BestCommentSection({ bestSara, bestMara, isOpen, setComm
     return (
       <div className='post-case-best-comment'>
         <Nothing></Nothing>
-        <BestComments bestSara={bestSara} bestMara={bestMara} type={'mara'} isOpen={isOpen} setCommentList={setCommentList} />
+        <BestComments bestSara={bestSara} bestMara={bestMara} type={'mara'} isOpen={isOpen} setCommentList={setCommentList} postId={postId} />
       </div>
     );
   }
   else if (bestMara.length === 0) {
     return (
       <div className='post-case-best-comment'>
-        <BestComments bestSara={bestSara} bestMara={bestMara} type={'sara'} isOpen={isOpen} setCommentList={setCommentList} />
+        <BestComments bestSara={bestSara} bestMara={bestMara} type={'sara'} isOpen={isOpen} setCommentList={setCommentList} postId={postId} />
         <Nothing></Nothing>
       </div>
     );
@@ -29,8 +29,8 @@ export default function BestCommentSection({ bestSara, bestMara, isOpen, setComm
   else {
     return (
       <div className='post-case-best-comment'>
-        <BestComments bestSara={bestSara} bestMara={bestMara} type={'sara'} isOpen={isOpen} setCommentList={setCommentList} />
-        <BestComments bestSara={bestSara} bestMara={bestMara} type={'mara'} isOpen={isOpen} setCommentList={setCommentList} />
+        <BestComments bestSara={bestSara} bestMara={bestMara} type={'sara'} isOpen={isOpen} setCommentList={setCommentList} postId={postId} />
+        <BestComments bestSara={bestSara} bestMara={bestMara} type={'mara'} isOpen={isOpen} setCommentList={setCommentList} postId={postId} />
       </div>
     );
   }
