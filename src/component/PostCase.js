@@ -127,7 +127,7 @@ export default function PostCase(props) {
           </div>
         )}
         <BestCommentSection bestSara={bestSara} bestMara={bestMara} isOpen={props.isOpen} setCommentList={setCommentList} postId={postId} />
-        <div className={isDisplayCommentModal || sara + mara === 0 ?
+        <div className={isDisplayCommentModal || commentList.length === 0 ?
           'post-case-all-comments hidden' : 'post-case-all-comments'} onClick={() => { setDisplayCommentModal(true) }}>
           <span>Sara</span>
           <span>Mara</span>

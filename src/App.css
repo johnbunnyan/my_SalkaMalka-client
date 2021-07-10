@@ -428,17 +428,19 @@ input:focus, textarea:focus {
   padding: 0 1rem;
   transition: top 0.3s ease-out 0.2s;
   box-shadow: 0 0.1px 10px lightgray;
+  overflow-y: hidden;
 }
-.side-bar img {
+#logo-crop, #logo-square {
   cursor: pointer;
   height: 6rem;
-  padding: 1rem;
+  padding: 1.25rem;
+  transition: transform 0.3s ease-out;
 }
-.side-bar img:hover {
+#logo-crop:hover, #logo-square:hover {
   opacity: 66%;
 }
-.side-bar img:hover {
-  opacity: 66%;
+#logo-square:hover {
+  transform: rotate( 90deg )
 }
 .search-bar {
   position: absolute;
@@ -547,7 +549,8 @@ input:focus, textarea:focus {
   background-color: rgb(231, 231, 231);
 }
 
-#footer span {
+#footer span,
+#footer > div {
   font-family: 'Nanum Myeongjo', serif;
 }
 
@@ -979,6 +982,8 @@ input:focus, textarea:focus {
 #mp-title {
   margin: 0.5rem 1rem 0 1rem;
   width: 55vw;
+  padding-bottom: 0.5rem;
+  border-radius: 0;
 }
 #mp-title * {
   margin: 0.5rem;
@@ -1032,6 +1037,7 @@ input:focus, textarea:focus {
 #hello-msg {
   width: 100%;
   text-align: center;
+  font-family: 'Nanum Myeongjo', serif;
 }
 #goodbye-btn {
   position: fixed;
@@ -1073,18 +1079,21 @@ input:focus, textarea:focus {
 }
 
 /* 어바웃페이지 */
+#about-page #to-about-page {
+  display: none;
+}
+
 #ap-content{
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: var(--sidebar);
-  padding: 10vh;
-  padding-top: 20vh;
+  padding-top: 18vh;
   min-height: 100vh;
 }
 #ap-content > div {
   border: 2px dotted var(--salka-blue);
-  margin: 3rem 12rem;
+  margin: 1rem 12rem 3rem 12rem;
   padding: 3rem;
   border-radius: 20px;
 }
@@ -1160,4 +1169,201 @@ input:focus, textarea:focus {
   font-size: 2rem;
   line-height: 3rem;
   font-family: 'Nanum Brush Script', cursive;
+}
+
+@media only screen and (max-width: 480px) {
+  * {
+    font-size: 10px;
+  }
+
+  
+  .lp-content {
+    padding: 0 2rem;
+    padding-top: 8rem;
+  }
+
+  .lp-postlist {
+    width: 100%;
+  }
+  #search-message {
+    text-align: center;
+    
+  }
+  .lp-postlist > div {
+    width: 100%;
+  }
+
+  .side-bar {
+    height: 6rem;
+    padding: 0 1rem;
+  }
+
+  .landing-page .side-bar {
+    padding: 0 2rem;
+  }
+  
+  
+  .side-bar * {
+    font-size: 1.25rem !important;
+  }
+
+  .search-bar {
+    width: 60vw;
+    margin-left: -28vw;
+  }
+
+  .landing-page .profile {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .profile {
+    display: flex;
+    align-items: center;
+  }
+
+  #to-about-page {
+    margin: 0;
+  }
+
+  #menu:hover + .menu-open,
+  .menu-open:hover {
+    height: 9rem;
+  }
+
+  .menu-open {
+    margin: 0;
+    padding: 0;
+    right: 0;
+    margin-top: 1rem;
+    opacity: 0.8;
+  }
+
+  .menu-open * {
+    margin: 1rem;
+    padding: 0;
+  }
+  .post-case {
+    width: 100%;
+    margin: 1rem 0;
+    padding: 0;
+    border-radius: 0;
+    border: 2px dotted var(--salka-blue);
+  }
+
+  .mp-content {
+    padding: 0 2rem;
+    padding-top: 8rem;
+  }
+
+  #mp-title {
+    width: 100%;
+  }
+
+  .mp-postlist,
+  #mp-comments,
+  #mp-comments .comment-item {
+    width: 100%;
+  }
+
+
+  #mp-comments .comment-item {
+    margin: 1rem 0;
+  }
+
+  #goodbye-btn,
+  .lp-up-btn,
+  #footer div:last-child,
+  #hello-msg,
+  #mp-comments .comment-item button,
+  .landing-page #logo-crop,
+  .check-all,
+  input[type=checkbox] {
+    display: none;
+  }
+
+  .wp-content {
+    padding: 2rem;
+    padding-top: 6rem;
+  }
+  .wp-content > * {
+    width: 100%;
+  }
+
+  #ap-content {
+    padding: 0 2rem;
+    padding-top: 8rem;
+  }
+  #ap-content > * {
+    width: 100%;
+  }
+  #ap-content > img {
+    width: 80%;
+  }
+
+  div.about-troika {
+    flex-direction: column;
+  }
+
+  #footer div:first-child {
+    width: 100%;
+    text-align: center;
+  }
+
+  .signup-modal {
+    padding: 2rem;
+  }
+
+  .signup-modal * {
+    font-size: 1rem !important;
+  }
+
+  .signup-modal button {
+    font-size: 0.8rem !important;
+  }
+
+  .signup-modal section {
+    width: 100%;
+  }
+
+  .signUp #input-center {
+    width: 70%;
+  }
+
+  .write-comment-modal {
+    padding: 2rem;
+  }
+
+  .write-comment-modal section {
+    width: 100%;
+  }
+
+  .comment-modal {
+    padding: 2rem;
+  }
+
+  .comment-modal section {
+    width: 100%;
+  }
+
+  .comment-modal .comment-item * {
+    line-height: 1.25rem;
+  }
+
+  .comment-item-content {
+    width: 60%;
+  }
+
+  #mp-comments .comment-item-content {
+    width: 80%;
+  }
+
+  #current-page {
+    font-size: 1.5rem;
+    color: var(--malka-red);
+  }
 }
