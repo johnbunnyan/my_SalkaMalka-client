@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
 import CommentList from "./CommentList";
+import Nothing from './Nothing';
 
 export default function MyCommentContent(props) {
   // console.log(props)
@@ -99,35 +100,41 @@ export default function MyCommentContent(props) {
   }
 
   if (!isOpenPost) {
-    return (
-      <div id='mp-comments'>
-        <input type='checkbox' checked={isAllChecked} onChange={(e) => allCheckedHandler(e)}></input>
-        <button onClick={deleteComment}>체크된 댓글 삭제</button>
-        {commentList.map((el) => {
-          if (comments.includes(el.commentId)) {
-            return (
-              <CommentListItem
-                key={el.commentId}
-                commentId={el.commentId}
-                userId={el.userId}
-                postId={el.postId}
-                isInMyComment={isInMyComment}
-                setOpenPost={setOpenPost}
-                setPostInfo={setPostInfo}
-                type={el.type}
-                content={el.content}
-                like={el.like}
-                isDisplayCommentModal={props.isDisplayCommentModal}
-                setDisplayCommentModal={props.setDisplayCommentModal}
-                isOpen={props.isOpen}
-                checkedItemHandler={checkedItemHandler}
-                isAllChecked={isAllChecked}
-              ></CommentListItem>
-            )
-          }
-        })}
-      </div >
-    )
+    if (!commentList.length) {
+      return <Nothing whatIsDisplayed={props.whatIsDisplayed}></Nothing>;
+    } else {
+      return (
+        <div id='mp-comments'>
+          <div className='check-all'>
+            <input type='checkbox' checked={isAllChecked} onChange={(e) => allCheckedHandler(e)}></input>
+            <button onClick={deleteComment}>체크된 댓글 삭제</button>
+          </div>
+          {commentList.map((el) => {
+            if (comments.includes(el.commentId)) {
+              return (
+                <CommentListItem
+                  key={el.commentId}
+                  commentId={el.commentId}
+                  userId={el.userId}
+                  postId={el.postId}
+                  isInMyComment={isInMyComment}
+                  setOpenPost={setOpenPost}
+                  setPostInfo={setPostInfo}
+                  type={el.type}
+                  content={el.content}
+                  like={el.like}
+                  isDisplayCommentModal={props.isDisplayCommentModal}
+                  setDisplayCommentModal={props.setDisplayCommentModal}
+                  isOpen={props.isOpen}
+                  checkedItemHandler={checkedItemHandler}
+                  isAllChecked={isAllChecked}
+                ></CommentListItem>
+              )
+            }
+          })}
+        </div>
+      )
+    }
   } else {
     return (
       <div id='mp-comments-post'>

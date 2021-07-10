@@ -19,6 +19,7 @@ export default function CommentListItem(props) {
   useEffect(() => allCheckHandler(), [props.isAllChecked])
   // console.log(props.isAllChecked)
   const checkedHandler = ({ target }) => {
+    console.log(props.checkedItemHandler)
     setChecked(!bChecked)
     props.checkedItemHandler(target.value, target.checked)
   }
@@ -35,7 +36,7 @@ export default function CommentListItem(props) {
       .then(res => setLikeInfo(res.data.like))
       .catch(e => {
         if (e.response && (e.response.status === 404 || e.response.status === 409)) alert(e.response.data);
-        else if (e.response && (e.response.status === 400)) alert('이미 좋아요를 보냈습니다');
+        else if (e.response && (e.response.status === 400)) alert('이미 좋아요한 댓글이에요');
       });
   }
 
@@ -86,9 +87,9 @@ export default function CommentListItem(props) {
 
   return (
     <div className={'comment-item'}>
-      {location.pathname === '/mypage/mycomments' ? (
+      {!props.checkedItemHandler ? null : (
         <input type='checkbox' checked={bChecked} value={[props.commentId, props.postId]} onChange={(e) => checkedHandler(e)} />
-      ) : null}
+      )}
       <div className={'comment-item-content'}>{props.content}</div>
       <div>{likeInfo}</div>
       {props.userId === userId && props.isOpen ?

@@ -63,17 +63,15 @@ export default function MyPage() {
   }, [])
 
   const handleCategory = (category) => {
+    console.log('category: ',category)
     switch (category) {
       case 'Posts':
         setWhatIsDisplayed(category)
-        history.push('/mypage/myposts')
         break;
       case 'Comments':
-        history.push('/mypage/mycomments')
         setWhatIsDisplayed(category)
         break;
       case 'Bookmarks':
-        history.push('/mypage/mybookmarks')
         setWhatIsDisplayed(category)
         break;
       default:
@@ -84,11 +82,11 @@ export default function MyPage() {
   const renderSwitchParam = (param) => {
     switch (param) {
       case 'Posts':
-        return (<MyPostContent displayData={myPostData}></MyPostContent>)
+        return (<MyPostContent whatIsDisplayed={whatIsDisplayed} displayData={myPostData}></MyPostContent>)
       case 'Comments':
-        return (<MyCommentContent displayData={myCommentData}></MyCommentContent>)
+        return (<MyCommentContent whatIsDisplayed={whatIsDisplayed} displayData={myCommentData}></MyCommentContent>)
       case 'Bookmarks':
-        return (<MyBookMarkContent displayData={myBookMarkData}></MyBookMarkContent>)
+        return (<MyBookMarkContent whatIsDisplayed={whatIsDisplayed} displayData={myBookMarkData}></MyBookMarkContent>)
       default:
         break;
     }
@@ -168,8 +166,7 @@ export default function MyPage() {
         <button id='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
         {getHeader(whatIsDisplayed)}
         {renderSwitchParam(whatIsDisplayed)}
-      </div>
-      
+      </div> 
     </div>
   )
 }

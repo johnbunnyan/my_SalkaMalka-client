@@ -10,6 +10,7 @@ import { setBookmarks, setPosts, setClosed, setReplied } from '../actions/index'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faBookmark as fasfaBookmark, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { faBookmark as farfaBookmark, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
+import BestCommentSection from "./BestCommentSection";
 require("dotenv").config();
 
 
@@ -82,11 +83,13 @@ export default function PostCase(props) {
   }
 
   const getRate = (type) => {
-    if (type === 'sara') {
-      return (sara / (sara + mara) * 100);
-    } else {
-      return (mara / (sara + mara) * 100);
-    }
+    if (type === 'sara') return (sara / (sara + mara) * 100);
+    else return (mara / (sara + mara) * 100);
+  }
+
+  const getWidth = (rate) => {
+    if (sara + mara === 0) return '50%';
+    else return rate + '%';
   }
 
   const formatRate = (rate) => {
@@ -209,15 +212,10 @@ export default function PostCase(props) {
       return (<img src={`${process.env.REACT_APP_API_ENDPOINT}/${image}`}></img>)
     }
   }
-  
-  const sliceBestComment = (content) => {
-    if (content.length < 50) return content;
-    return content.slice(0,50) + ' (...)'
-  }
 
   return (
     <div className={props.isOpen ? 'post-case' : 'post-case closed'}>
-      {props.isOpen ? null : <div>닫혀 있는 살까말까에는 사라마라를 보낼 수 없어요.</div>}
+      {props.isOpen ? null : <div className='closed-msg'>닫혀 있는 살까말까에는 사라마라를 보낼 수 없어요.</div>}
       <div className={'post-case-header'}>
         <div className={'post-case-title'}>{props.title}</div>
         <Route
@@ -262,8 +260,8 @@ export default function PostCase(props) {
               <div className={'post-case-sararate'}>{formatRate(getRate('mara')) + '%'}</div>
             </div>
             <div className={'post-case-graph'}>
-              <div style={{ width: getRate('sara') + '%' }} className={'post-case-saragraph'}></div>
-              <div style={{ width: getRate('mara') + '%' }} className={'post-case-maragraph'}></div>
+              <div style={{ width: getWidth(getRate('sara'))}} className={'post-case-saragraph'}></div>
+              <div style={{ width: getWidth(getRate('mara'))}} className={'post-case-maragraph'}></div>
             </div>
           </div>
         ) : (
@@ -272,54 +270,8 @@ export default function PostCase(props) {
             <button className={'post-case-dislikebtn'} name={'mara'} onClick={(e) => { handleSaraMara(e.target.name) }}>Mara!</button>
           </div>
         )}
-        <div className={'post-case-best-comment'}>
-          {sara === 0 ? (
-            // console.log(1)
-            <Nothing></Nothing>
-          ) : (
-            <div className={'post-case-best-like-comment'}>
-              {bestSara.map((el) => {
-                return (
-                  <CommentListItem
-                    key={el._id}
-                    isInMyPage={props.isInMyPage}
-                    type={el.type}
-                    content={el.content}
-                    like={el.like}
-                    postId={postId}
-                    commentId={el._id}
-                    userId={el.userId}
-                    isOpen={props.isOpen}
-                    setCommentList={setCommentList}
-                  ></CommentListItem>
-                )
-              })}
-            </div>
-          )}
-          {mara === 0 ? (
-            <Nothing></Nothing>
-          ) : (
-            <div className={'post-case-best-dislike-comment'}>
-              {bestMara.map((el) => {
-                return (
-                  <CommentListItem
-                    key={el._id}
-                    isInMyPage={props.isInMyPage}
-                    type={el.type}
-                    content={el.content}
-                    like={el.like}
-                    postId={postId}
-                    commentId={el._id}
-                    userId={el.userId}
-                    isOpen={props.isOpen}
-                    setCommentList={setCommentList}
-                  ></CommentListItem>
-                )
-              })}
-            </div>
-          )}
-        </div>
-        <div className={isDisplayCommentModal ?
+        <BestCommentSection bestSara={bestSara} bestMara={bestMara} isOpen={props.isOpen} setCommentList={setCommentList} />
+        <div className={isDisplayCommentModal || sara + mara === 0 ?
           'post-case-all-comments hidden' : 'post-case-all-comments'} onClick={() => { setDisplayCommentModal(true) }}>
           <span>Sara</span>
           <span>Mara</span>
@@ -347,7 +299,7 @@ export default function PostCase(props) {
         <section>
           <header>
             <FontAwesomeIcon icon={faTimes} onClick={() => { setDisplayCommentModal(false) }}/>
-            {props.isOpen ? null : <div>닫혀 있는 살까말까에는 사라마라를 보낼 수 없어요.</div>}
+            {props.isOpen ? null : <div className='closed-msg'>닫혀 있는 살까말까에는 사라마라를 보낼 수 없어요.</div>}
           </header>
           <main>
             <CommentList

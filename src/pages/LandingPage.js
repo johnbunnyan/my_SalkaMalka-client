@@ -6,7 +6,7 @@ import { useHistory } from "react-router";
 import axios from "axios";
 import { useInView, userInView } from 'react-intersection-observer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAward, faFire, faThumbsUp, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import { faAward, faFire, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import { faClock } from '@fortawesome/free-regular-svg-icons'
 
 require("dotenv").config();
@@ -46,7 +46,6 @@ export default function LandingPage() {
   const sortPosts = useCallback(async (sort) => {
     if (postOptions.preItems !== 0) {
       setLoading(true)
-      // history.push(`/main?sort=${sort}`);
       await axios
         .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
         .then(res => {
@@ -56,8 +55,6 @@ export default function LandingPage() {
         .catch(e => console.log(e));
     }
   }, [postOptions])
-
-
 
   useEffect(() => {
     sortPosts(sortValue)
@@ -112,15 +109,15 @@ export default function LandingPage() {
         </div>
         <div className={'lp-postlist'}>
           {pathname === '/main' ? <div id='sort-btn-container'>
-            <div className='sort-btn' onClick={() => { setSortValue('date') }}>
+            <div className={window.location.href.split('=')[1] === 'date' ? 'sort-btn current' : 'sort-btn' } onClick={() => { handleQuery('date') }}>
               <FontAwesomeIcon icon={faClock} className='fa-3x' />
               <div>최신 등록</div>
             </div>
-            <div className='sort-btn' onClick={() => { setSortValue('popular') }}>
+            <div className={window.location.href.split('=')[1] === 'popular' ? 'sort-btn current' : 'sort-btn' } onClick={() => { handleQuery('popular') }}>
               <FontAwesomeIcon icon={faAward} className='fa-3x' />
-              <div>댓글 많은</div>
+              <div>댓글 수</div>
             </div>
-            <div className='sort-btn' onClick={() => { setSortValue('hot-topic') }}>
+            <div className={window.location.href.split('=')[1] === 'hot-topic' ? 'sort-btn current' : 'sort-btn' } onClick={() => { handleQuery('hot-topic') }}>
               <FontAwesomeIcon icon={faFire} className='fa-3x' />
               <div>뜨거운 감자</div>
             </div>
