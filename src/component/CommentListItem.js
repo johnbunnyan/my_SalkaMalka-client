@@ -41,8 +41,7 @@ export default function CommentListItem(props) {
   }
 
   const handleOpenPost = (postId) => {//파라미터부분에 포스트아이디를받음
-    history.push('/mypage/mycomments/post')
-    axios
+     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId)
       .then(res => {
         props.setPostInfo({
@@ -91,7 +90,7 @@ export default function CommentListItem(props) {
         <input type='checkbox' checked={bChecked} value={[props.commentId, props.postId]} onChange={(e) => checkedHandler(e)} />
       )}
       <div className={'comment-item-content'}>{props.content}</div>
-      <div>{likeInfo}</div>
+      <div>{likeInfo.length}</div>
       {props.userId === userId && props.isOpen ?
         <FontAwesomeIcon icon={faTrashAlt} onClick={deleteComment} /> : null
       }

@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from "react";
 import CommentList from "./CommentList";
-import CommentListItem from "./CommentListItem";
-import Nothing from './Nothing'
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { Route } from "react-router-dom";
-import { useHistory } from "react-router";
-import { setBookmarks, setPosts, setClosed, setReplied } from '../actions/index';
+import { setReplied } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faBookmark as fasfaBookmark, faArrowRight } from '@fortawesome/free-solid-svg-icons'
-import { faBookmark as farfaBookmark, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
+import { faTimes, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import PostButtonCenter from './PostButtonCenter';
 import BestCommentSection from "./BestCommentSection";
 require("dotenv").config();
 
 
 export default function PostCase(props) {
   const dispatch = useDispatch();
-  const pathName = window.location.pathname;
   const [isCommentModalOpen, setCommentModalOpen] = useState(false); //코멘트 모달창 관리
   const [saraMara, setSaraMara] = useState(''); // 전송용 사라 마라 상태 관리
   const [isDisplayCommentModal, setDisplayCommentModal] = useState(false);
-  const { userId, isSignIn, accessToken, bookmarks, openPosts, closedPosts, repliedPosts } = useSelector(state => state);
+  const { userId, isSignIn, repliedPosts } = useSelector(state => state);
   const { postId } = props;
-  const history = useHistory();
   const [commentList, setCommentList] = useState(props.comment);
   const [sara, setSara] = useState(props.sara)
   const [mara, setMara] = useState(props.mara)
@@ -99,114 +93,6 @@ export default function PostCase(props) {
     return 0;
   }
 
-  const handleBookmark = () => {
-    if (!isSignIn) {
-      alert('로그인이 필요한 기능이에요');
-      return;
-    }
-    axios
-      .post(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/bookmarks',
-        {
-          postId: postId
-        },
-        {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        }
-      )
-      .then(res => {
-        alert(res.data);
-        dispatch(setBookmarks([...bookmarks, postId]));
-      })
-      .catch(e => console.log(e));
-  }
-
-  const handleUnBookmark = () => {
-    axios
-      .delete(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/bookmarks/' + postId,
-        {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        }
-      )
-      .then(res => {
-        alert(res.data);
-        const bms = bookmarks.slice();
-        bms.splice(bms.indexOf(postId), 1);
-        dispatch(setBookmarks(bms));
-      })
-      .catch(e => console.log(e));
-  }
-
-  const handlePostClose = () => {
-    if (confirm('살까말까를 닫으면 더이상 사라마라를 받을 수 없어요')) {
-      axios
-        .patch(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId, {},
-          {
-            headers: {
-              'Authorization': `Bearer ${accessToken}`,
-              'Content-Type': 'application/json',
-            },
-            withCredentials: true,
-          }
-        )
-        .then(res => {
-          if (pathName === '/search' || pathName === '/main') {
-            history.push('/');
-          } else if (pathName === `/users/${userId}`) {
-            const ps = openPosts.slice();
-            ps.splice(ps.indexOf(postId), 1);
-            dispatch(setPosts(ps));
-            dispatch(setClosed([...closedPosts, postId]));
-            window.location.reload(false);
-          }
-        })
-        .catch(e => console.log(e));
-    } else {
-      return;
-    }
-  }
-
-  const handlePostDelete = () => {
-    if (confirm('살까말까를 삭제하면 더이상 사라마라를 받을 수 없어요')) {
-      axios
-        .delete(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId,
-          {
-            headers: {
-              'Authorization': `Bearer ${accessToken}`,
-              'Content-Type': 'application/json',
-            },
-            withCredentials: true,
-          }
-        )
-        .then(res => {
-          if (pathName === '/search' || pathName === '/main') {
-            history.push('/');
-          }
-          else if (pathName === `/users/${userId}`) {
-            if (props.isOpen) {
-              const ps = openPosts.slice();
-              ps.splice(ps.indexOf(postId), 1);
-              dispatch(setPosts(ps));
-            } else {
-              const ps = closedPosts.slice();
-              ps.splice(ps.indexOf(postId), 1);
-              dispatch(setClosed(ps));
-            }
-          }
-        })
-        .catch(e => console.log(e));
-    } else {
-      return;
-    }
-  }
-
   function handleImageURL(image) {
     if (image) {
       return (<img src={`${process.env.REACT_APP_API_ENDPOINT}/${image}`}></img>)
@@ -218,40 +104,10 @@ export default function PostCase(props) {
       {props.isOpen ? null : <div className='closed-msg'>닫혀 있는 살까말까에는 사라마라를 보낼 수 없어요.</div>}
       <div className={'post-case-header'}>
         <div className={'post-case-title'}>{props.title}</div>
-        <Route
-          render={() => {
-            if (userId === props.userId) { // 내 글: 닫기+삭제 or 삭제
-              if (props.isOpen) {
-                return <div className='btn-center'>
-                  <button onClick={handlePostClose}>닫기</button>
-                  <FontAwesomeIcon icon={faTrashAlt} onClick={handlePostDelete} />
-                </div>
-              } else {
-                return <div className='btn-center'>
-                  <FontAwesomeIcon icon={faTrashAlt} onClick={handlePostDelete} />
-                </div>
-              }
-            }
-            else if (bookmarks.includes(postId)) { // 남의 글: 북마크 or 북마크 해제
-              return <div className='btn-center'>
-                <FontAwesomeIcon icon={fasfaBookmark} onClick={handleUnBookmark} />
-              </div>
-            } else {
-              return <div className='btn-center'>
-                <FontAwesomeIcon icon={farfaBookmark} onClick={handleBookmark} />
-              </div>
-            }
-          }}
-        />
+        <PostButtonCenter isOpen={props.isOpen} userId={props.userId} postId={postId}/>
       </div>
       <div className={'post-case-body'}>
-        {props.image ? (
-          <div className={'post-case-img-box'}>
-            {handleImageURL(props.image)}
-          </div>
-        ) : (
-          null
-        )}
+        <div className={'post-case-img-box'}>{handleImageURL(props.image)}</div>
         <div className={'post-case-content'}>{props.content}</div>
         {repliedPosts.includes(postId) || !props.isOpen || userId === props.userId ? (
           <div className={'post-case-likerate'}>
