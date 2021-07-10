@@ -18,9 +18,9 @@ export default function WritePage() {
   })
   const [imgBase64, setImgBase64] = useState('');
   const { userId, accessToken } = useSelector(state => state);
-
+  
   const handleChange = (e) => {
-    const {value, name} = e.currentTarget;
+    const { value, name } = e.currentTarget;
     setInputs({
       ...inputs,
       [name]: value,
@@ -44,54 +44,64 @@ export default function WritePage() {
     }
   }
 
-  const handleSubmit = (event) => {
-    // console.log(2)
-    if (!inputs.image) {
-      const formData = new FormData();
-      formData.append("title", inputs.title);
-      formData.append("content", inputs.content);
-      formData.append("userId", userId)
-      axios
-      .post(process.env.REACT_APP_API_ENDPOINT + '/posts',
-      formData,
-      {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      })
-      .then(res => history.push('/'))
-      .catch(e => console.log(e));
-      return;
+  const handleSubmit = () => {
+    if (inputs.title.length === 0) {
+      alert('제목을 입력해주세요')
     }
-
-    const options = {
-      maxSizeMB: 0.1,
-      maxWidthOrHeight: 1920,
-      useWebWorker: true,
-    };
-    
-    imageCompression(inputs.image, options)
-    .then(res => {
-      const reader = new FileReader();
-      reader.readAsDataURL(res);
-      reader.onloadend = () => {
-        const base64data = reader.result;
+    else if (inputs.content.length === 0) {
+      alert('내용을 입력해주세요')
+    }
+    else {
+      // console.log(1)
+      if (!inputs.image) {
+        const formData = new FormData();
+        formData.append("title", inputs.title);
+        formData.append("content", inputs.content);
+        formData.append("userId", userId)
         axios
-        .post(process.env.REACT_APP_API_ENDPOINT + '/posts',
-        handleDataForm(base64data),
-        {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        })
-        .then(res => history.push('/'))
+          .post(process.env.REACT_APP_API_ENDPOINT + '/posts',
+            formData,
+            {
+              headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+              },
+              withCredentials: true,
+            })
+          .then(res => history.push('/'))
+          .catch(e => console.log(e));
+        return;
       }
-    })
-    .catch(e => console.log(e));
+      else {
+
+        const options = {
+          maxSizeMB: 0.1,
+          maxWidthOrHeight: 1920,
+          useWebWorker: true,
+        };
+
+        imageCompression(inputs.image, options)
+          .then(res => {
+            const reader = new FileReader();
+            reader.readAsDataURL(res);
+            reader.onloadend = () => {
+              const base64data = reader.result;
+              axios
+                .post(process.env.REACT_APP_API_ENDPOINT + '/posts',
+                  handleDataForm(base64data),
+                  {
+                    headers: {
+                      'Authorization': `Bearer ${accessToken}`,
+                      'Content-Type': 'application/json',
+                    },
+                    withCredentials: true,
+                  })
+                .then(res => history.push('/'))
+            }
+          })
+          .catch(e => console.log(e));
+      }
+    }
   }
 
   const handleDataForm = dataURI => {
@@ -103,7 +113,7 @@ export default function WritePage() {
     }
     const blob = new Blob([ia], { type: "image/jpeg" });
     const file = new File([blob], "image.jpg");
-  
+
     const formData = new FormData();
     formData.append("image", file);
     formData.append("title", inputs.title);
@@ -129,7 +139,7 @@ export default function WritePage() {
         <textarea
           name='content'
           defaultValue={'내용을 입력하세요'}
-          rows="12"
+          rows="10"
           onFocus={(e) => {
             if (e.target.value === e.target.defaultValue) {
               e.target.value = ''

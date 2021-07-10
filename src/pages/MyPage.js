@@ -8,6 +8,8 @@ import axios from "axios";
 import { useHistory } from "react-router";
 import persistor from '../index';
 import { setBookmarks, setPosts, setComments, setClosed, setReplied } from '../actions/index';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
 export default function MyPage() {
   const dispatch = useDispatch();
@@ -18,6 +20,14 @@ export default function MyPage() {
   const [myBookMarkData, setMyBookMarkData] = useState([])
   const [whatIsDisplayed, setWhatIsDisplayed] = useState('Posts')
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    })
+  }
+  
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId + '/posts', {
@@ -27,7 +37,7 @@ export default function MyPage() {
         }
       })
       .then((res) => {
-        console.log(res.data.posts)
+        // console.log(res.data.posts)
         setMyPostData(res.data.posts)
         dispatch(setPosts(res.data.posts.filter(i => i.isOpen).map(i => i._id)));
         dispatch(setClosed(res.data.posts.filter(i => !i.isOpen).map(i => i._id)));
@@ -62,6 +72,7 @@ export default function MyPage() {
   }, [])
 
   const handleCategory = (category) => {
+    console.log('category: ',category)
     switch (category) {
       case 'Posts':
         setWhatIsDisplayed(category)
@@ -80,11 +91,11 @@ export default function MyPage() {
   const renderSwitchParam = (param) => {
     switch (param) {
       case 'Posts':
-        return (<MyPostContent displayData={myPostData}></MyPostContent>)
+        return (<MyPostContent whatIsDisplayed={whatIsDisplayed} displayData={myPostData}></MyPostContent>)
       case 'Comments':
-        return (<MyCommentContent displayData={myCommentData}></MyCommentContent>)
+        return (<MyCommentContent whatIsDisplayed={whatIsDisplayed} displayData={myCommentData}></MyCommentContent>)
       case 'Bookmarks':
-        return (<MyBookMarkContent displayData={myBookMarkData}></MyBookMarkContent>)
+        return (<MyBookMarkContent whatIsDisplayed={whatIsDisplayed} displayData={myBookMarkData}></MyBookMarkContent>)
       default:
         break;
     }
@@ -116,38 +127,40 @@ export default function MyPage() {
   }
 
   const deleteAccount = () => {
-    axios
-    .delete(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId, {
-      headers: {
-        Authorization: `bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(res => {
-      // 카카오 로그인이 되어있는 경우
-      if (provider === 'kakao') {
-        if (window.Kakao.Auth.getAccessToken() !== null) {
-          window.Kakao.Auth.logout(function() {
-            console.log(window.Kakao.Auth.getAccessToken());
-          })
+    if (confirm('정말로 탈퇴하시겠어요?')) {
+      axios
+      .delete(process.env.REACT_APP_API_ENDPOINT + '/users/' + userId, {
+        headers: {
+          Authorization: `bearer ${accessToken}`,
+          'Content-Type': 'application/json',
         }
-      }
-
-      // 구글 로그인이 되어있는 경우
-      else if (provider === 'google') {
-        if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
-          gapi.auth2.getAuthInstance().signOut().then(function() {
-            console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
-          })
-          gapi.auth2.getAuthInstance().disconnect();
+      })
+      .then(res => {
+        // 카카오 로그인이 되어있는 경우
+        if (provider === 'kakao') {
+          if (window.Kakao.Auth.getAccessToken() !== null) {
+            window.Kakao.Auth.logout(function() {
+              console.log(window.Kakao.Auth.getAccessToken());
+            })
+          }
         }
-      }
 
-      // store 초기화
-      persistor.purge();
-    })
-    .then(() => history.push('/'))
-    .catch(e => console.log(e));
+        // 구글 로그인이 되어있는 경우
+        else if (provider === 'google') {
+          if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
+            gapi.auth2.getAuthInstance().signOut().then(function() {
+              console.log(gapi.auth2.getAuthInstance().isSignedIn.get());
+            })
+            gapi.auth2.getAuthInstance().disconnect();
+          }
+        }
+
+        // store 초기화
+        persistor.purge();
+      })
+      .then(() => history.push('/'))
+      .catch(e => console.log(e));
+    }
   }
 
 
@@ -158,12 +171,13 @@ export default function MyPage() {
         handleCategory={handleCategory}
       ></SideBar>
       <div className={'mp-content'}>
-        <div id='hello-msg'>{`${email}님, 안녕하세요?`}</div>
         <button id='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
         {getHeader(whatIsDisplayed)}
         {renderSwitchParam(whatIsDisplayed)}
       </div>
-      
+      <div className={'lp-up-btn'} onClick={scrollToTop}>
+        <FontAwesomeIcon icon={faChevronUp} className='fa-2x' />
+      </div>
     </div>
   )
 }

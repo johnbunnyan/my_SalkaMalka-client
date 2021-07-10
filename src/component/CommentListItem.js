@@ -1,17 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import { setComments } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsUp, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
+import { useHistory } from "react-router-dom";
 
 export default function CommentListItem(props) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [postInfo, setPostInfo] = useState({})
   const { isSignIn, userId, accessToken, comments } = useSelector(state => state);
   const [likeInfo, setLikeInfo] = useState(props.like)
-  // console.log(props.like)
-  // console.log(props)
+  const [bChecked, setChecked] = useState(false)
+
+  const allCheckHandler = () => setChecked(props.isAllChecked)
+
+  useEffect(() => allCheckHandler(), [props.isAllChecked])
+  // console.log(props.isAllChecked)
+  const checkedHandler = ({ target }) => {
+    console.log(props.checkedItemHandler)
+    setChecked(!bChecked)
+    props.checkedItemHandler(target.value, target.checked)
+  }
 
   const handleLike = () => {
     if (!isSignIn) {
@@ -25,12 +36,12 @@ export default function CommentListItem(props) {
       .then(res => setLikeInfo(res.data.like))
       .catch(e => {
         if (e.response && (e.response.status === 404 || e.response.status === 409)) alert(e.response.data);
-        else if (e.response && (e.response.status === 400)) alert('이미 좋아요를 보냈습니다');
+        else if (e.response && (e.response.status === 400)) alert('이미 좋아요한 댓글이에요');
       });
   }
 
   const handleOpenPost = (postId) => {//파라미터부분에 포스트아이디를받음
-    axios
+     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId)
       .then(res => {
         props.setPostInfo({
@@ -74,11 +85,14 @@ export default function CommentListItem(props) {
   }
 
   return (
-    <div className={'comment-item'}>
+    <div className={props.type === 'sara' ? 'comment-item sara' : 'comment-item mara'}>
+      {!props.checkedItemHandler ? null : (
+        <input type='checkbox' checked={bChecked} value={[props.commentId, props.postId]} onChange={(e) => checkedHandler(e)} />
+      )}
       <div className={'comment-item-content'}>{props.content}</div>
-      <div>{likeInfo}</div>
+      <div>{likeInfo.length}</div>
       {props.userId === userId && props.isOpen ?
-        <FontAwesomeIcon icon={faTrashAlt} onClick={deleteComment}/> : null
+        <FontAwesomeIcon icon={faTrashAlt} onClick={deleteComment} /> : null
       }
       {props.userId !== userId && props.isOpen ?
         <FontAwesomeIcon icon={faThumbsUp} onClick={handleLike} /> : null
