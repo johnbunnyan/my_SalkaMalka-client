@@ -5,7 +5,7 @@ import Nothing from '../component/Nothing';
 import { useSelector } from 'react-redux';
 import { useHistory } from "react-router";
 import axios from "axios";
-import { useInView, userInView } from 'react-intersection-observer';
+import { useInView } from 'react-intersection-observer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAward, faFire, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import { faClock } from '@fortawesome/free-regular-svg-icons'
