@@ -90,7 +90,7 @@ export default function CommentListItem(props) {
         <input type='checkbox' checked={bChecked} value={[props.commentId, props.postId]} onChange={(e) => checkedHandler(e)} />
       )}
       <div className={'comment-item-content'}>{props.content}</div>
-      <div>{likeInfo.length}</div>
+      <div className='comment-item-like-count'>{likeInfo.length}</div>
       {props.userId === userId && props.isOpen ?
         <FontAwesomeIcon icon={faTrashAlt} onClick={deleteComment} /> : null
       }
