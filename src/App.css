@@ -71,10 +71,6 @@ input:focus, textarea:focus {
   display: none;
 }
 
-.signup-modal * {
-  font-size: 16px;
-}
-
 .signup-modal.open-signup-modal {
   position: fixed;
   height: 100vh;
@@ -91,8 +87,8 @@ input:focus, textarea:focus {
 }
 
 .signup-modal section {
-  padding: 1rem;
-  width: 40vw;
+  padding: 1em;
+  width: 400px;
   background-color: var(--sidebar);
   display: flex;
   flex-direction: column;
@@ -126,8 +122,8 @@ input:focus, textarea:focus {
   color: var(--salka-blue);
   border: var(--background) solid 2px;
   background-color: var(--sidebar);
-  border-radius: 2.5rem;
-  height: 2.5rem;
+  border-radius: 2.5em;
+  height: 2.5em;
   text-align: center;
   width: 65%;
   font-size: 1rem;
@@ -140,8 +136,8 @@ input:focus, textarea:focus {
 #signup-modal-main label {
   color: var(--salka-blue);
   background-color: var(--sidebar);
-  height: 2.5rem;
-  line-height: 2.5rem;
+  height: 2.5em;
+  line-height: 2.5em;
 }
 
 #signup-modal-main > * {
@@ -149,8 +145,8 @@ input:focus, textarea:focus {
 }
 
 #input-center {
-  width: 60%;
-  min-height: 9rem;
+  width: 280px;
+  min-height: 9em;
 }
 
 .btn-center {
@@ -160,11 +156,11 @@ input:focus, textarea:focus {
 
 .signup-modal button {
   display: block;
-  margin: 1rem 1.5rem;
+  margin: 1em 1.5em;
   background-color: var(--salka-blue);
   color: var(--sidebar);
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   font-size: 12px;
 }
@@ -175,8 +171,8 @@ input:focus, textarea:focus {
 }
 
 .signup-modal .signUp button {
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 64px;
+  height: 64px;
 }
 
 #signup-email,
@@ -185,18 +181,18 @@ input:focus, textarea:focus {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin: 0.5rem 0;
+  margin: 0.5em 0;
 }
 
 #signup-btn {
   display: flex;
   flex-direction: column;
-  margin-top: 1rem;
+  margin-top: 1em;
   align-items: center;
 }
 
 #change-section {
-  margin: 1rem 0;
+  margin: 1em 0;
   text-align: center;
   cursor: pointer;
 }
@@ -211,21 +207,17 @@ input:focus, textarea:focus {
   color: var(--salka-blue);
 }
 
-#change-section svg {
-  font-size: 16px;
-}
-
 .error-msg {
   text-align: center;
   color: var(--malka-red);
   font-size: 12px;
-  height: 1.5rem;
-  line-height: 1.5rem;
+  height: 1.5em;
+  line-height: 1.5em;
 }
 
 .error-msg svg {
   font-size: 12px;
-  margin-right: 0.5rem;
+  margin-right: 5px;
 }
 
 .error-msg svg * {
@@ -252,12 +244,12 @@ input:focus, textarea:focus {
 }
 
 .write-comment-modal section {
-  height: 25vh;
-  width: 32.5vw;
+  height: 180px;
+  width: 400px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 1em;
 }
 
 .write-sara-comment {
@@ -282,37 +274,37 @@ input:focus, textarea:focus {
 }
 
 .write-comment-modal svg {
-  font-size: 1.5rem;
+  font-size: 24px !important;
   padding: 0;
 }
 
 .write-comment-modal header div {
-  font-size: 0.75rem;
-  margin-left: 0.75rem;
+  font-size: 0.75em;
+  margin: 0 0.75em;
   color: black;
   font-weight: 400;
 }
 
 .write-comment-modal main {
+  flex-grow: 1;
   display: flex;
   align-items: center;
-  height: 85%;
 }
 
 .write-sara-comment textarea{
+  height: 85%;
   flex-grow: 1;
-  height: 80%;
-  margin: 0.5rem;
+  margin: 0.5em;
   border: var(--background) solid 2px;
 }
 
 .write-sara-comment button{
   background-color: var(--salka-blue);
   color: var(--sidebar);
-  width: 4rem;
-  height: 4rem;
+  width: 4em;
+  height: 4em;
   border-radius: 50%;
-  margin: 0.5rem;
+  margin: 0.5em;
   font-weight: 700;
 }
 
@@ -322,19 +314,19 @@ input:focus, textarea:focus {
 }
 
 .write-mara-comment textarea{
+  height: 85%;
   flex-grow: 1;
-  height: 80%;
-  margin: 0.5rem;
+  margin: 0.5em;
   border: var(--malka-pink) solid 2px;
 }
 
 .write-mara-comment button{
   background-color: var(--malka-red);
   color: var(--background-red);
-  width: 4rem;
-  height: 4rem;
+  width: 4em;
+  height: 4em;
   border-radius: 50%;
-  margin: 0.5rem;
+  margin: 0.5em;
   font-weight: 700;
 }
 
@@ -363,7 +355,7 @@ input:focus, textarea:focus {
 }
 
 .comment-modal section {
-  width: 60vw;
+  width: 700px;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -378,7 +370,10 @@ input:focus, textarea:focus {
 .comment-modal svg {
   font-size: 1.5rem;
   padding: 0;
-  height: 100%;
+}
+
+.comment-modal header svg {
+  font-size: 24px;
 }
 
 .comment-modal header {
@@ -422,7 +417,7 @@ input:focus, textarea:focus {
 }
 
 .comment-modal .comment-item  * {
-  line-height: 2rem;
+  line-height: 1.5rem;
 }
 
 /* 사이드바 */
@@ -453,10 +448,10 @@ input:focus, textarea:focus {
 .search-bar {
   position: absolute;
   left: 50vw;
-  margin-left: -20vw;
+  margin-left: -250px;
   display: flex;
   align-items: center;
-  width: 40vw;
+  width: 500px;
 }
 .search-bar svg {
   padding: 0px !important;
@@ -520,7 +515,8 @@ input:focus, textarea:focus {
   overflow-y: hidden;
   position: fixed;
   top: 4rem;
-  right: 1rem;
+  right: 0;
+  margin-right: 0.5rem;
   z-index: 1;
   background-color: var(--background);
   border-radius: 0;
@@ -624,7 +620,7 @@ input:focus, textarea:focus {
 }
 #sort-btn-container {
   margin: 0.5rem 1rem;
-  width: 55vw;
+  width: 700px;
   display: flex;
   justify-content: space-around;
 }
@@ -676,13 +672,11 @@ input:focus, textarea:focus {
 /* post-case */
 .post-case{
   border: 2px dotted var(--salka-blue);
-  /* 컬러옵션 */
-  /* background-color: rgba(255, 255, 255, 0.4); */
   margin: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 55vw;
+  width: 700px;
   align-items: center;
   padding: 2rem;
   padding-bottom: 1rem;
@@ -724,15 +718,17 @@ input:focus, textarea:focus {
   font-size: 1.5rem;
 }
 .post-btn-center {
+  min-width: 6rem;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
 }
 .post-btn-center button {
   font-weight: 800;
 }
 .post-btn-center svg {
   font-size: 1.5rem;
-  margin: 0.5rem 1rem;
+  margin: 0.5rem;
 }
 .post-btn-center svg:hover * {
   color: white;
@@ -891,13 +887,13 @@ input:focus, textarea:focus {
 .comment-item{
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .comment-item button {
   padding: 0px;
 }
 .comment-item-content{
-  width: 80%;
-  overflow: hidden;
+  flex-grow: 1;
 }
 
 /* writepage */
@@ -914,16 +910,17 @@ input:focus, textarea:focus {
   align-items: center;
   background-color: var(--sidebar);
   padding-top: 7rem;
+  padding-bottom: 1em;
   /* min-height: 100vh; */
 }
 .wp-content input[name=title],
 .wp-content textarea {
   border: 2px dotted var(--salka-blue);
-  padding: 1rem;
+  padding: 1em;
 }
 .wp-content > * {
-  width: 40vw;
-  margin: 1rem 0;
+  width: 480px;
+  margin: 1em 0;
 }
 #wp-img-upload {
   display: flex;
@@ -931,15 +928,15 @@ input:focus, textarea:focus {
   border: 2px dotted var(--salka-blue);
 }
 .wp-preview-img-box{
-  width: 8rem;
-  height: 8rem;
+  width: 8em;
+  height: 8em;
   overflow-y: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .wp-preview-img-box svg {
-  font-size: 5rem;
+  font-size: 5em;
   height: 100%;
   line-height: 100%;
   text-align: center;
@@ -957,8 +954,8 @@ input:focus, textarea:focus {
 }
 #wp-submit {
   background-color: var(--salka-blue);
-  width: 4rem;
-  height: 4rem;
+  width: 4em;
+  height: 4em;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -967,8 +964,8 @@ input:focus, textarea:focus {
 }
 
 #wp-submit svg {
-  font-size: 2rem;
-  line-height: 4rem;
+  font-size: 2em;
+  line-height: 4em;
 }
 #wp-submit svg * {
   color: var(--sidebar);
@@ -990,7 +987,7 @@ input:focus, textarea:focus {
 }
 #mp-title {
   margin: 0.5rem 1rem 0 1rem;
-  width: 55vw;
+  width: 700px;
   padding-bottom: 0.5rem;
   border-radius: 0;
 }
@@ -1066,12 +1063,23 @@ input:focus, textarea:focus {
   opacity: 1;
 }
 #mp-comments .comment-item {
-  width: 55vw;
+  width: 700px;
   margin: 1rem;
-  padding: 1.5rem;
+  padding: 1rem;
   line-height: 1.5rem;
   border: 2px dotted var(--salka-blue);
   align-items: center;
+}
+.comment-item > * {
+  margin: 0.5rem;
+}
+.comment-item button {
+  min-width: 5em;
+}
+
+.comment-item-like-count {
+  min-width: 2rem;
+  text-align: center;
 }
 
 #mp-comments .comment-item.sara {
@@ -1097,17 +1105,19 @@ input:focus, textarea:focus {
   flex-direction: column;
   align-items: center;
   background-color: var(--sidebar);
-  padding-top: 18vh;
+  padding-top: 8rem;
   min-height: 100vh;
 }
 #ap-content > div {
   border: 2px dotted var(--salka-blue);
-  margin: 1rem 12rem 3rem 12rem;
+  width: 700px;
+  margin-top: 1rem;
+  margin-bottom: 3rem;
   padding: 3rem;
   border-radius: 20px;
 }
 #ap-content > img {
-  width: 40vw;
+  width: 500px;
 }
 
 #ap-content h1 {
@@ -1180,11 +1190,48 @@ input:focus, textarea:focus {
   font-family: 'Nanum Brush Script', cursive;
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 1000px) {
+  .search-bar {
+    margin-left: -25vw;
+    width: 50vw;
+  }
+
+
+  #menu:hover + .menu-open,
+  .menu-open:hover {
+    height: 9rem;
+  }
+
+  .menu-open {
+    margin: 0;
+    padding: 0;
+    right: 0;
+    margin-top: 1rem;
+    margin-right: 0.5rem;
+    opacity: 0.8;
+  }
+
+  .menu-open * {
+    margin: 1rem;
+    padding: 0;
+  }
+
+}
+
+@media only screen and (max-width: 720px) {
   * {
     font-size: 10px;
   }
 
+  .wp-content * {
+    font-size: 14px;
+  }
+
+  #goodbye-btn,
+  .landing-page #logo-crop,
+  .lp-up-btn {
+    display: none;
+  }
   
   .lp-content {
     padding: 0 2rem;
@@ -1196,10 +1243,10 @@ input:focus, textarea:focus {
   }
   #search-message {
     text-align: center;
-    
+
   }
   .lp-postlist > div {
-    width: 100%;
+    width: 100% !important;
   }
 
   .side-bar {
@@ -1239,91 +1286,188 @@ input:focus, textarea:focus {
     margin: 0;
   }
 
-  #menu:hover + .menu-open,
-  .menu-open:hover {
-    height: 9rem;
+  .lp-postlist {
+    width: 440px;
   }
-
-  .menu-open {
-    margin: 0;
-    padding: 0;
-    right: 0;
-    margin-top: 1rem;
-    opacity: 0.8;
-  }
-
-  .menu-open * {
-    margin: 1rem;
-    padding: 0;
-  }
+  
   .post-case {
-    width: 100%;
+    width: 440px;
     margin: 1rem 0;
     padding: 0;
     border-radius: 0;
     border: 2px dotted var(--salka-blue);
   }
 
-  .mp-content {
-    padding: 0 2rem;
-    padding-top: 8rem;
-    /* height: 100%; */
+  .signup-modal *,
+  .write-comment-modal * {
+    font-size: 14px !important;
   }
+
+  .signup-modal section > svg {
+    font-size: 24px !important;
+  }
+
+  .signup-modal button,
+  .error-msg,
+  .error-msg * {
+    font-size: 12px !important;
+  }
+
+  .write-comment-modal header div {
+    font-size: 0.75em !important;
+  }
+
+  .write-comment-modal textarea {
+    padding: 0.5em !important;
+  }
+  .comment-modal section {
+    width: 480px;
+  }
+
+  /* .comment-modal .comment-item * {
+    line-height: 1.25rem;
+  } */
+
 
   #mp-title {
-    width: 100%;
-  }
-
-  .mp-postlist,
-  #mp-comments,
-  #mp-comments .comment-item {
-    width: 100%;
-  }
-
-
-  #mp-comments .comment-item {
-    margin: 1rem 0;
-  }
-
-  #goodbye-btn,
-  .lp-up-btn,
-  #footer div:last-child,
-  #hello-msg,
-  #mp-comments .comment-item button,
-  .landing-page #logo-crop,
-  .check-all,
-  input[type=checkbox] {
-    display: none;
-  }
-
-  .wp-content {
-    padding: 2rem;
-    padding-top: 6rem;
-  }
-  .wp-content > * {
-    width: 100%;
+    width: 440px;
   }
 
   #ap-content {
     padding: 0 2rem;
     padding-top: 8rem;
-  }
-  #ap-content > * {
-    width: 100%;
-  }
-  #ap-content > img {
-    width: 80%;
+    /* height: 100%; */
   }
 
-  div.about-troika {
-    flex-direction: column;
+  #ap-content > img {
+    width: 300px;
+  }
+
+  #ap-content > div {
+    width: 480px;
+    padding: 2rem 1.5rem;
+  }
+  #mp-comments .comment-item {
+    width: 440px;
+  }
+
+  .best-dislike-comment > *, .best-like-comment > * {
+    margin: 0;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+
+
+  #mp-comments,
+  #mp-comments .comment-item {
+    width: 100%;
+  }
+
+  #mp-comments .comment-item {
+    margin: 1rem 0;
+  }
+  #mp-title {
+    width: 100%;
+  }
+  .post-case {
+    width: 100%;
   }
 
   #footer div:first-child {
     width: 100%;
     text-align: center;
   }
+  
+  #footer div:last-child,
+  #hello-msg,
+  #mp-comments .comment-item button,
+  .check-all,
+  input[type=checkbox],
+  .comment-modal .comment-item svg {
+    display: none;
+  }
 
+
+  #mp-comments .comment-item-content {
+    width: 90%;
+  }
+  .comment-modal section {
+    width: 290px;
+  }
+
+  div.about-troika {
+    flex-direction: column;
+  }
+
+  #ap-content > div {
+    width: 100%;
+  }
+
+  .wp-content {
+    padding: 2rem;
+    padding-top: 8rem;
+  }
+  .wp-content > * {
+    width: 100%;
+  }
+
+  .wp-content textarea {
+    flex-grow: 1;
+  }
+
+  .wp-content * {
+    font-size: 1rem;
+  }
+  .lp-content {
+    padding: 2rem;
+    padding-top: 8rem;
+  }
+  .lp-content > * {
+    width: 100%;
+  }
+
+  .post-case-header *,
+  .post-btn-center svg {
+    font-size: 1rem;
+  }
+
+  .post-btn-center {
+    min-width: 5rem;
+  }
+  .post-btn-center * {
+    font-size: 0.8rem;
+  }
+  
+  #current-page {
+    font-size: 1.5rem;
+    color: var(--malka-red);
+  }
+
+  .mp-content {
+    padding: 0 2rem;
+    padding-top: 8rem;
+  }
+
+
+  .mp-postlist {
+    width: 100%;
+  }
+
+  .comment-modal .comment-item {
+    padding: 0rem;
+  }
+  .comment-modal .like-comment-display,
+  .comment-modal .dislike-comment-display {
+    padding: 0.25rem 0.5rem;
+  }
+
+  .comment-modal .comment-item > * {
+    margin: 0.5rem 0.25rem;
+  }
+}
+
+@media only screen and (max-width: 400px) {
   .signup-modal {
     padding: 2rem;
   }
@@ -1340,40 +1484,42 @@ input:focus, textarea:focus {
     width: 100%;
   }
 
+  #input-center {
+    width: 60%;
+  }
+
   .signUp #input-center {
     width: 70%;
   }
 
-  .write-comment-modal {
-    padding: 2rem;
+  .signup-modal button {
+    width: 3.5rem;
+    height: 3.5rem;
   }
+
+  .signup-modal .signUp button {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+
+  .write-comment-modal * {
+    font-size: 1rem !important;
+  }
+
 
   .write-comment-modal section {
-    width: 100%;
+    width: 290px;
+    height: 150px;
   }
 
-  .comment-modal {
-    padding: 2rem;
+
+  .write-comment-modal header div {
+    font-size: 0.85em !important;
   }
 
-  .comment-modal section {
-    width: 100%;
-  }
 
-  .comment-modal .comment-item * {
-    line-height: 1.25rem;
-  }
-
-  .comment-item-content {
-    width: 60%;
-  }
-
-  #mp-comments .comment-item-content {
-    width: 80%;
-  }
-
-  #current-page {
-    font-size: 1.5rem;
-    color: var(--malka-red);
+  #ap-content > img {
+    width: 200px;
   }
 }
