@@ -19,7 +19,7 @@ export default function CommentListItem(props) {
   useEffect(() => allCheckHandler(), [props.isAllChecked])
   // console.log(props.isAllChecked)
   const checkedHandler = ({ target }) => {
-    console.log(props.checkedItemHandler)
+    // console.log(props.checkedItemHandler)
     setChecked(!bChecked)
     props.checkedItemHandler(target.value, target.checked)
   }
