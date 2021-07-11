@@ -128,7 +128,7 @@ export default function LandingPage() {
               return (
                 <div ref={ref}>
                   <PostCase
-                    key={el._id}
+                    key={idx}
                     sara={el.sara}
                     mara={el.mara}
                     postId={el._id}
@@ -146,7 +146,7 @@ export default function LandingPage() {
               return (
                 <div>
                   <PostCase
-                    key={el._id}
+                    key={idx}
                     sara={el.sara}
                     mara={el.mara}
                     postId={el._id}

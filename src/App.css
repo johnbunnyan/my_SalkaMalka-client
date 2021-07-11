@@ -1,4 +1,12 @@
 /* global styles */
+
+/* html{
+  height: 100%;
+  overflow: auto;
+}
+body{
+  height: 100%;
+} */
 * {
   margin: 0;
   padding: 0;
@@ -975,6 +983,7 @@ input:focus, textarea:focus {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  /* height: 100%; */
 }
 #mp-title {
   margin: 0.5rem 1rem 0 1rem;
@@ -1327,6 +1336,7 @@ input:focus, textarea:focus {
   #ap-content {
     padding: 0 2rem;
     padding-top: 8rem;
+    /* height: 100%; */
   }
 
   #ap-content > img {
