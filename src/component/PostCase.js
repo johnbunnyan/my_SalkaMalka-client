@@ -104,11 +104,20 @@ export default function PostCase(props) {
       {props.isOpen ? null : <div className='closed-msg'>닫혀 있는 살까말까에는 사라마라를 보낼 수 없어요.</div>}
       <div className={'post-case-header'}>
         <div className={'post-case-title'}>{props.title}</div>
-        <PostButtonCenter isOpen={props.isOpen} userId={props.userId} postId={postId}/>
+        <PostButtonCenter isOpen={props.isOpen} userId={props.userId} postId={postId} />
       </div>
       <div className={'post-case-body'}>
         <div className={'post-case-img-box'}>{handleImageURL(props.image)}</div>
-        <div className={'post-case-content'}>{props.content}</div>
+        <div className={'post-case-content'}>
+          {props.content.split('\n').map((line,idx) => {
+            return (
+              <span key={idx}>
+                {line}
+                <br />
+              </span>
+            )
+          })}
+        </div>
         {repliedPosts.includes(postId) || !props.isOpen || userId === props.userId ? (
           <div className={'post-case-likerate'}>
             <div className={'post-case-rate'}>
@@ -116,8 +125,8 @@ export default function PostCase(props) {
               <div className={'post-case-sararate'}>{formatRate(getRate('mara')) + '%'}</div>
             </div>
             <div className={'post-case-graph'}>
-              <div style={{ width: getWidth(getRate('sara'))}} className={'post-case-saragraph'}></div>
-              <div style={{ width: getWidth(getRate('mara'))}} className={'post-case-maragraph'}></div>
+              <div style={{ width: getWidth(getRate('sara')) }} className={'post-case-saragraph'}></div>
+              <div style={{ width: getWidth(getRate('mara')) }} className={'post-case-maragraph'}></div>
             </div>
           </div>
         ) : (
@@ -154,7 +163,7 @@ export default function PostCase(props) {
       <div className={isDisplayCommentModal ? 'open-comment-modal comment-modal' : 'comment-modal'}>
         <section>
           <header>
-            <FontAwesomeIcon icon={faTimes} onClick={() => { setDisplayCommentModal(false) }}/>
+            <FontAwesomeIcon icon={faTimes} onClick={() => { setDisplayCommentModal(false) }} />
             {props.isOpen ? null : <div className='closed-msg'>닫혀 있는 살까말까에는 사라마라를 보낼 수 없어요.</div>}
           </header>
           <main>

@@ -50,7 +50,6 @@ export default function LandingPage() {
       await axios
         .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
         .then(res => {
-          console.log(res.data.posts.length)
           let post = res.data.posts.slice(postOptions.preItems, postOptions.items)
           setData(pre => [...pre, ...post])
         })
@@ -78,7 +77,6 @@ export default function LandingPage() {
   }, [sortValue])
 
   useEffect(() => {
-    console.log(1 )
     if (inView && !loading) {
       setPostOptions({
         preItems: postOptions.items,
@@ -130,7 +128,7 @@ export default function LandingPage() {
               return (
                 <div ref={ref}>
                   <PostCase
-                    key={el._id}
+                    key={idx}
                     sara={el.sara}
                     mara={el.mara}
                     postId={el._id}
@@ -148,7 +146,7 @@ export default function LandingPage() {
               return (
                 <div>
                   <PostCase
-                    key={el._id}
+                    key={idx}
                     sara={el.sara}
                     mara={el.mara}
                     postId={el._id}

@@ -88,11 +88,11 @@ export default function MyCommentContent(props) {
             <input type='checkbox' checked={isAllChecked} onChange={(e) => allCheckedHandler(e)}></input>
             <button onClick={deleteComment}>체크된 댓글 삭제</button>
           </div>
-          {commentList.map((el) => {
+          {commentList.map((el,idx) => {
             if (comments.includes(el.commentId)) {
               return (
                 <CommentListItem
-                  key={el.commentId}
+                  key={idx}
                   commentId={el.commentId}
                   userId={el.userId}
                   postId={el.postId}
