@@ -73,8 +73,7 @@ export default function MyCommentContent(props) {
           }
         )
         .then((res) => {
-          console.log(res)
-        // setCommentList(res.data.posts)
+        setCommentList(res.data.userComments)
         })
     })
   }
