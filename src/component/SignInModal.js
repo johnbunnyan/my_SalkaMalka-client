@@ -5,7 +5,7 @@ import { GoogleLogin } from 'react-google-login';
 import { userSignIn, setReplied } from '../actions/index';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faArrowLeft, faArrowRight, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 require("dotenv").config();
 
@@ -218,7 +218,10 @@ export default function SignInModal(props) {
         </div>
       </div>
       <div id='signup-btn'>
-        <div className='error-msg'>{allErr === '' ? wrongErr : allErr}</div>
+        <div className={allErr.length + wrongErr.length ? 'error-msg' : 'error-msg hidden'}>
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+          {allErr === '' ? wrongErr : allErr}
+        </div>
         <div className='btn-center'>
         <button onClick={() => { signInHandler(email, password) }}>로그인</button>
         <GoogleLogin 
@@ -243,20 +246,32 @@ export default function SignInModal(props) {
           <label htmlFor='email'>이메일</label>
           <input type="text" name='email' onChange={(e) => { setEmail(e.target.value) }}></input>
         </div>
-        <div className='error-msg'>{emailErr}</div>
+        <div className={emailErr.length ? 'error-msg' : 'error-msg hidden'}>
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+          {emailErr}
+        </div>
         <div id='signup-password'>
           <label htmlFor='password'>비밀번호</label>
           <input type="password" name='password' onChange={(e) => { setPassword(e.target.value) }}></input>
         </div>
-        <div className='error-msg'>{passwordErr}</div>
+        <div className={passwordErr.length ? 'error-msg' : 'error-msg hidden'}>
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+          {passwordErr}
+        </div>
         <div id='signup-password-check'>
           <label htmlFor='password-check'>비밀번호 확인</label>
           <input type="password" name='password-check' onChange={(e) => { setCheckPassword(e.target.value) }}></input>
         </div>
-        <div className='error-msg'>{matchErr}</div>
+        <div className={matchErr.length ? 'error-msg' : 'error-msg hidden'}>
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+          {matchErr}
+        </div>
       </div>
       <div id='signup-btn'>
-        <div className='error-msg'>{allErr}</div>
+        <div className={allErr.length ? 'error-msg' : 'error-msg hidden'}>
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+          {allErr}
+        </div>
         <button onClick={() => { signUpHandler(email, password, checkPassword) }}>회원가입</button>
       </div>
       <div id='change-section' onClick={() => { setSectionType('signIn') }}>

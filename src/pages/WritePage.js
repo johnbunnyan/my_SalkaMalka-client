@@ -139,7 +139,7 @@ export default function WritePage() {
         <textarea
           name='content'
           defaultValue={'내용을 입력하세요'}
-          rows="12"
+          rows="10"
           onFocus={(e) => {
             if (e.target.value === e.target.defaultValue) {
               e.target.value = ''

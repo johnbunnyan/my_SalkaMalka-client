@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CommentListItem from "./CommentListItem";
 import PostCase from "./PostCase";
 import { useSelector } from 'react-redux';
@@ -20,13 +20,14 @@ export default function MyCommentContent(props) {
   // console.log(comments)
   const [commentList, setCommentList] = useState(props.displayData)
 
+  useEffect(() => console.log(commentList), [commentList])
+
   const checkedItemHandler = (value, isChecked) => {
     const commentInfo = {
       commentId: value.split(',')[0],
       postId: value.split(',')[1]
     }
     if (isChecked) {
-      // checkedItems.add(commentInfo)
       setChecktedItems([...checkedItems, commentInfo])
     }
     else if (!isChecked) {
@@ -58,9 +59,9 @@ export default function MyCommentContent(props) {
 
   // console.log(commentList)
 
-  const deleteComment = () => {
-    // console.log(checkedItems)
-    checkedItems.forEach((el) => {
+  const deleteComment = async () => {
+    let newCommentList = []
+    await checkedItems.forEach((el) => {
       axios
         .delete(process.env.REACT_APP_API_ENDPOINT + '/posts/' + el.postId + '/comments/' + el.commentId,
           {
@@ -71,32 +72,10 @@ export default function MyCommentContent(props) {
             withCredentials: true,
           }
         )
-      .then(
-        // console.log(commentList.filter((comment) => comment.commentId !== el.commentId))
-        setCommentList(commentList.filter((comment) => comment.commentId !== el.commentId))
-      )
-      // console.log(el.commentId)
-      // for(let key of commentList){
-      //   if(el.commentId !== key.commentId){
-
-      //   }
-      // }
-      // console.log(
-      //   commentList.map((comment) => {
-      //     if (comment.commentId !== el.commentId) {
-      //         return comment
-      //     }
-      //   })
-      // )
-      // console.log(commentList.filter((comment) => comment.commentId !== el.commentId))
-
+        .then((res) => {
+        setCommentList(res.data.userComments)
+        })
     })
-
-    // for(let key of checkedItems){
-    //   for(let item of commentList){
-    //     console.log(key.commentId === item.commentId)
-    //   }
-    // }
   }
 
   if (!isOpenPost) {
@@ -109,11 +88,11 @@ export default function MyCommentContent(props) {
             <input type='checkbox' checked={isAllChecked} onChange={(e) => allCheckedHandler(e)}></input>
             <button onClick={deleteComment}>체크된 댓글 삭제</button>
           </div>
-          {commentList.map((el) => {
+          {commentList.map((el,idx) => {
             if (comments.includes(el.commentId)) {
               return (
                 <CommentListItem
-                  key={el.commentId}
+                  key={idx}
                   commentId={el.commentId}
                   userId={el.userId}
                   postId={el.postId}
@@ -138,6 +117,10 @@ export default function MyCommentContent(props) {
   } else {
     return (
       <div id='mp-comments-post'>
+        <div id='to-comments' onClick={() => { setOpenPost(false) }}>
+          <FontAwesomeIcon icon={faArrowLeft} />
+          <span> 내 댓글 목록으로 돌아가기</span>
+        </div>
         <PostCase
           sara={postInfo.sara}
           setOpenPost={setOpenPost}
@@ -150,10 +133,6 @@ export default function MyCommentContent(props) {
           isOpen={postInfo.isOpen}
           comment={postInfo.comment}
         ></PostCase>
-        <div id='to-comments' onClick={() => { setOpenPost(false) }}>
-          <FontAwesomeIcon icon={faArrowLeft} />
-          <span> 내 댓글 목록으로 돌아가기</span>
-        </div>
       </div>
     )
   }
