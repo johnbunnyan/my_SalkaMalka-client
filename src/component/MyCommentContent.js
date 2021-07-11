@@ -118,6 +118,10 @@ export default function MyCommentContent(props) {
   } else {
     return (
       <div id='mp-comments-post'>
+        <div id='to-comments' onClick={() => { setOpenPost(false) }}>
+          <FontAwesomeIcon icon={faArrowLeft} />
+          <span> 내 댓글 목록으로 돌아가기</span>
+        </div>
         <PostCase
           sara={postInfo.sara}
           setOpenPost={setOpenPost}
@@ -130,10 +134,6 @@ export default function MyCommentContent(props) {
           isOpen={postInfo.isOpen}
           comment={postInfo.comment}
         ></PostCase>
-        <div id='to-comments' onClick={() => { setOpenPost(false) }}>
-          <FontAwesomeIcon icon={faArrowLeft} />
-          <span> 내 댓글 목록으로 돌아가기</span>
-        </div>
       </div>
     )
   }

@@ -4,6 +4,8 @@ import WritePage from "./pages/WritePage";
 import LandingPage from "./pages/LandingPage";
 import MyPage from "./pages/MyPage";
 import AboutPage from "./pages/AboutPage";
+import SideBar from "./component/SideBar";
+import Footer from "./component/Footer";
 import {
   Switch,
   BrowserRouter,
@@ -27,6 +29,19 @@ export default function App() {
     if (!window.Kakao.Auth) {
       window.Kakao.init(process.env.REACT_APP_KAKAO_KEY);
     }
+  }, [])
+
+  useEffect(() => {
+    let scrollPos = 0;
+    window.addEventListener('scroll', function() {
+      //scroll up -> show nav
+      if ((document.body.getBoundingClientRect()).top > scrollPos)
+      document.querySelector('.side-bar').style.top = '0';
+      //scroll down -> hide nav
+      else
+      document.querySelector('.side-bar').style.top = '-100px';
+      scrollPos = (document.body.getBoundingClientRect()).top;
+    });
   }, [])
 
   const { isSignIn, userId } = useSelector(state => state);
@@ -58,6 +73,7 @@ export default function App() {
         <Route path={'/about'} render={() => 
           <AboutPage></AboutPage>} />
       </Switch>
+      <Footer></Footer>
     </BrowserRouter>
   )
 

@@ -11,8 +11,6 @@ import { setBookmarks, setPosts, setComments, setClosed, setReplied } from '../a
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
-
-
 export default function MyPage() {
 
   const hasScroll = useRef()
@@ -24,23 +22,26 @@ export default function MyPage() {
   const [myCommentData, setMyCommentData] = useState([])
   const [myBookMarkData, setMyBookMarkData] = useState([])
   const [whatIsDisplayed, setWhatIsDisplayed] = useState('Posts')
-  const [isScrollOn, setIsScrollOn] = useState(true)
+  const [isScrollOn, setIsScrollOn] = useState(false)
+  const [scrollY, setScrollY] = useState(0)
 
-
+  const logit = () => {
+    setScrollY(window.pageYOffset)
+  }
 
   useEffect(() => {
-    console.log('바디스크롤:', document.body.scrollHeight)
-    console.log('바디클라:', document.body.clientHeight)
-    console.log('바디오프셋:', document.body.offsetHeight)
-    console.log('대상:',hasScroll)
-    console.log('대상스크롤:', hasScroll.current.scrollHeight)
-    console.log('대상클라:', hasScroll.current.clientHeight)
-    console.log('대상오프셋:', hasScroll.current.offsetHeight)
-    if (document.body.clientHeight < hasScroll.current.clientHeight) {
-      setIsScrollOn(true)
+    const watchScroll = () => {
+      window.addEventListener('scroll', logit)
+      if (scrollY > 0) {
+        setIsScrollOn(true)
+      }
+      else {
+        setIsScrollOn(false)
+      }
     }
-    else {
-      setIsScrollOn(true)
+    watchScroll()
+    return () => {
+      window.removeEventListener('scroll', logit)
     }
   })
 
@@ -196,16 +197,15 @@ export default function MyPage() {
         handleCategory={handleCategory}
       ></SideBar>
       <div className={'mp-content'} ref={hasScroll}>
-        <div id='hello-msg'>{`${email}님, 안녕하세요?`}</div>
         <button id='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
         {getHeader(whatIsDisplayed)}
         {renderSwitchParam(whatIsDisplayed)}
-        {isScrollOn ? (
-          <div className={'lp-up-btn'} onClick={scrollToTop}>
-            <FontAwesomeIcon icon={faChevronUp} className='fa-2x' />
-          </div>
-        ) : null}
       </div>
+      {isScrollOn ? (
+        <div className={'lp-up-btn'} onClick={scrollToTop}>
+          <FontAwesomeIcon icon={faChevronUp} className='fa-2x' />
+        </div>
+      ) : null}
     </div>
   )
 }

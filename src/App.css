@@ -11,7 +11,7 @@ body{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-size: 16px;
+  font-size: 14px;
   border-radius: 5px;
   font-family: 'Nanum Gothic', sans-serif;
   overflow-x: hidden;
@@ -25,6 +25,9 @@ body{
   --sidebar: #e7f6fd;
   --malka-pink: rgba(250,174,175);
   --background-red: rgb(251, 238, 235);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 body, #root, #root > *, #root > * > * {
@@ -59,9 +62,17 @@ input:focus, textarea:focus {
   outline: 0;
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 /* 모달관리 */
 .signup-modal{
   display: none;
+}
+
+.signup-modal * {
+  font-size: 16px;
 }
 
 .signup-modal.open-signup-modal {
@@ -79,39 +90,36 @@ input:focus, textarea:focus {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.signup-modal.open-signup-modal section {
-  width: 30vw;
+.signup-modal section {
+  padding: 1rem;
+  width: 40vw;
   background-color: var(--sidebar);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0.5rem;
 }
 
-.signup-modal.open-signup-modal svg {
-  font-size: 1.5rem;
-  padding: 0;
+.signup-modal section > svg {
+  font-size: 24px;
 }
 
-.signup-modal.open-signup-modal svg * {
+.signup-modal svg * {
   color: var(--salka-blue);
 }
 
-.signup-modal.open-signup-modal svg:hover * {
+.signup-modal svg:hover * {
   color: var(--malka-red);
 }
 
-.signup-modal.open-signup-modal * {
+.signup-modal * {
   font-weight: 700;
 }
 
 #signup-modal-main {
-  height: 90%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
 }
 
 #signup-modal-main input {
@@ -122,7 +130,11 @@ input:focus, textarea:focus {
   height: 2.5rem;
   text-align: center;
   width: 65%;
-  font-size: 0.9rem;
+  font-size: 1rem;
+}
+
+.signIn #signup-modal-main input {
+  width: 70%;
 }
 
 #signup-modal-main label {
@@ -137,11 +149,16 @@ input:focus, textarea:focus {
 }
 
 #input-center {
-  width: 70%;
+  width: 60%;
   min-height: 9rem;
 }
 
-.signup-modal.open-signup-modal button {
+.btn-center {
+  display: flex;
+  align-items: center;
+}
+
+.signup-modal button {
   display: block;
   margin: 1rem 1.5rem;
   background-color: var(--salka-blue);
@@ -149,16 +166,17 @@ input:focus, textarea:focus {
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 50%;
-  font-size: 0.75rem;
+  font-size: 12px;
 }
 
-.signup-modal.open-signup-modal button:hover {
+.signup-modal button:hover {
   background-color: var(--malka-red);
+  color: var(--background-red);
 }
 
-.signup-modal.open-signup-modal .signUp button {
-  width: 4rem;
-  height: 4rem;
+.signup-modal .signUp button {
+  width: 4.5rem;
+  height: 4.5rem;
 }
 
 #signup-email,
@@ -194,15 +212,24 @@ input:focus, textarea:focus {
 }
 
 #change-section svg {
-  font-size: 1rem;
+  font-size: 16px;
 }
 
 .error-msg {
   text-align: center;
   color: var(--malka-red);
+  font-size: 12px;
   height: 1.5rem;
   line-height: 1.5rem;
-  font-size: 0.75rem;
+}
+
+.error-msg svg {
+  font-size: 12px;
+  margin-right: 0.5rem;
+}
+
+.error-msg svg * {
+  color: var(--malka-red) !important;
 }
 
 .write-comment-modal{
@@ -234,11 +261,11 @@ input:focus, textarea:focus {
 }
 
 .write-sara-comment {
-  background-color: var(--sidebar);
+  background-color: white;
 }
 
 .write-mara-comment {
-  background-color: var(--background-red);
+  background-color: white;
 }
 
 .write-sara-comment svg * {
@@ -337,7 +364,7 @@ input:focus, textarea:focus {
 
 .comment-modal section {
   width: 60vw;
-  background-color: var(--sidebar);
+  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -371,21 +398,26 @@ input:focus, textarea:focus {
   padding: 0.5rem;
 }
 
-.comment-modal .like-comment-display .comment-item {
+.comment-modal .comment-item.sara {
   border-bottom: 1px var(--salka-blue) dashed;
 }
 
-.comment-modal .dislike-comment-display .comment-item {
+.comment-modal .comment-item.sara:last-child,
+.comment-modal .comment-item.mara:last-child  {
+  border:none;
+}
+
+.comment-modal .comment-item.mara:last-child {
   border-bottom: 1px var(--malka-red) dashed;
 }
 
 .comment-modal .like-comment-display {
-  border: rgba(59,180,252, 0.5) solid 3px;
+  border: var(--background) dotted 3px;
   overflow-y: auto;
 }
 
 .comment-modal .dislike-comment-display {
-  border: rgba(251,89,95,0.5) solid 3px;
+  border: var(--malka-pink) dotted 3px;
   overflow-y: auto;
 }
 
@@ -393,60 +425,45 @@ input:focus, textarea:focus {
   line-height: 2rem;
 }
 
-/* .post-modal{
-  display: none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1000 !important;
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-.post-modal.open-post-modal {
-  display: flex;
-  align-items: center;
-  z-index: 1050 !important;
-} */
-
 /* 사이드바 */
 .side-bar{
-  background-color: var(--background);
-  /* 컬러옵션 */
-  /* background-color: var(--sidebar); */
-  z-index: 1000;
-  width: 18vw;
-  height: 100vh;
-  padding: 2rem;
   position: fixed;
+  width: 100%;
+  background-color: var(--background);
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  padding: 0 1rem;
+  transition: top 0.3s ease-out 0.2s;
+  box-shadow: 0 0.1px 10px lightgray;
+  overflow-y: hidden;
 }
-#logo * {
-  margin: 0.5rem 0;
-}
-.side-bar img {
-  width: 100%;
+#logo-crop, #logo-square {
   cursor: pointer;
+  height: 6rem;
+  padding: 1.25rem;
+  transition: transform 0.3s ease-out;
+}
+#logo-crop:hover, #logo-square:hover {
+  opacity: 66%;
+}
+#logo-square:hover {
+  transform: rotate( 90deg )
 }
 .search-bar {
-  width: 100%;
+  position: absolute;
+  left: 50vw;
+  margin-left: -20vw;
   display: flex;
   align-items: center;
-}
-.hidden {
-  visibility: hidden;
+  width: 40vw;
 }
 .search-bar svg {
-  position: absolute;
+  padding: 0px !important;
+  font-size: 1.5rem;
+  position: relative;
   right: 3rem;
-  font-size: 1rem;
-  line-height: 2.5rem;
-  border-radius: 50%;
-  margin: 0;
+  line-height: 3rem;
 }
 .search-bar svg * {
   color: var(--background);
@@ -455,13 +472,13 @@ input:focus, textarea:focus {
   border: var(--background) solid 3px;
   background-color: var(--sidebar);
   width: 100%;
-  border-radius: 2.5rem;
-  height: 2.5rem;
+  border-radius: 3.5rem;
+  height: 3.5rem;
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: var(--salka-blue);
-  font-weight: 800;
 }
+
 .search-bar:hover svg *,
 #search-input:focus + svg * {
   color: var(--salka-blue);
@@ -472,65 +489,96 @@ input:focus, textarea:focus {
   border: var(--salka-blue) solid 3px;
 }
 .profile {
-  width: 100%;
-  border: none;
-  flex-grow: 1;
   padding: 1rem;
+  display: flex;
 }
-.menu-open * {
-  margin: 2rem 0rem;
-  font-size: 2rem;
+#to-about-page,
+#to-main-page {
+  margin: 1rem;
+  font-size: 1.5rem;
   font-family: 'Barlow', sans-serif;
   font-weight: 900;
   cursor: pointer;
   text-align: center;
   color: var(--sidebar);
 }
+#to-about-page:hover,
+#to-main-page:hover {
+  color: var(--malka-red);
+}
+#menu {
+  margin: 1rem;
+  font-size: 2rem;
+  cursor: pointer;
+}
+#menu * {
+  color: var(--sidebar);
+}
+.menu-open {
+  margin: 1rem;
+  height: 0;
+  overflow-y: hidden;
+  position: fixed;
+  top: 4rem;
+  right: 1rem;
+  z-index: 1;
+  background-color: var(--background);
+  border-radius: 0;
+  transition: height 0.3s ease-out 0.2s;
+}
+.menu-open * {
+  margin: 1rem 1.5rem;
+  font-size: 1.5rem;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 900;
+  cursor: pointer;
+  text-align: center;
+  color: var(--sidebar);
+  display: block;
+  padding: 0.5rem;
+}
 .menu-open *:hover {
   color: var(--malka-red);
 }
-#to-about-page {
-  opacity: 0.5;
-  cursor: pointer;
-  margin: 1rem 0;
-}
-#to-about-page:hover {
-  opacity: 1;
-}
-#to-about-page span {
-  font-size: 1.5rem;
-}
-#to-about-page span:first-child {
-  font-family: 'Nanum Myeongjo', serif;
-}
-#to-about-page span:nth-child(2) {
-  color: var(--salka-blue);
-  font-family: 'Leckerli One', sans-serif;
-}
-#to-about-page span:nth-child(3) {
-  color: var(--malka-red);
-  font-family: 'Barlow', sans-serif;
+#menu:hover + .menu-open,
+.menu-open:hover {
+  height: 13rem;
 }
 #since {
   font-size: 0.75rem;
   font-family: 'Nanum Myeongjo', serif;
 }
 
-/* 랜딩페이지 */
-.landing-page{
-  background-color: grey;
+#footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  background-color: rgb(231, 231, 231);
 }
+
+#footer span,
+#footer > div {
+  font-family: 'Nanum Myeongjo', serif;
+}
+
+#footer span:nth-child(2) {
+  color: var(--salka-blue);
+  font-family: 'Leckerli One', sans-serif;
+}
+#footer span:nth-child(3) {
+  color: var(--malka-red);
+  font-family: 'Barlow', sans-serif;
+}
+
+/* 랜딩페이지 */
 .lp-content{
-  position: relative;
-  left: 18vw;
-  width: 82vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: var(--sidebar);
-  /* 컬러옵션 */
-  /* background-color: var(--background); */
   padding: 10vh;
+  padding-top: 20vh;
   min-height: 100vh;
 }
 .lp-description {
@@ -566,11 +614,13 @@ input:focus, textarea:focus {
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  flex-grow: 1;
 }
 #search-message {
   margin: 1rem;
   font-size: 2rem;
-  align-self: flex-start;
+  color: var(--salka-blue);
+  font-weight: 800;
 }
 #sort-btn-container {
   margin: 0.5rem 1rem;
@@ -602,13 +652,17 @@ input:focus, textarea:focus {
   z-index: 500;
   padding: 1rem;
   position: fixed;
-  bottom: 3rem;
-  right: 3rem;
+  bottom: 6rem;
+  right: 2rem;
+  width: 4rem;
+  height: 4rem;
+  transition: bottom 0.3s ease-out 0.2s;
+  opacity: 0.6;
 }
 
 .lp-up-btn:hover {
-  background-color: var(--malka-red);
-  cursor: pointer;
+  bottom: 6.5rem;
+  opacity: 1;
 }
 
 .lp-up-btn svg * {
@@ -663,16 +717,25 @@ input:focus, textarea:focus {
   margin: 2rem 0;
   font-weight: 800;
 }
-.btn-center {
-  display: flex;
-  align-items: center;
+.post-case-header * {
+  color: rgba(0, 0, 0, 0.6);
 }
 .post-case-title{
   font-size: 1.5rem;
 }
-.post-case-header svg {
+.post-btn-center {
+  display: flex;
+  align-items: center;
+}
+.post-btn-center button {
+  font-weight: 800;
+}
+.post-btn-center svg {
   font-size: 1.5rem;
   margin: 0.5rem 1rem;
+}
+.post-btn-center svg:hover * {
+  color: white;
 }
 .post-case-img-box {
   display: flex;
@@ -781,9 +844,6 @@ input:focus, textarea:focus {
   text-align: center;
   margin-bottom: 1rem;
 }
-.hidden {
-  visibility: hidden;
-}
 .post-case-all-comments {
   text-align: center;
   padding: 0.75rem;
@@ -812,7 +872,7 @@ input:focus, textarea:focus {
 }
 
 .post-case .nothing svg {
-  font-size: 2rem !important;
+  font-size: 2rem;
 }
 
 /* comment */
@@ -841,22 +901,20 @@ input:focus, textarea:focus {
 }
 
 /* writepage */
-.write-page{
-  background-color: grey; 
-  width: 100vw;
-  height: 100vh;
-}
-.wp-content{
-  position: relative;
-  left: 18vw;
-  width: 82vw;
+.write-page {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+}
+.wp-content{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
   align-items: center;
   background-color: var(--sidebar);
-  padding: 10vh;
-  min-height: 100vh;
+  padding-top: 7rem;
+  /* min-height: 100vh; */
 }
 .wp-content input[name=title],
 .wp-content textarea {
@@ -864,7 +922,8 @@ input:focus, textarea:focus {
   padding: 1rem;
 }
 .wp-content > * {
-  width: 30vw;
+  width: 40vw;
+  margin: 1rem 0;
 }
 #wp-img-upload {
   display: flex;
@@ -872,8 +931,8 @@ input:focus, textarea:focus {
   border: 2px dotted var(--salka-blue);
 }
 .wp-preview-img-box{
-  width: 9.5rem;
-  height: 9.5rem;
+  width: 8rem;
+  height: 8rem;
   overflow-y: hidden;
   display: flex;
   align-items: center;
@@ -918,15 +977,22 @@ input:focus, textarea:focus {
   background-color: var(--malka-red);
 }
 
+#wp-submit:hover * {
+  color: var(--background-red);
+}
+
 /* 마이페이지 */
 .my-page {
-  background-color: grey; 
-  width: 100%;
-  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  /* height: 100%; */
 }
 #mp-title {
   margin: 0.5rem 1rem 0 1rem;
   width: 55vw;
+  padding-bottom: 0.5rem;
+  border-radius: 0;
 }
 #mp-title * {
   margin: 0.5rem;
@@ -935,40 +1001,38 @@ input:focus, textarea:focus {
   font-weight: 800;
   cursor: pointer;
 }
+#mp-title *:hover {
+  color: var(--malka-red);
+}
 #current-page {
   font-size: 3rem;
 }
 .mp-content {
-  position: relative;
-  left: 18vw;
-  width: 82vw;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   align-items: center;
   background-color: var(--sidebar);
   padding: 10vh;
-  min-height: 100vh;
+  padding-top: 20vh;
 }
 .check-all {
   margin: 1rem;
   width: 55vw;
   padding: 0 1rem;
 }
-.mp-content .nothing {
+.nothing.with-message {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-.mp-content .nothing svg {
+.nothing.with-message svg {
   font-size: 5rem;
 }
-.mp-content .nothing-msg-default {
+.nothing.with-message .nothing-msg-default {
   margin: 1rem 0;
-}
-.mp-content .nothing-msg {
-  font-weight: 700;
 }
 .mp-content .post-case .nothing div {
   margin: 0;
@@ -980,34 +1044,336 @@ input:focus, textarea:focus {
   align-self: center;
 }
 #hello-msg {
-  position: absolute;
-  top: 2vh;
-  left: 2vw;
+  width: 100%;
+  text-align: center;
+  font-family: 'Nanum Myeongjo', serif;
 }
 #goodbye-btn {
   position: fixed;
-  top: 2vh;
-  right: 2vw;
-  background-color: rgba(255, 255, 255, 0.4);
+  bottom: 11rem;
+  right: 2rem;
+  background-color: var(--salka-blue);
+  color: var(--sidebar);
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  transition: bottom 0.3s ease-out 0.2s;
+  opacity: 0.6;
+}
+
+#goodbye-btn:hover {
+  bottom: 11.5rem;
+  opacity: 1;
 }
 #mp-comments .comment-item {
   width: 55vw;
   margin: 1rem;
   padding: 1.5rem;
   line-height: 1.5rem;
-  background-color: rgba(251,89,95, 0.4);
+  border: 2px dotted var(--salka-blue);
+  align-items: center;
+}
+
+#mp-comments .comment-item.sara {
+  border: 3px dotted var(--background);
+}
+
+#mp-comments .comment-item.mara {
+  border: 3px dotted var(--malka-pink);
 }
 
 #to-comments {
-  padding: 1rem 2rem;
+  padding: 2rem 2rem 0 2rem;
   cursor: pointer;
 }
 
 /* 어바웃페이지 */
+#about-page #to-about-page {
+  display: none;
+}
+
 #ap-content{
-  position: relative;
-  left: 18vw;
-  width: 82vw;
-  background-color: var(--background);
-  padding: 5vh 5vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sidebar);
+  padding-top: 18vh;
+  min-height: 100vh;
+}
+#ap-content > div {
+  border: 2px dotted var(--salka-blue);
+  margin: 1rem 12rem 3rem 12rem;
+  padding: 3rem;
+  border-radius: 20px;
+}
+#ap-content > img {
+  width: 40vw;
+}
+
+#ap-content h1 {
+  margin-bottom: 1rem;
+}
+
+#ap-content h1 span {
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+#ap-content h3 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 3rem;
+  /* font-weight: 800; */
+  font-family: 'Nanum Brush Script', cursive;
+}
+
+#ap-content h3.about-troika span{
+  font-size: 3rem;
+  color: black;
+  font-family: 'Nanum Brush Script', cursive;
+}
+
+#ap-content h3.about-troika span:first-child{
+  font-size: 2rem;
+  font-family: 'Nanum Gothic', sans-serif;
+  font-weight: 800;
+}
+
+#ap-content p {
+  line-height: 1.5rem;
+}
+
+.salka-malka {
+  text-align: right;
+}
+
+.about-troika {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-member {
+  padding: 1rem;
+  display: flex;
+  line-height: 2rem;
+  margin: 0 1rem;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ap-img-box {
+  width: 9.5rem;
+  height: 9.5rem;
+  border: 1px solid black;
+}
+
+.team-member svg {
+  font-size: 1.5rem;
+  margin-right: 0.2rem;
+}
+
+.team-member-name {
+  font-size: 2rem;
+  line-height: 3rem;
+  font-family: 'Nanum Brush Script', cursive;
+}
+
+@media only screen and (max-width: 480px) {
+  * {
+    font-size: 10px;
+  }
+
+  
+  .lp-content {
+    padding: 0 2rem;
+    padding-top: 8rem;
+  }
+
+  .lp-postlist {
+    width: 100%;
+  }
+  #search-message {
+    text-align: center;
+    
+  }
+  .lp-postlist > div {
+    width: 100%;
+  }
+
+  .side-bar {
+    height: 6rem;
+    padding: 0 1rem;
+  }
+
+  .landing-page .side-bar {
+    padding: 0 2rem;
+  }
+  
+  
+  .side-bar * {
+    font-size: 1.25rem !important;
+  }
+
+  .search-bar {
+    width: 60vw;
+    margin-left: -28vw;
+  }
+
+  .landing-page .profile {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .profile {
+    display: flex;
+    align-items: center;
+  }
+
+  #to-about-page {
+    margin: 0;
+  }
+
+  #menu:hover + .menu-open,
+  .menu-open:hover {
+    height: 9rem;
+  }
+
+  .menu-open {
+    margin: 0;
+    padding: 0;
+    right: 0;
+    margin-top: 1rem;
+    opacity: 0.8;
+  }
+
+  .menu-open * {
+    margin: 1rem;
+    padding: 0;
+  }
+  .post-case {
+    width: 100%;
+    margin: 1rem 0;
+    padding: 0;
+    border-radius: 0;
+    border: 2px dotted var(--salka-blue);
+  }
+
+  .mp-content {
+    padding: 0 2rem;
+    padding-top: 8rem;
+    /* height: 100%; */
+  }
+
+  #mp-title {
+    width: 100%;
+  }
+
+  .mp-postlist,
+  #mp-comments,
+  #mp-comments .comment-item {
+    width: 100%;
+  }
+
+
+  #mp-comments .comment-item {
+    margin: 1rem 0;
+  }
+
+  #goodbye-btn,
+  .lp-up-btn,
+  #footer div:last-child,
+  #hello-msg,
+  #mp-comments .comment-item button,
+  .landing-page #logo-crop,
+  .check-all,
+  input[type=checkbox] {
+    display: none;
+  }
+
+  .wp-content {
+    padding: 2rem;
+    padding-top: 6rem;
+  }
+  .wp-content > * {
+    width: 100%;
+  }
+
+  #ap-content {
+    padding: 0 2rem;
+    padding-top: 8rem;
+  }
+  #ap-content > * {
+    width: 100%;
+  }
+  #ap-content > img {
+    width: 80%;
+  }
+
+  div.about-troika {
+    flex-direction: column;
+  }
+
+  #footer div:first-child {
+    width: 100%;
+    text-align: center;
+  }
+
+  .signup-modal {
+    padding: 2rem;
+  }
+
+  .signup-modal * {
+    font-size: 1rem !important;
+  }
+
+  .signup-modal button {
+    font-size: 0.8rem !important;
+  }
+
+  .signup-modal section {
+    width: 100%;
+  }
+
+  .signUp #input-center {
+    width: 70%;
+  }
+
+  .write-comment-modal {
+    padding: 2rem;
+  }
+
+  .write-comment-modal section {
+    width: 100%;
+  }
+
+  .comment-modal {
+    padding: 2rem;
+  }
+
+  .comment-modal section {
+    width: 100%;
+  }
+
+  .comment-modal .comment-item * {
+    line-height: 1.25rem;
+  }
+
+  .comment-item-content {
+    width: 60%;
+  }
+
+  #mp-comments .comment-item-content {
+    width: 80%;
+  }
+
+  #current-page {
+    font-size: 1.5rem;
+    color: var(--malka-red);
+  }
 }
