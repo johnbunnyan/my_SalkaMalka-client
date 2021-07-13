@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import SideBar from "../component/SideBar";
 import PostCase from "../component/PostCase";
+import SamplePost from "../component/SamplePost";
 import Nothing from '../component/Nothing';
 import { useSelector } from 'react-redux';
 import { useHistory } from "react-router";
@@ -123,6 +124,7 @@ export default function LandingPage() {
               <div>뜨거운 감자</div>
             </div>
           </div> : <div id='search-message'>{`검색어: '${queryString}'`}</div>}
+          <SamplePost />
           {!data.length ? <Nothing whatIsDisplayed={'Search'}></Nothing> : data.map((el, idx) => {
             if (data.length - 1 === idx) {
               return (

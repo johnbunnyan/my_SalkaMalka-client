@@ -4,7 +4,7 @@ import WritePage from "./pages/WritePage";
 import LandingPage from "./pages/LandingPage";
 import MyPage from "./pages/MyPage";
 import AboutPage from "./pages/AboutPage";
-import SideBar from "./component/SideBar";
+import GuidePage from "./pages/GuidePage";
 import Footer from "./component/Footer";
 import {
   Switch,
@@ -35,7 +35,7 @@ export default function App() {
     let scrollPos = 0;
     window.addEventListener('scroll', function() {
       //scroll up -> show nav
-      if ((document.body.getBoundingClientRect()).top > scrollPos)
+      if ((document.body.getBoundingClientRect()).top > scrollPos - 1)
       document.querySelector('.side-bar').style.top = '0';
       //scroll down -> hide nav
       else
@@ -52,7 +52,8 @@ export default function App() {
         <Route
             exact path='/'
             render={() => {
-              return <Redirect to='/main?sort=date' />;
+              // return <Redirect to='/main?sort=date' />;
+              return <GuidePage></GuidePage>
             }
           }
         />

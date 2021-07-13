@@ -7,7 +7,7 @@ export default function Logo(props) {
   const history = useHistory();
   const pathName = window.location.pathname;
   const backToHome = () => {
-    history.push('/');
+    history.push('/main?sort=date');
   }
   if (pathName === '/main') {
     return (

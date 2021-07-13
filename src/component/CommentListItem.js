@@ -87,19 +87,21 @@ export default function CommentListItem(props) {
   return (
     <div className={props.type === 'sara' ? 'comment-item sara' : 'comment-item mara'}>
       {!props.checkedItemHandler ? null : (
-        <input type='checkbox' checked={bChecked} value={[props.commentId, props.postId]} onChange={(e) => checkedHandler(e)} />
+        <input className='checkbox-one' type='checkbox' checked={bChecked} value={[props.commentId, props.postId]} onChange={(e) => checkedHandler(e)} />
       )}
       <div className={'comment-item-content'}>{props.content}</div>
-      <div className='comment-item-like-count'>{likeInfo.length}</div>
-      {props.userId === userId && props.isOpen ?
-        <FontAwesomeIcon icon={faTrashAlt} onClick={deleteComment} /> : null
-      }
-      {props.userId !== userId && props.isOpen ?
-        <FontAwesomeIcon icon={faThumbsUp} onClick={handleLike} /> : null
-      }
-      {props.isInMyComment ?
-        <button onClick={() => { handleOpenPost(props.postId) }}>게시물 보기</button> : null
-      }
+      <div className='comment-item-btn-center'>
+        <div className='comment-item-like-count'>{likeInfo.length}</div>
+        {props.userId === userId && props.isOpen ?
+          <FontAwesomeIcon icon={faTrashAlt} onClick={deleteComment} /> : null
+        }
+        {props.userId !== userId && props.isOpen ?
+          <FontAwesomeIcon icon={faThumbsUp} onClick={handleLike} /> : null
+        }
+        {props.isInMyComment ?
+          <button onClick={() => { handleOpenPost(props.postId) }}>게시물 보기</button> : null
+        }
+      </div>
     </div>
   )
 }
