@@ -14,7 +14,8 @@ export default function WritePage() {
   const [inputs, setInputs] = useState({
     title: '',
     content: '',
-    image: null
+    image: null,
+    keyword:''
   })
   const [imgBase64, setImgBase64] = useState('');
   const { userId, accessToken } = useSelector(state => state);
@@ -51,12 +52,16 @@ export default function WritePage() {
     else if (inputs.content.length === 0) {
       alert('내용을 입력해주세요')
     }
+    else if (inputs.keyword.length === 0) {
+      alert('자신이 무엇을 사고 싶은지 명확하게 확인하는 것은 좋은 소비의 첫걸음이예요☝️')
+    }
     else {
       // console.log(1)
       if (!inputs.image) {
         const formData = new FormData();
         formData.append("title", inputs.title);
         formData.append("content", inputs.content);
+        formData.append("keyword", inputs.keyword);
         formData.append("userId", userId)
         axios
           .post(process.env.REACT_APP_API_ENDPOINT + '/posts',
@@ -118,6 +123,7 @@ export default function WritePage() {
     formData.append("image", file);
     formData.append("title", inputs.title);
     formData.append("content", inputs.content);
+    formData.append("keyword", inputs.keyword);
     formData.append("userId", userId)
     return formData;
   };
@@ -147,6 +153,18 @@ export default function WritePage() {
           }}
           onChange={handleChange}>
         </textarea>
+
+        <input
+          name='keyword'
+          defaultValue={'정확히 무엇이 사고 싶은지 적어보세요'}
+          onFocus={(e) => {
+            if (e.target.value === e.target.defaultValue) {
+              e.target.value = ''
+            }
+          }}
+          onChange={handleChange}
+        ></input>
+
         <ImageUpload
           inputs={inputs}
           handleImage={handleImage}

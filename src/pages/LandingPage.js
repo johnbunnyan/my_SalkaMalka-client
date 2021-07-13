@@ -51,6 +51,8 @@ export default function LandingPage() {
       await axios
         .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
         .then(res => {
+          console.log(res)
+
           let post = res.data.posts.slice(postOptions.preItems, postOptions.items)
           setData(pre => [...pre, ...post])
         })
@@ -67,6 +69,8 @@ export default function LandingPage() {
     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sortValue)
       .then(res => {
+        console.log(res)
+
         let post = res.data.posts.slice(initPostOptions.preItems, initPostOptions.items)
         setData(post)
       })
@@ -135,6 +139,7 @@ export default function LandingPage() {
                     content={el.content}
                     isOpen={el.isOpen}
                     comment={el.comment}
+                    keyword={el.keyword}
                   />
                 </div>
               )
@@ -153,6 +158,7 @@ export default function LandingPage() {
                     content={el.content}
                     isOpen={el.isOpen}
                     comment={el.comment}
+                    keyword={el.keyword}
                   />
                 </div>
               )

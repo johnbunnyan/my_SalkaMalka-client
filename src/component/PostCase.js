@@ -54,6 +54,19 @@ export default function PostCase(props) {
     }
   }
 
+  const handleSarasite = (target) => {
+    if (!isSignIn) {
+      alert('로그인이 필요한 기능이에요')
+      return;
+    }
+   console.log(target)
+ window.open(`https://search.shopping.naver.com/search/all?query=${target}&cat_id=&frm=NVSHATC`, "Code",
+     'scrollbars=yes, width=' + 800 + ', height=' + 640 + ', top=' + 500 + ', left=' + 500);
+
+    
+    
+  }
+
   const handleComment = async (event) => {
     const comment = event.target.previousElementSibling.value;
     await axios
@@ -122,6 +135,16 @@ export default function PostCase(props) {
           <div className={'post-case-likerate'}>
             <div className={'post-case-rate'}>
               <div className={'post-case-sararate'}>{formatRate(getRate('sara')) + '%'}</div>
+              
+              {sara>3 && formatRate(getRate('sara')) > 80 &&userId === props.userId
+               ? <div className={'sara-keyword'}>
+               <span className={'keyword'}>{props.keyword}</span>
+               <button className={'sara-keyword-site'} name={'keyword'} onClick={(e) => { handleSarasite(props.keyword) }}>Sara!</button>
+               </div>
+               :null 
+               
+               }
+
               <div className={'post-case-sararate'}>{formatRate(getRate('mara')) + '%'}</div>
             </div>
             <div className={'post-case-graph'}>
