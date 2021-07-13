@@ -125,18 +125,21 @@ export default function MyPage() {
           <span id='current-page'>{param}</span>
           <span onClick={(e) => { handleCategory(e.target.textContent) }}>Comments</span>
           <span onClick={(e) => { handleCategory(e.target.textContent) }}>Bookmarks</span>
+        <button id='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
         </header>)
       case 'Comments':
         return (<header id='mp-title'>
           <span id='current-page'>{param}</span>
           <span onClick={(e) => { handleCategory(e.target.textContent) }}>Posts</span>
           <span onClick={(e) => { handleCategory(e.target.textContent) }}>Bookmarks</span>
+        <button id='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
         </header>)
       case 'Bookmarks':
         return (<header id='mp-title'>
           <span id='current-page'>{param}</span>
           <span onClick={(e) => { handleCategory(e.target.textContent) }}>Posts</span>
           <span onClick={(e) => { handleCategory(e.target.textContent) }}>Comments</span>
+        <button id='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
         </header>)
       default:
         break;
@@ -197,7 +200,6 @@ export default function MyPage() {
         handleCategory={handleCategory}
       ></SideBar>
       <div className={'mp-content'} ref={hasScroll}>
-        <button id='goodbye-btn' onClick={deleteAccount}>탈퇴</button>
         {getHeader(whatIsDisplayed)}
         {renderSwitchParam(whatIsDisplayed)}
       </div>
