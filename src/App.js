@@ -1,3 +1,5 @@
+/* global gapi */
+
 import './App.css';
 import React, { useEffect } from "react";
 import WritePage from "./pages/WritePage";

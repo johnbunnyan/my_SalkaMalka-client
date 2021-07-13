@@ -103,13 +103,8 @@ export default function LandingPage() {
     <div className={'landing-page'}>
       <SideBar />
       <div className={'lp-content'}>
-        <div className={isSignIn || pathname === '/search' ? 'lp-description display-none' : 'lp-description'}>
-          <div className={'lp-description-text'}></div>
-          <div className={'lp-description-img-box'}>
-            <div className={'lp-description-img'}></div>
-          </div>
-        </div>
         <div className={'lp-postlist'}>
+          <SamplePost />
           {pathname === '/main' ? <div id='sort-btn-container'>
             <div className={window.location.href.split('=')[1] === 'date' ? 'sort-btn current' : 'sort-btn' } onClick={() => { handleQuery('date') }}>
               <FontAwesomeIcon icon={faClock} className='fa-3x' />
@@ -124,7 +119,7 @@ export default function LandingPage() {
               <div>뜨거운 감자</div>
             </div>
           </div> : <div id='search-message'>{`검색어: '${queryString}'`}</div>}
-          <SamplePost />
+          
           {!data.length ? <Nothing whatIsDisplayed={'Search'}></Nothing> : data.map((el, idx) => {
             if (data.length - 1 === idx) {
               return (
