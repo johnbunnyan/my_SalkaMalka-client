@@ -11,7 +11,6 @@ require("dotenv").config();
 export default function SamplePost() {
   const dispatch = useDispatch();
   const { isGuideOpen } = useSelector(state => state);
-  console.log(isGuideOpen);
   function handleImageURL(image) {
     if (image) {
       return (<img src={`${process.env.REACT_APP_API_ENDPOINT}/${image}`}></img>)
@@ -39,7 +38,6 @@ export default function SamplePost() {
   }
 
 
-  console.log(getClassName(isGuideOpen))
   return (
     <div className={getClassName(isGuideOpen)}>
     <main>

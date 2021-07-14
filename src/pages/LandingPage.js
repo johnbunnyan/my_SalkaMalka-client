@@ -101,7 +101,6 @@ export default function LandingPage() {
       behavior: 'smooth'
     })
   }
-
   return (
     <div className={'landing-page'}>
       <SideBar />

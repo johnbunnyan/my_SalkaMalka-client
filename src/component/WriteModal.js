@@ -8,7 +8,6 @@ require("dotenv").config();
 
 
 export default function WriteModal({ postId, saraMara, isCommentModalOpen, setCommentModalOpen, setSara, setMara, setCommentList }) {
-  console.log({ postId, saraMara })
   const dispatch = useDispatch();
   const { userId } = useSelector(state => state);
 
