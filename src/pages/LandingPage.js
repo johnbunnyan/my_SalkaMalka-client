@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import SideBar from "../component/SideBar";
 import PostCase from "../component/PostCase";
-import SamplePost from "../component/SamplePost";
+import GuideModal from "../component/GuideModal";
 import Nothing from '../component/Nothing';
 import { useSelector } from 'react-redux';
 import { useHistory } from "react-router";
@@ -18,7 +18,6 @@ export default function LandingPage() {
   const pathname = window.location.pathname;
   const [data, setData] = useState([]);
   const [ref, inView] = useInView()
-  // const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
   const [sortValue, setSortValue] = useState('date')
   const [postOptions, setPostOptions] = useState({
@@ -104,7 +103,7 @@ export default function LandingPage() {
       <SideBar />
       <div className={'lp-content'}>
         <div className={'lp-postlist'}>
-          <SamplePost />
+          <GuideModal />
           {pathname === '/main' ? <div id='sort-btn-container'>
             <div className={window.location.href.split('=')[1] === 'date' ? 'sort-btn current' : 'sort-btn' } onClick={() => { handleQuery('date') }}>
               <FontAwesomeIcon icon={faClock} className='fa-3x' />

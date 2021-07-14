@@ -10,9 +10,13 @@ import { useHistory } from "react-router";
 import { useInView } from 'react-intersection-observer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { setGuideOpen } from '../actions/index';
+import { useDispatch } from 'react-redux';
 
 
 export default function GuidePage() {
+  const dispatch = useDispatch();
+
   const [ref1, inView1, entry1] = useInView({
     "threshold": 0
   })
@@ -72,9 +76,9 @@ export default function GuidePage() {
       <div className='slide one'>
         <img ref={ref1} className='slide one' src={Slide1}/>
         <button id='skip-btn' onClick={() => {
-          // document.querySelector('#sample-post-modal').style.display = 'none';
-          history.push('/main?sort=date')}
-        }>skip
+          dispatch(setGuideOpen(true));
+          history.push('/main?sort=date')
+        }}>skip
         <FontAwesomeIcon icon={faArrowRight} />
         </button>
       </div>
@@ -101,7 +105,10 @@ export default function GuidePage() {
         <div id='to-main'>
             <img ref={ref6} src={logoSquare} />
             <div>지금 바로 체험해 보세요!</div>
-            <button onClick={() => history.push('/main?sort=date')}>시작하기</button>
+            <button onClick={() => {
+              history.push('/main?sort=date');
+              dispatch(setGuideOpen(true));
+            }}>시작하기</button>
           </div>
     </div>
   )

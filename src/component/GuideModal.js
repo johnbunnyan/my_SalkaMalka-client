@@ -4,11 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsUp, faTrashAlt, faBookmark as farfaBookmark } from '@fortawesome/free-regular-svg-icons'
 import { faTimes, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import SamplePost1 from "../logo/SamplePost1.png";
+import { setGuideOpen } from '../actions/index';
 require("dotenv").config();
 
 
 export default function SamplePost() {
-
+  const dispatch = useDispatch();
+  const { isGuideOpen } = useSelector(state => state);
+  console.log(isGuideOpen);
   function handleImageURL(image) {
     if (image) {
       return (<img src={`${process.env.REACT_APP_API_ENDPOINT}/${image}`}></img>)
@@ -29,11 +32,19 @@ export default function SamplePost() {
     '마라 2',
     '마라 3'
   ]
+
+  const getClassName = (isGuideOpen) => {
+    if (isGuideOpen) return 'sample-post-modal';
+    else return 'sample-post-modal display-none';
+  }
+
+
+  console.log(getClassName(isGuideOpen))
   return (
-    <div id='sample-post-modal'>
+    <div className={getClassName(isGuideOpen)}>
     <main>
       <FontAwesomeIcon icon={faTimes} onClick={() => {
-        document.querySelector('#sample-post-modal').style.display = 'none'
+        dispatch(setGuideOpen(false));
       }}/>
       <div>살까말까 사용설명서</div>
       <img id='sample-post' src={SamplePost1}></img>

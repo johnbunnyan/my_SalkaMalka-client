@@ -4,13 +4,14 @@ import SignInModal from './SignInModal.js'
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
 import persistor from '../index';
-import { setAccessToken } from '../actions/index';
+import { setAccessToken, setGuideOpen } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 require("dotenv").config();
 
 export default function Profile() {
+  const pathName = window.location.pathname;
   const history = useHistory();
   const dispatch = useDispatch();
   const [isModalOpen, modalOpenset] = useState(false);
@@ -84,14 +85,20 @@ export default function Profile() {
             handleSocialSignout();
           })
           .then(() => persistor.purge())
-          .then(() => history.push('/'))
+          .then(() => history.push('/main?sort=date'))
         })
         .catch(e => console.log(e));
       }
     });
   }
 
-  if (isSignIn) {
+  if (pathName === '/') {
+    return (
+      <div className='profile'>
+      </div>
+    )
+  }
+  else if (isSignIn) {
     return (
       <div className='profile'>
         <div id='to-about-page' onClick={() => {history.push('/about')}}>About</div>
@@ -112,6 +119,7 @@ export default function Profile() {
   else {
     return (
       <div className='profile'>
+        <div id='to-guide-modal' onClick={() => {dispatch(setGuideOpen(true))}}>Guide</div>
         <div id='to-about-page' onClick={() => {history.push('/about')}}>About</div>
         <div id='to-signup-modal' onClick={openModal}>Log In</div>
         <SignInModal
