@@ -9,8 +9,9 @@ import {
   SETREPLIED,
   SETGUIDEOPEN,
   SETKING,
-  LOADING,
-  LOADED
+  ISLOADING,
+  SETALERTOPEN,
+  ISTRIAL
 } from "../actions/index";
 import { initialState } from "./initialState";
 import { PURGE } from "redux-persist";
@@ -45,9 +46,11 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, action.payload);
     case SETKING:
       return Object.assign({}, state, action.payload);
-    case LOADING:
+    case ISLOADING:
       return Object.assign({}, state, action.payload);
-    case LOADED:
+    case SETALERTOPEN:
+      return Object.assign({}, state, action.payload);
+    case ISTRIAL:
       return Object.assign({}, state, action.payload);
 
     default:

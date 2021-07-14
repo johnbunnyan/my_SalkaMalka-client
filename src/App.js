@@ -21,6 +21,7 @@ require("dotenv").config();
 
 export default function App() {
   useEffect(() => {
+    if (!window.gapi) location.reload();
     window.gapi.load('auth2', function() {
       console.log('gapi loading')
       window.gapi.auth2.init({
