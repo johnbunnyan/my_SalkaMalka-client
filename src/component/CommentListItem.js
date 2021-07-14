@@ -92,6 +92,9 @@ export default function CommentListItem(props) {
       {props.content}
       <div className='comment-item-btn-center'>
         <div className='comment-item-like-count'>{likeInfo.length}</div>
+        {props.isCloseState ? (
+          <div onClick={() => {props.setChosenComment(props.commentId)}}>베댓선정</div>
+        ) : null}
         {props.userId === userId && props.isOpen ?
           <FontAwesomeIcon icon={faTrashAlt} onClick={deleteComment} /> : null
         }
