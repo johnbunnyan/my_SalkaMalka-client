@@ -8,7 +8,6 @@ import { useHistory } from "react-router-dom";
 
 export default function CommentListItem(props) {
   const dispatch = useDispatch();
-  const history = useHistory();
   const [postInfo, setPostInfo] = useState({})
   const { isSignIn, userId, accessToken, comments } = useSelector(state => state);
   const [likeInfo, setLikeInfo] = useState(props.like)
@@ -24,9 +23,38 @@ export default function CommentListItem(props) {
     props.checkedItemHandler(target.value, target.checked)
   }
 
+  function detectMob() {
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+  }
+
+  const refreshtoken = (e) => {
+    if (e.response && e.response.status === 401) {
+      if (!detectMob()) alert('토큰이 만료되어 재발급해 드릴게요.');
+      axios
+        .post(process.env.REACT_APP_API_ENDPOINT + '/auth/refreshtoken', {}, {
+          withCredentials: true,
+        })
+        .then(res => dispatch(setAccessToken(res.data.accessToken)))
+        .then(() => {if (!detectMob()) {alert('새로운 토큰을 발급받았어요. 다시 시도해 주세요.')}})
+        .catch(e => console.log(e));
+    }
+  }
+
   const handleLike = () => {
     if (!isSignIn) {
-      alert('로그인이 필요한 기능이에요')
+      if (!detectMob()) alert('로그인이 필요한 기능이에요')
       return;
     }
     axios
@@ -35,8 +63,10 @@ export default function CommentListItem(props) {
       })
       .then(res => setLikeInfo(res.data.like))
       .catch(e => {
-        if (e.response && (e.response.status === 404 || e.response.status === 409)) alert(e.response.data);
-        else if (e.response && (e.response.status === 400)) alert('이미 좋아요한 댓글이에요');
+        if (!detectMob()) {
+          if (e.response && (e.response.status === 404 || e.response.status === 409)) alert(e.response.data);
+          else if (e.response && (e.response.status === 400)) alert('이미 좋아요한 댓글이에요');
+        }
       });
   }
 
@@ -78,14 +108,16 @@ export default function CommentListItem(props) {
           props.setCommentList(res.data.comments);
           dispatch(res.data.comments);
         })
-        .catch((e) => console.log(e))
+        .catch((e) => refreshtoken(e))
     } else {
       return;
     }
   }
 
   return (
-    <div className={props.type === 'sara' ? 'comment-item sara' : 'comment-item mara'}>
+    <div className={props.type === 'sara' ? 'comment-item sara' : 'comment-item mara'} onClick={() => {
+      if (props.isInMyComment) handleOpenPost(props.postId);
+    }}>
       {!props.checkedItemHandler ? null : (
         <input className='checkbox-one' type='checkbox' checked={bChecked} value={[props.commentId, props.postId]} onChange={(e) => checkedHandler(e)} />
       )}
@@ -100,9 +132,6 @@ export default function CommentListItem(props) {
         }
         {props.userId !== userId && props.isOpen ?
           <FontAwesomeIcon icon={faThumbsUp} onClick={handleLike} /> : null
-        }
-        {props.isInMyComment ?
-          <button onClick={() => { handleOpenPost(props.postId) }}>게시물 보기</button> : null
         }
       </div>
     </div>

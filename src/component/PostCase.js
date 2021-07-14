@@ -40,7 +40,6 @@ export default function PostCase(props) {
     setBestMara(getBestComment('mara', commentList));
   }, [commentList])
 
-
   function handleImageURL(image) {
     if (image) {
       return (<img src={`${process.env.REACT_APP_API_ENDPOINT}/${image}`}></img>)

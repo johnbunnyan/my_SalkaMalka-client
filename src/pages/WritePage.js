@@ -45,15 +45,32 @@ export default function WritePage() {
     }
   }
 
+
+  function detectMob() {
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+  }
+
   const handleSubmit = () => {
     if (inputs.title.length === 0) {
-      alert('제목을 입력해주세요')
+      if (!detectMob()) alert('제목을 입력해주세요')
     }
     else if (inputs.content.length === 0) {
-      alert('내용을 입력해주세요')
+      if (!detectMob()) alert('내용을 입력해주세요')
     }
     else if (inputs.keyword.length === 0) {
-      alert('자신이 무엇을 사고 싶은지 명확하게 확인하는 것은 좋은 소비의 첫걸음이예요☝️')
+      if (!detectMob()) alert('자신이 무엇을 사고 싶은지 명확하게 확인하는 것은 좋은 소비의 첫걸음이예요☝️')
     }
     else {
       // console.log(1)
@@ -73,7 +90,7 @@ export default function WritePage() {
               },
               withCredentials: true,
             })
-          .then(res => history.push('/'))
+          .then(res => history.push('/main?sort=date'))
           .catch(e => console.log(e));
         return;
       }
@@ -101,7 +118,7 @@ export default function WritePage() {
                     },
                     withCredentials: true,
                   })
-                .then(res => history.push('/'))
+                .then(res => history.push('/main?sort=date'))
             }
           })
           .catch(e => console.log(e));

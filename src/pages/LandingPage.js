@@ -3,7 +3,7 @@ import SideBar from "../component/SideBar";
 import PostCase from "../component/PostCase";
 import GuideModal from "../component/GuideModal";
 import Nothing from '../component/Nothing';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router";
 import axios from "axios";
 import { useInView } from 'react-intersection-observer';
@@ -14,6 +14,7 @@ import { faClock } from '@fortawesome/free-regular-svg-icons'
 require("dotenv").config();
 
 export default function LandingPage() {
+  const dispatch = useDispatch();
   const history = useHistory();
   const pathname = window.location.pathname;
   const [data, setData] = useState([]);
@@ -54,6 +55,7 @@ export default function LandingPage() {
 
           let post = res.data.posts.slice(postOptions.preItems, postOptions.items)
           setData(pre => [...pre, ...post])
+          // dispatch(setKing(res.data.SalkaMalkaKing));
         })
         .catch(e => console.log(e));
     }

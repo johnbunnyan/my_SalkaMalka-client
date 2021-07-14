@@ -20,6 +20,35 @@ export default function MyCommentContent(props) {
   // console.log(comments)
   const [commentList, setCommentList] = useState(props.displayData)
 
+  function detectMob() {
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+  }
+
+  const refreshtoken = (e) => {
+    if (e.response && e.response.status === 401) {
+      if (!detectMob()) alert('토큰이 만료되어 재발급해 드릴게요.');
+      axios
+        .post(process.env.REACT_APP_API_ENDPOINT + '/auth/refreshtoken', {}, {
+          withCredentials: true,
+        })
+        .then(res => dispatch(setAccessToken(res.data.accessToken)))
+        .then(() => {if (!detectMob()) {alert('새로운 토큰을 발급받았어요. 다시 시도해 주세요.')}})
+        .catch(e => console.log(e));
+    }
+  }
+  
   useEffect(() => {
     // console.log(commentList)
     document.querySelectorAll('.checkbox-one').forEach(checkbox => {
@@ -83,6 +112,7 @@ export default function MyCommentContent(props) {
           setChecktedItems([])
           setIsAllChecked(false)
         })
+        .catch(e => refreshtoken(e))
     })
   }
 
@@ -96,6 +126,7 @@ export default function MyCommentContent(props) {
             <input id='checkbox-all' type='checkbox' checked={isAllChecked} onChange={(e) => allCheckedHandler(e)}></input>
             <button onClick={deleteComment}>체크된 댓글 삭제</button>
           </div>
+          <div>댓글을 클릭하면 포스트로 이동합니다</div>
           {commentList.map((el,idx) => {
             if (comments.includes(el.commentId)) {
               return (
