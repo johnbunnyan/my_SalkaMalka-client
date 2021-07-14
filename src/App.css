@@ -256,6 +256,31 @@ input:focus, textarea:focus {
   visibility: hidden;
 }
 
+.alert-modal {
+
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 50%;
+  left: 50%;
+  margin-top: -50vh;
+  margin-left: -50vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050 !important;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+}
+
+.display-none {
+  display: none;
+}
+.alert-modal main {
+  background: white;
+  padding: 2rem;
+}
+
 .sample-post-modal {
   position: fixed;
   height: 100vh;

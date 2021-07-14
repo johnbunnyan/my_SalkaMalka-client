@@ -16,10 +16,10 @@ export default function AlertModal({ message }) {
   
   return (
     <div className={isAlertOpen ? 'open-alert-modal alert-modal' : 'alert-modal'}>
-      <section>
+      <main>
           <div>{getMessage()}</div>
           <button onClick={() => { dispatch(setAlertOpen(false)) }}>확인</button>
-      </section>
+      </main>
     </div>
   )
 }
