@@ -9,8 +9,7 @@ export const SETCLOSED = "SETCLOSED";
 export const SETREPLIED = "SETREPLIED";
 export const SETGUIDEOPEN = "SETGUIDEOPEN";
 export const SETKING = "SETKING";
-export const LOADING = "LOADING"
-export const LOADED = "LOADED"
+export const ISLOADING = "ISLOADING"
 export const SETALERTOPEN = "SETALERTOPEN"
 export const ISTRIAL = "ISTRIAL"
 
