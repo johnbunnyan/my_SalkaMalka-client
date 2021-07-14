@@ -218,7 +218,7 @@ input:focus, textarea:focus {
   visibility: hidden;
 }
 
-#sample-post-modal {
+.sample-post-modal {
   position: fixed;
   height: 100vh;
   width: 100vw;
@@ -234,22 +234,25 @@ input:focus, textarea:focus {
   padding: 2rem;
 }
 
-#sample-post-modal img {
+.display-none {
+  display: none;
+}
+.sample-post-modal img {
   height: 100%;
   width: auto;
 }
 
-#sample-post-modal main {
+.sample-post-modal main {
   height: 100%;
   background: white;
   padding: 2rem;
   overflow-y: hidden;
 }
-#sample-post-modal svg {
+.sample-post-modal svg {
   position: absolute;
   font-size: 24px;
 }
-#sample-post-modal div {
+.sample-post-modal div {
   font-size: 36px;
   text-align: center;
   line-height: 2em;
@@ -649,6 +652,10 @@ input:focus, textarea:focus {
   border-radius: 5px;
   min-height: 63px;
 }
+.post-case-best-comment .comment-item-content {
+
+  overflow: hidden;
+}
 .post-case-best-comment .comment-item.sara {
   background-color: var(--background2);
 }
@@ -787,7 +794,8 @@ input[type=checkbox] {
 }
 
 #to-about-page,
-#to-signup-modal {
+#to-signup-modal,
+#to-guide-modal {
   margin: 1rem;
   font-size: 1.5rem;
   font-family: 'Barlow', sans-serif;
@@ -894,36 +902,8 @@ input[type=checkbox] {
   width: 900px;
 }
 /* ------------- 랜딩페이지 설명 ------------- */
-.lp-description {
-  width: 70vw;
-  background-color: indigo;
-  display: flex;
-  justify-content: space-around;
-  margin: 2rem;
-}
-
 .display-none {
   display: none;
-}
-
-.lp-description-text{
-  height: 90vh;
-  flex-grow: 0.4;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  background-color: khaki;
-}
-
-.lp-description-img-box{
-  height: 90vh;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  background-color: ivory;
-}
-
-.lp-description-img{
-  width: 50vw;
-  height: 90vh;
 }
 
 .lp-postlist{

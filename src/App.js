@@ -20,10 +20,12 @@ require("dotenv").config();
 
 export default function App() {
   useEffect(() => {
-    gapi.load('auth2', function() {
-      gapi.auth2.init({
+    window.gapi.load('auth2', function() {
+      console.log('gapi loading')
+      window.gapi.auth2.init({
         client_id: process.env.REACT_APP_GOOGLE_OAUTH_CODE
       })
+      .then(() => console.log('gapi initialized'))
     });
   }, [])
 
@@ -45,6 +47,14 @@ export default function App() {
       scrollPos = (document.body.getBoundingClientRect()).top;
     });
   }, [])
+
+  useEffect(() => {
+    const pathName = window.location.pathname;
+    window.scrollTo({
+      top: 0,
+      left: 0
+    })
+  , [pathName]})
 
   const { isSignIn, userId } = useSelector(state => state);
   

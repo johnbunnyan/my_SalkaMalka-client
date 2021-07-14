@@ -89,7 +89,7 @@ export default function CommentListItem(props) {
       {!props.checkedItemHandler ? null : (
         <input className='checkbox-one' type='checkbox' checked={bChecked} value={[props.commentId, props.postId]} onChange={(e) => checkedHandler(e)} />
       )}
-      <div className={'comment-item-content'}>{props.content}</div>
+      {props.content}
       <div className='comment-item-btn-center'>
         <div className='comment-item-like-count'>{likeInfo.length}</div>
         {props.userId === userId && props.isOpen ?
