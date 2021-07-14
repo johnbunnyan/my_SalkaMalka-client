@@ -131,12 +131,8 @@ export default function PostCase(props) {
             )
           })}
         </div>
-        {repliedPosts.includes(postId) || !props.isOpen || userId === props.userId ? (
-          <div className={'post-case-likerate'}>
-            <div className={'post-case-rate'}>
-              <div className={'post-case-sararate'}>{formatRate(getRate('sara')) + '%'}</div>
-              
-              {sara>3 && formatRate(getRate('sara')) > 80 &&userId === props.userId
+        
+        {sara>3 && formatRate(getRate('sara')) >= 80 &&userId === props.userId
                ? <div className={'sara-keyword'}>
                <span className={'keyword'}>{props.keyword}</span>
                <button className={'sara-keyword-site'} name={'keyword'} onClick={(e) => { handleSarasite(props.keyword) }}>Sara!</button>
@@ -144,6 +140,13 @@ export default function PostCase(props) {
                :null 
                
                }
+
+        {repliedPosts.includes(postId) || !props.isOpen || userId === props.userId ? (
+          <div className={'post-case-likerate'}>
+            <div className={'post-case-rate'}>
+              <div className={'post-case-sararate'}>{formatRate(getRate('sara')) + '%'}</div>
+              
+             
 
               <div className={'post-case-sararate'}>{formatRate(getRate('mara')) + '%'}</div>
             </div>
