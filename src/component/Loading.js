@@ -5,6 +5,11 @@ import { useSelector } from 'react-redux';
 export default function Loading(props) {
   const { isLoading } = useSelector(state => state);
   console.log(isLoading)
-  if (isLoading) return (<img id='logo-square' src={logoSquare} alt="logo" onClick={() => backToHome()}/>);
+  if (isLoading) return (
+    <div id='loading'>
+        <img src={logoSquare} alt="loading"/>
+        <div>조금만 기다려 주세요! 열심히 로딩중이에요</div>
+    </div>
+  );
   else return null; 
 }
