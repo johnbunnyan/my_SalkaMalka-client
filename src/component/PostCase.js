@@ -60,6 +60,14 @@ export default function PostCase(props) {
             )
           })}
         </div>
+        {sara>3 && formatRate(getRate('sara')) >= 80 &&userId === props.userId
+               ? <div className={'sara-keyword'}>
+               <span className={'keyword'}>{props.keyword}</span>
+               <button className={'sara-keyword-site'} name={'keyword'} onClick={(e) => { handleSarasite(props.keyword) }}>Sara!</button>
+               </div>
+               :null 
+               
+               }
         <SaraMaraSection
           setCommentModalOpen={setCommentModalOpen}
           saraMara={saraMara}
