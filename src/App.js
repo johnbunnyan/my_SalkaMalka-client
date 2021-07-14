@@ -8,6 +8,7 @@ import MyPage from "./pages/MyPage";
 import AboutPage from "./pages/AboutPage";
 import GuidePage from "./pages/GuidePage";
 import Footer from "./component/Footer";
+import Loading from "./component/Loading";
 import {
   Switch,
   BrowserRouter,
@@ -60,6 +61,7 @@ export default function App() {
   
   return (
     <BrowserRouter>
+      <Loading></Loading>
       <Switch>
         <Route
             exact path='/'

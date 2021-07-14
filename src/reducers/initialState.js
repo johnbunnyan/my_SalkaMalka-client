@@ -11,5 +11,7 @@ export const initialState =
     closedPosts: [],
     comments: [],
     repliedPosts: [],
-    isGuideOpen: false
+    isGuideOpen: false,
+    king: null,
+    isLoading: false
 }
