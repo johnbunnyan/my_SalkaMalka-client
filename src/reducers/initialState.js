@@ -13,5 +13,7 @@ export const initialState =
     repliedPosts: [],
     isGuideOpen: false,
     king: null,
-    isLoading: false
+    isLoading: false,
+    isTrial: false,
+    isAlertOpen: false
 }

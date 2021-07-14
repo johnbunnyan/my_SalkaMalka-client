@@ -11,6 +11,8 @@ export const SETGUIDEOPEN = "SETGUIDEOPEN";
 export const SETKING = "SETKING";
 export const LOADING = "LOADING"
 export const LOADED = "LOADED"
+export const SETALERTOPEN = "SETALERTOPEN"
+export const ISTRIAL = "ISTRIAL"
 
 export const userSignIn = (data) => {
   const { email, userId, accessToken, provider, bookmarks } = data;
@@ -110,20 +112,29 @@ export const setKing = (userId) => {
   }
 }
 
-export const loading = () => {
+export const setLoading = (boolean) => {
   return {
-    type: LOADING,
+    type: SETLOADING,
     payload: {
-      isLoading: true
+      isLoading: boolean
     }
   }
 }
 
-export const loaded = () => {
+export const setAlertOpen = (boolean) => {
   return {
-    type: LOADED,
+    type: SETALERTOPEN,
     payload: {
-      isLoading: false
+      isAlertOpen: boolean
+    }
+  }
+}
+
+export const setTrial = (boolean) => {
+  return {
+    type: SETTRIAL,
+    payload: {
+      isTrial: boolean
     }
   }
 }
