@@ -38,13 +38,12 @@ export default function App() {
 
   useEffect(() => {
     let scrollPos = 0;
+    if (!document.querySelector('.side-bar')) location.reload();
     window.addEventListener('scroll', function() {
       //scroll up -> show nav
-      if ((document.body.getBoundingClientRect()).top > scrollPos - 1)
-      document.querySelector('.side-bar').style.top = '0';
+      if ((document.body.getBoundingClientRect()).top > scrollPos - 1) document.querySelector('.side-bar').style.top = '0';
       //scroll down -> hide nav
-      else
-      document.querySelector('.side-bar').style.top = '-100px';
+      else document.querySelector('.side-bar').style.top = '-100px';
       scrollPos = (document.body.getBoundingClientRect()).top;
     });
   }, [])
