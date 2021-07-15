@@ -9,7 +9,7 @@ export const SETCLOSED = "SETCLOSED";
 export const SETREPLIED = "SETREPLIED";
 export const SETGUIDEOPEN = "SETGUIDEOPEN";
 export const SETKING = "SETKING";
-export const ISLOADING = "ISLOADING"
+export const SETLOADING = "SETLOADING"
 export const SETALERTOPEN = "SETALERTOPEN"
 export const ISTRIAL = "ISTRIAL"
 
@@ -112,6 +112,7 @@ export const setKing = (userId) => {
 }
 
 export const setLoading = (boolean) => {
+  console.log(boolean)
   return {
     type: SETLOADING,
     payload: {
@@ -120,11 +121,12 @@ export const setLoading = (boolean) => {
   }
 }
 
-export const setAlertOpen = (boolean) => {
+export const setAlertOpen = (boolean, message) => {
   return {
     type: SETALERTOPEN,
     payload: {
-      isAlertOpen: boolean
+      isAlertOpen: boolean,
+      alertMessage : message
     }
   }
 }

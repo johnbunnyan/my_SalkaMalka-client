@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
-import { setComments } from '../actions/index';
+import { setComments, setAlertOpen } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsUp, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
 import { useHistory } from "react-router-dom";
@@ -9,11 +9,11 @@ import { useHistory } from "react-router-dom";
 export default function CommentListItem(props) {
   const dispatch = useDispatch();
   const [postInfo, setPostInfo] = useState({})
-  const { isSignIn, userId, accessToken, comments } = useSelector(state => state);
+  const { isSignIn, userId, accessToken, comments, king } = useSelector(state => state);
   const [likeInfo, setLikeInfo] = useState(props.like)
   const [bChecked, setChecked] = useState(false)
-
   const allCheckHandler = () => setChecked(props.isAllChecked)
+  const isKing = props.userId === king ? true : false
 
   useEffect(() => allCheckHandler(), [props.isAllChecked])
   // console.log(props.isAllChecked)
@@ -25,36 +25,35 @@ export default function CommentListItem(props) {
 
   function detectMob() {
     const toMatch = [
-        /Android/i,
-        /webOS/i,
-        /iPhone/i,
-        /iPad/i,
-        /iPod/i,
-        /BlackBerry/i,
-        /Windows Phone/i
+      /Android/i,
+      /webOS/i,
+      /iPhone/i,
+      /iPad/i,
+      /iPod/i,
+      /BlackBerry/i,
+      /Windows Phone/i
     ];
-
     return toMatch.some((toMatchItem) => {
-        return navigator.userAgent.match(toMatchItem);
+      return navigator.userAgent.match(toMatchItem);
     });
   }
 
   const refreshtoken = (e) => {
     if (e.response && e.response.status === 401) {
-      if (!detectMob()) alert('토큰이 만료되어 재발급해 드릴게요.');
+      dispatch(setAlertOpen(true, '토큰이 만료되어 재발급해 드릴게요.'))
       axios
         .post(process.env.REACT_APP_API_ENDPOINT + '/auth/refreshtoken', {}, {
           withCredentials: true,
         })
         .then(res => dispatch(setAccessToken(res.data.accessToken)))
-        .then(() => {if (!detectMob()) {alert('새로운 토큰을 발급받았어요. 다시 시도해 주세요.')}})
+        .then(() => { dispatch(setAlertOpen(true, '새로운 토큰을 발급받았어요. 다시 시도해 주세요.')) })
         .catch(e => console.log(e));
     }
   }
 
   const handleLike = () => {
     if (!isSignIn) {
-      if (!detectMob()) alert('로그인이 필요한 기능이에요')
+      dispatch(setAlertOpen(true, '로그인이 필요한 기능입니다'))
       return;
     }
     axios
@@ -63,15 +62,13 @@ export default function CommentListItem(props) {
       })
       .then(res => setLikeInfo(res.data.like))
       .catch(e => {
-        if (!detectMob()) {
-          if (e.response && (e.response.status === 404 || e.response.status === 409)) alert(e.response.data);
-          else if (e.response && (e.response.status === 400)) alert('이미 좋아요한 댓글이에요');
-        }
+        if (e.response && (e.response.status === 404 || e.response.status === 409)) dispatch(setAlertOpen(true, e.response.data));
+        else if (e.response && (e.response.status === 400)) dispatch(setAlertOpen(true, '이미 좋아요한 댓글이에요'));
       });
   }
 
   const handleOpenPost = (postId) => {//파라미터부분에 포스트아이디를받음
-     axios
+    axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId)
       .then(res => {
         props.setPostInfo({
@@ -113,7 +110,10 @@ export default function CommentListItem(props) {
       return;
     }
   }
-
+  // console.log('왕', king)
+  // console.log('나', props.userId)
+  // console.log(isKing)
+  // console.log('내용', props.content)
   return (
     <div className={props.type === 'sara' ? 'comment-item sara' : 'comment-item mara'} onClick={() => {
       if (props.isInMyComment) handleOpenPost(props.postId);
@@ -121,11 +121,17 @@ export default function CommentListItem(props) {
       {!props.checkedItemHandler ? null : (
         <input className='checkbox-one' type='checkbox' checked={bChecked} value={[props.commentId, props.postId]} onChange={(e) => checkedHandler(e)} />
       )}
-      {props.content}
+
+      <div
+      //  className={isKing ? 'comment-item-king-content' : 'comment-item-content'}
+      >
+        {props.content}
+      </div>
+
       <div className='comment-item-btn-center'>
         <div className='comment-item-like-count'>{likeInfo.length}</div>
         {props.isCloseState ? (
-          <div onClick={() => {props.setChosenComment(props.commentId)}}>베댓선정</div>
+          <div onClick={() => { props.setChosenComment(props.commentId) }}>베댓선정</div>
         ) : null}
         {props.userId === userId && props.isOpen ?
           <FontAwesomeIcon icon={faTrashAlt} onClick={deleteComment} /> : null

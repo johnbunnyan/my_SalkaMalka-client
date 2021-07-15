@@ -6,7 +6,6 @@ export default function BestCommentSection({ bestSara, bestMara, type, isOpen, s
     if (type === 'sara') return bestSara;
     else return bestMara;
   }
-
   const sliceBestComment = (content) => {
     if (content.length < 50) return <div className={'comment-item-content'}>{content}</div>;
     return (<div className={'comment-item-content'}>
@@ -17,10 +16,10 @@ export default function BestCommentSection({ bestSara, bestMara, type, isOpen, s
 
   return (
     <div className={type === 'sara' ? 'best-like-comment' : 'best-dislike-comment'}>
-      {bestComments(type).map((el) => {
+      {bestComments(type).map((el,idx) => {
         return (
           <CommentListItem
-            key={el._id}
+            key={idx}
             type={el.type}
             content={sliceBestComment(el.content)}
             like={el.like}

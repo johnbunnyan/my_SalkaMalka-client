@@ -62,7 +62,6 @@ export default function PostCase(props) {
     await setCloseState(false)
     setDisplayCommentModal(true)
   }
-  console.log(isOpen)
   return (
     <div className={isOpen ? 'post-case' : 'post-case closed'}>
       {isOpen ? null : <div className='closed-msg'>닫혀 있는 살까말까에는 사라마라를 보낼 수 없어요.</div>}

@@ -15,5 +15,6 @@ export const initialState =
     king: null,
     isLoading: false,
     isTrial: false,
-    isAlertOpen: false
+    isAlertOpen: false,
+    alertMessage : ''
 }

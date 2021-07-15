@@ -9,7 +9,7 @@ import {
   SETREPLIED,
   SETGUIDEOPEN,
   SETKING,
-  ISLOADING,
+  SETLOADING,
   SETALERTOPEN,
   ISTRIAL
 } from "../actions/index";
@@ -46,7 +46,7 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, action.payload);
     case SETKING:
       return Object.assign({}, state, action.payload);
-    case ISLOADING:
+    case SETLOADING:
       return Object.assign({}, state, action.payload);
     case SETALERTOPEN:
       return Object.assign({}, state, action.payload);

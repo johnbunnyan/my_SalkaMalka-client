@@ -5,20 +5,18 @@ import { setAlertOpen } from '../actions/index';
 require("dotenv").config();
 
 
-export default function AlertModal({ message }) {
+export default function AlertModal() {
   const dispatch = useDispatch();
-  const { isTrial, isAlertOpen } = useSelector(state => state);
+  const { isAlertOpen, alertMessage } = useSelector(state => state);
+  console.log(1)
 
-  const getMessage = (message) => {
-    if (isTrial) return '체험판에서 사용할 수 없는 기능이에요! 직접 체험해 보시려면 계정을 만들어 주세요.'
-    else return message;
-  }
-  
+  // console.log(message)
+  console.log(isAlertOpen)
   return (
     <div className={isAlertOpen ? 'open-alert-modal alert-modal' : 'alert-modal'}>
       <main>
-          <div>{getMessage()}</div>
-          <button onClick={() => { dispatch(setAlertOpen(false)) }}>확인</button>
+        <div>{alertMessage}</div>
+        <button onClick={() => { dispatch(setAlertOpen(false,'')) }}>확인</button>
       </main>
     </div>
   )

@@ -256,8 +256,11 @@ input:focus, textarea:focus {
   visibility: hidden;
 }
 
-.alert-modal {
+.alert-modal{
+  display: none;
+}
 
+.alert-modal.open-alert-modal {
   position: fixed;
   height: 100vh;
   width: 100vw;
@@ -1875,4 +1878,8 @@ input[type=checkbox] {
   .comment-item-btn-center {
     min-width: 28px;
   }
+}
+
+.comment-item-king-content{
+  color: red;
 }
