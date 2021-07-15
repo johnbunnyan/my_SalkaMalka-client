@@ -1,5 +1,3 @@
-/* global gapi */
-
 import './App.css';
 import React, { useEffect } from "react";
 import WritePage from "./pages/WritePage";
@@ -69,7 +67,6 @@ export default function App() {
         <Route
             exact path='/'
             render={() => {
-              // return <Redirect to='/main?sort=date' />;
               return <GuidePage></GuidePage>
             }
           }

@@ -72,6 +72,7 @@ export default function LandingPage() {
       .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sortValue)
       .then(res => {
         let post = res.data.posts.slice(initPostOptions.preItems, initPostOptions.items)
+        console.log(res.data.Salkamalkaking)
         dispatch(setKing(res.data.Salkamalkaking))
         setData(post)
       })

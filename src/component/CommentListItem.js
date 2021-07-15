@@ -24,6 +24,7 @@ export default function CommentListItem(props) {
   }
 
   function detectMob() {
+    console.log(navigator.userAgent)
     const toMatch = [
       /Android/i,
       /webOS/i,
@@ -52,6 +53,9 @@ export default function CommentListItem(props) {
   }
 
   const handleLike = () => {
+    console.log('???')
+    console.log(navigator.userAgent)
+    console.log(detectMob())
     if (!isSignIn) {
       dispatch(setAlertOpen(true, '로그인이 필요한 기능입니다'))
       return;
@@ -123,7 +127,7 @@ export default function CommentListItem(props) {
       )}
 
       <div
-      //  className={isKing ? 'comment-item-king-content' : 'comment-item-content'}
+       className={isKing ? 'comment-item-content king' : 'comment-item-content'}
       >
         {props.content}
       </div>

@@ -7,6 +7,8 @@ import persistor from '../index';
 import { setAccessToken, setGuideOpen, setAlertOpen } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+
 
 
 require("dotenv").config();
@@ -99,8 +101,12 @@ export default function Profile() {
 
   if (pathName === '/') {
     return (
-      <div className='profile'>
-      </div>
+      <button id='skip-btn' onClick={() => {
+        dispatch(setGuideOpen(true));
+        history.push('/main?sort=date')
+      }}>skip
+      <FontAwesomeIcon icon={faArrowRight} />
+      </button>
     )
   }
   else if (isSignIn) {
