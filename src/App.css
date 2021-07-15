@@ -118,7 +118,6 @@ div.slide.three.text div:nth-child(3),
 div.slide.three.text div:nth-child(4) {
   font-size: 20px;
   line-height: 1.5em;
-  
 }
 img.slide.two:nth-child(2) {
   height: 100%;
@@ -294,6 +293,22 @@ input:focus, textarea:focus {
 .alert-modal main {
   background: white;
   padding: 2rem;
+  padding-bottom: 1rem;
+  border-radius: 5px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.alert-modal main * {
+  margin: 1rem;
+}
+.alert-modal div {
+  font-weight: 700;
+}
+
+.alert-modal button {
+  box-shadow: 0.5px 1px 3px gray;
 }
 
 .sample-post-modal {
@@ -690,6 +705,15 @@ input:focus, textarea:focus {
   border: var(--malka-pink) dotted 3px;
 }
 
+.comment-modal .comment-item {
+  flex-direction: column;
+  line-height: 1.5rem;
+}
+
+.comment-modal .comment-item-btn-center {
+  width: 100%;
+}
+
 /* ------------- 코멘트 ------------- */
 
 .comment-item {
@@ -698,6 +722,8 @@ input:focus, textarea:focus {
   align-items: center;
   border-radius: 0px;
   padding: 0.5rem;
+  flex-direction: column;
+  /* line-height: 1.5rem; */
 }
 .comment-item.sara {
   border-bottom: 1px var(--salka-blue) dashed;
@@ -707,11 +733,13 @@ input:focus, textarea:focus {
 }
 .comment-item-content{
   flex-grow: 1;
+  text-align: left;
+  width: 100%;
 }
 .comment-item-btn-center {
   display: flex;
   align-items: center;
-  min-width: 48px;
+  width: 100%;
   justify-content: flex-end;
 }
 
@@ -740,20 +768,6 @@ input:focus, textarea:focus {
 .post-case-best-comment .comment-item.mara {
   background-color: var(--malka-pink2);
 }
-
-.comment-modal .comment-item {
-  flex-direction: column;
-  line-height: 1.5rem;
-}
-
-.comment-modal .comment-item-content {
-  width: 100%;
-  text-align: left;
-}
-
-.comment-modal .comment-item-btn-center {
-  width: 100%;
-}
 /* ------------- 마이코멘트 속 comment-item ------------- */
 #mp-comments .comment-item {
   border-radius: 5px;
@@ -763,8 +777,17 @@ input:focus, textarea:focus {
   line-height: 1.5rem;
 }
 
+#mp-comments .comment-item:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+#mp-comments .comment-item:hover .comment-item-content {
+  text-decoration: underline;
+}
+
 #mp-comments .comment-item-btn-center {
-  min-width: 100px;
+  width: initial;
 }
 
 #mp-comments .comment-item.sara {
@@ -785,7 +808,18 @@ input:focus, textarea:focus {
 }
 
 .check-all button {
-  padding: 0;
+  padding: 0.5rem;
+  color: var(--salka-blue);
+  font-weight: 800;
+}
+
+.check-all button:hover {
+  color: var(--malka-red)
+}
+
+.check-all div {
+  flex-grow: 1;
+  text-align: right;
 }
 
 input[type=checkbox] {
@@ -869,6 +903,11 @@ input[type=checkbox] {
 .profile {
   padding: 1rem;
   display: flex;
+}
+
+.profile > div:first-child {
+  display: flex;
+  align-items: center;
 }
 
 #to-about-page,
@@ -1066,6 +1105,7 @@ input[type=checkbox] {
 
 .closed-msg {
   font-weight: 700;
+  margin: 1rem 0;
 }
 
 .post-case.closed .post-case-header,
@@ -1088,7 +1128,7 @@ input[type=checkbox] {
   align-items: center;
   width: 95%;
   padding: 0.5rem 1rem;
-  margin: 2rem 0;
+  margin-bottom: 2rem;
   font-weight: 800;
 }
 
@@ -1239,7 +1279,7 @@ input[type=checkbox] {
   background-color: white;
   padding: 0.5rem;
   width: 49%;
-  min-height: 224px;
+  min-height: 255px;
   display: flex;
   flex-direction: column;
 }
@@ -1409,6 +1449,8 @@ input[type=checkbox] {
   width: 700px;
   padding-bottom: 0.5rem;
   border-radius: 0;
+  display: flex;
+  align-items: flex-end;
 }
 
 #mp-title * {
@@ -1417,6 +1459,10 @@ input[type=checkbox] {
   font-size: 1.5rem;
   font-weight: 800;
   cursor: pointer;
+}
+#mp-title div {
+  flex-grow: 1;
+  text-align: right;
 }
 
 #mp-title *:hover {
@@ -1445,8 +1491,6 @@ input[type=checkbox] {
 }
 
 #goodbye-btn {
-  position: relative;
-  left: 290px;
   color: var(--salka-blue);
   border-radius: 50%;
   transition: bottom 0.3s ease-out 0.2s;
@@ -1619,6 +1663,34 @@ input[type=checkbox] {
     padding-top: 10px;
     padding-left: 10px;
   }
+
+  .landing-page #logo-crop {
+    display: none;
+  }
+
+  .side-bar {
+    height: 6rem;
+    padding: 0 2rem;
+  }
+  
+  .side-bar * {
+    font-size: 1.25rem !important;
+  }
+
+  .search-bar {
+    width: 60vw;
+    margin-left: -28vw;
+  }
+
+  .landing-page .profile {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
 }
 
 @media only screen and (max-width: 960px) {
@@ -1711,10 +1783,6 @@ input[type=checkbox] {
   .wp-content * {
     font-size: 14px;
   }
-
-  .landing-page #logo-crop {
-    display: none;
-  }
   
   .lp-content {
     padding: 0 2rem;
@@ -1726,42 +1794,9 @@ input[type=checkbox] {
   }
   #search-message {
     text-align: center;
-
   }
   .lp-postlist > div {
     width: 100% !important;
-  }
-
-  .side-bar {
-    height: 6rem;
-    padding: 0 1rem;
-  }
-
-  .landing-page .side-bar {
-    padding: 0 2rem;
-  }
-  
-  .side-bar * {
-    font-size: 1.25rem !important;
-  }
-
-  .search-bar {
-    width: 60vw;
-    margin-left: -28vw;
-  }
-
-  .landing-page .profile {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .profile {
-    display: flex;
-    align-items: center;
   }
 
   #to-about-page,
@@ -1776,9 +1811,7 @@ input[type=checkbox] {
   .post-case {
     width: 440px;
     margin: 1rem 0;
-    padding: 0;
-    border-radius: 0;
-    border: 2px dotted var(--salka-blue);
+    padding: 2rem 0rem;
   }
 
   .signup-modal *,
@@ -1806,11 +1839,6 @@ input[type=checkbox] {
   .comment-modal section {
     width: 480px;
   }
-
-  /* .comment-modal .comment-item * {
-    line-height: 1.25rem;
-  } */
-
 
   #mp-title {
     width: 440px;
@@ -1840,9 +1868,6 @@ input[type=checkbox] {
     margin-right: 0;
   }
 
-  #mp-comments .comment-item-btn-center {
-    min-width: 75px;
-  }
 
   .post-case-best-comment .nothing,
   .best-like-comment,
@@ -1913,32 +1938,55 @@ input[type=checkbox] {
     font-size: 10px;
     padding: 10px;
   }
-  #guide-page > .slide > * {
-    width: 400px;
-    height: 215px;
-  }
-  div.slide.two.text {
-    padding-top: 100px;
-    padding-left: 100px;
-  }
+
   div.slide.two.text div:first-child,
   div.slide.two.text div:nth-child(2),
   div.slide.three.text div:first-child,
   div.slide.three.text div:nth-child(2) {
-    font-size: 16px;
+    width: 100%;
+    font-size: 30px;
+
   }
-  div.slide.two.text div,
-  div.slide.three.text div:nth-child(5),
-  div.slide.three.text div:nth-child(3),
-  div.slide.three.text div:nth-child(4) {
-    font-size: 8px;
+
+div.slide.two.text div:nth-child(3),
+div.slide.three.text div:nth-child(5),
+div.slide.three.text div:nth-child(3),
+div.slide.three.text div:nth-child(4)  {
+  width: 100%;
+  font-size: 10px;
+}
+#guide-page > .slide.one,
+#to-main {
+  height: 178vw;
+}
+
+#guide-page .slide.two,
+#guide-page .slide.three {
+  margin-bottom: 0;
+  width: 100vw;
+  height: 178vw;
+}
+  
+  
+#guide-page .slide.two.text {
+  top: unset;
+  width: 100vw;
+  height: 178vw;
+  padding: 150px 50px;
+}
+  #guide-page .slide.three.text {
+    margin: 0;
+    width: 100vw;
+    height: 178vw;
+    padding: 150px 50px;
   }
-  div.slide.two.text div {
-    width: 180px;
+
+  #guide-page .slide.small {
+    width: 100vw;
+    height: 178vw;
   }
-  div.slide.three.text {
-    padding-top: 10px;
-    padding-left: 10px;
+  #to-main img {
+    margin: 0;
   }
   #mp-comments,
   #mp-comments .comment-item {
@@ -2051,6 +2099,9 @@ input[type=checkbox] {
 }
 
 @media only screen and (max-width: 400px) {
+  #to-guide-modal{
+    display: none;
+  }
   .signup-modal {
     padding: 2rem;
   }
@@ -2104,6 +2155,26 @@ input[type=checkbox] {
   .comment-item-btn-center {
     min-width: 28px;
   }
+}
+
+@media only screen and (max-width: 380px) {
+  div.slide.two.text div:first-child,
+  div.slide.two.text div:nth-child(2),
+  div.slide.three.text div:first-child,
+  div.slide.three.text div:nth-child(2) {
+    font-size: 25px;
+  }
+
+}
+
+@media only screen and (max-width: 350px) {
+  div.slide.two.text div:first-child,
+  div.slide.two.text div:nth-child(2),
+  div.slide.three.text div:first-child,
+  div.slide.three.text div:nth-child(2) {
+    font-size: 20px;
+  }
+
 }
 
 .comment-item-content.king{

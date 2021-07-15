@@ -126,8 +126,8 @@ export default function MyCommentContent(props) {
           <div className='check-all'>
             <input id='checkbox-all' type='checkbox' checked={isAllChecked} onChange={(e) => allCheckedHandler(e)}></input>
             <button onClick={deleteComment}>체크된 댓글 삭제</button>
+            <div>댓글을 클릭하면 포스트로 이동합니다</div>
           </div>
-          <div>댓글을 클릭하면 포스트로 이동합니다</div>
           {commentList.map((el,idx) => {
             if (comments.includes(el.commentId)) {
               return (

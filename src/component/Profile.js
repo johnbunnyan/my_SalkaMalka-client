@@ -112,7 +112,11 @@ export default function Profile() {
   else if (isSignIn) {
     return (
       <div className='profile'>
+        <div>
+
+        <div id='to-guide-modal' onClick={() => { dispatch(setGuideOpen(true)) }}>Guide</div>
         <div id='to-about-page' onClick={() => { history.push('/about') }}>About</div>
+        </div>
         <FontAwesomeIcon id='menu' icon={faBars} />
         <div className={'menu-open'}>
           <div onClick={() => history.push('/posts')}>Write</div>
