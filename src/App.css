@@ -1505,7 +1505,8 @@ input[type=checkbox] {
 }
 
 /* ------------- 어바웃 페이지 ------------- */
-#about-page #to-about-page {
+#about-page #to-about-page,
+#about-page #to-guide-modal {
   display: none;
 }
 
