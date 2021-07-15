@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { setReplied } from '../actions/index';
+import { setReplied, setAlertOpen } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios';
@@ -13,17 +13,17 @@ export default function WriteModal({ postId, saraMara, isCommentModalOpen, setCo
 
   function detectMob() {
     const toMatch = [
-        /Android/i,
-        /webOS/i,
-        /iPhone/i,
-        /iPad/i,
-        /iPod/i,
-        /BlackBerry/i,
-        /Windows Phone/i
+      /Android/i,
+      /webOS/i,
+      /iPhone/i,
+      /iPad/i,
+      /iPod/i,
+      /BlackBerry/i,
+      /Windows Phone/i
     ];
 
     return toMatch.some((toMatchItem) => {
-        return navigator.userAgent.match(toMatchItem);
+      return navigator.userAgent.match(toMatchItem);
     });
   }
 
@@ -46,7 +46,7 @@ export default function WriteModal({ postId, saraMara, isCommentModalOpen, setCo
       .then(() => dispatch(setReplied([postId])))
       .catch(e => {
         if (e.response && (e.response.status === 404 || e.response.status === 409)) {
-          if (!detectMob()) alert(e.response.data);
+          dispatch(setAlertOpen(true, e.response.data))
         }
       });
   }

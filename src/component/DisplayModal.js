@@ -2,8 +2,10 @@ import React from "react";
 import CommentList from "./CommentList";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios'
+import { setAlertOpen } from '../actions/index';
+
 
 require("dotenv").config();
 
@@ -11,43 +13,46 @@ require("dotenv").config();
 export default function DisplayModal({ postId, isDisplayCommentModal, setDisplayCommentModal, isOpen, setCommentList, commentList, isCloseState, setChosenComment, bestComment, chosenComment, setIsOpen }) {
   const { accessToken } = useSelector(state => state);
   const bestCommentId = []
+  const dispatch = useDispatch();
+
   bestComment.forEach((el) => bestCommentId.push(el._id))
 
   function detectMob() {
     const toMatch = [
-        /Android/i,
-        /webOS/i,
-        /iPhone/i,
-        /iPad/i,
-        /iPod/i,
-        /BlackBerry/i,
-        /Windows Phone/i
+      /Android/i,
+      /webOS/i,
+      /iPhone/i,
+      /iPad/i,
+      /iPod/i,
+      /BlackBerry/i,
+      /Windows Phone/i
     ];
 
     return toMatch.some((toMatchItem) => {
-        return navigator.userAgent.match(toMatchItem);
+      return navigator.userAgent.match(toMatchItem);
     });
   }
 
   const refreshtoken = (e) => {
     if (e.response && e.response.status === 401) {
-      if (!detectMob()) alert('토큰이 만료되어 재발급해 드릴게요.');
+      dispatch(setAlertOpen(true, '토큰이 만료되어 재발급해 드릴게요.'))
       axios
         .post(process.env.REACT_APP_API_ENDPOINT + '/auth/refreshtoken', {}, {
           withCredentials: true,
         })
         .then(res => dispatch(setAccessToken(res.data.accessToken)))
-        .then(() => {if (!detectMob()) {alert('새로운 토큰을 발급받았어요. 다시 시도해 주세요.')}})
+        .then(() => { dispatch(setAlertOpen(true, '새로운 토큰을 발급받았어요. 다시 시도해 주세요.')) })
         .catch(e => console.log(e));
     }
   }
 
   const handleClose = () => {
+
     if (confirm('살까말까를 닫으면 더이상 사라마라를 받을 수 없어요')) {
       axios
         .patch(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId, {
-          judgement : chosenComment,
-          best : bestCommentId
+          judgement: chosenComment,
+          best: bestCommentId
         },
           {
             headers: {

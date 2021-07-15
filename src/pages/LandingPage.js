@@ -10,6 +10,8 @@ import { useInView } from 'react-intersection-observer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAward, faFire, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import { faClock } from '@fortawesome/free-regular-svg-icons'
+import { setLoading, setKing } from '../actions/index';
+
 
 require("dotenv").config();
 
@@ -19,7 +21,7 @@ export default function LandingPage() {
   const pathname = window.location.pathname;
   const [data, setData] = useState([]);
   const [ref, inView] = useInView()
-  const [loading, setLoading] = useState(false)
+  const [scrollLoading, setScrollLoading] = useState(false)
   const [sortValue, setSortValue] = useState('date')
   const [postOptions, setPostOptions] = useState({
     preItems: 0,
@@ -29,33 +31,31 @@ export default function LandingPage() {
     preItems: 0,
     items: 5
   })
-  const { isSignIn, queryString } = useSelector(state => state);
+  const { isSignIn, queryString, isLoading } = useSelector(state => state);
 
   useEffect(() => {
     if (pathname === '/search') {
       const encoded = encodeURI(encodeURIComponent(queryString));
       const uri = process.env.REACT_APP_API_ENDPOINT + '/search?q=' + encoded;
+      dispatch(setLoading(true))
       axios
         .get(uri)
         .then(res => setData(res.data.posts))
-        // .then(console.log(data))
+        .then(dispatch(setLoading(false)))
         .catch(e => console.log(e));
       return;
     }
-    // sortPosts('date');
   }, [pathname, queryString]) // 검색시 리랜더링
 
   const sortPosts = useCallback(async (sort) => {
+
     if (postOptions.preItems !== 0) {
-      setLoading(true)
+      setScrollLoading(true)
       await axios
         .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
         .then(res => {
-          console.log(res)
-
           let post = res.data.posts.slice(postOptions.preItems, postOptions.items)
           setData(pre => [...pre, ...post])
-          // dispatch(setKing(res.data.SalkaMalkaKing));
         })
         .catch(e => console.log(e));
     }
@@ -63,33 +63,34 @@ export default function LandingPage() {
 
   useEffect(() => {
     sortPosts(sortValue)
-    setLoading(false)
+    setScrollLoading(false)
   }, [sortPosts])
 
   useEffect(() => {
+    dispatch(setLoading(true))
     axios
       .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sortValue)
       .then(res => {
-        console.log(res)
-
         let post = res.data.posts.slice(initPostOptions.preItems, initPostOptions.items)
+        dispatch(setKing(res.data.Salkamalkaking))
         setData(post)
       })
       .then(setPostOptions({
         preItems: 0,
         items: 5
       }))
+      .then(dispatch(setLoading(false)))
       .catch(e => console.log(e));
   }, [sortValue])
 
   useEffect(() => {
-    if (inView && !loading) {
+    if (inView && !scrollLoading) {
       setPostOptions({
         preItems: postOptions.items,
         items: postOptions.items + 5
       })
     }
-  }, [inView, loading])
+  }, [inView, scrollLoading])
 
   const handleQuery = (sortValue) => {
     history.push(`/main?sort=${sortValue}`);
@@ -103,69 +104,70 @@ export default function LandingPage() {
       behavior: 'smooth'
     })
   }
+
   return (
     <div className={'landing-page'}>
       <SideBar />
-      <div className={'lp-content'}>
-        <div className={'lp-postlist'}>
-          <GuideModal />
-          {pathname === '/main' ? <div id='sort-btn-container'>
-            <div className={window.location.href.split('=')[1] === 'date' ? 'sort-btn current' : 'sort-btn' } onClick={() => { handleQuery('date') }}>
-              <FontAwesomeIcon icon={faClock} className='fa-3x' />
-              <div>최신 등록</div>
-            </div>
-            <div className={window.location.href.split('=')[1] === 'popular' ? 'sort-btn current' : 'sort-btn' } onClick={() => { handleQuery('popular') }}>
-              <FontAwesomeIcon icon={faAward} className='fa-3x' />
-              <div>댓글 수</div>
-            </div>
-            <div className={window.location.href.split('=')[1] === 'hot-topic' ? 'sort-btn current' : 'sort-btn' } onClick={() => { handleQuery('hot-topic') }}>
-              <FontAwesomeIcon icon={faFire} className='fa-3x' />
-              <div>뜨거운 감자</div>
-            </div>
-          </div> : <div id='search-message'>{`검색어: '${queryString}'`}</div>}
-          
-          {!data.length ? <Nothing whatIsDisplayed={'Search'}></Nothing> : data.map((el, idx) => {
-            if (data.length - 1 === idx) {
-              return (
-                <div ref={ref}>
-                  <PostCase
-                    key={idx}
-                    sara={el.sara}
-                    mara={el.mara}
-                    postId={el._id}
-                    userId={el.userId}
-                    title={el.title}
-                    image={el.image}
-                    content={el.content}
-                    isOpen={el.isOpen}
-                    comment={el.comment}
-                    keyword={el.keyword}
-                  />
-                </div>
-              )
-            }
-            else {
-              return (
-                <div>
-                  <PostCase
-                    key={idx}
-                    sara={el.sara}
-                    mara={el.mara}
-                    postId={el._id}
-                    userId={el.userId}
-                    title={el.title}
-                    image={el.image}
-                    content={el.content}
-                    isOpen={el.isOpen}
-                    comment={el.comment}
-                    keyword={el.keyword}
-                  />
-                </div>
-              )
-            }
-          })}
+        <div className={'lp-content'}>
+          <div className={'lp-postlist'}>
+            <GuideModal />
+            {pathname === '/main' ? <div id='sort-btn-container'>
+              <div className={window.location.href.split('=')[1] === 'date' ? 'sort-btn current' : 'sort-btn'} onClick={() => { handleQuery('date') }}>
+                <FontAwesomeIcon icon={faClock} className='fa-3x' />
+                <div>최신 등록</div>
+              </div>
+              <div className={window.location.href.split('=')[1] === 'popular' ? 'sort-btn current' : 'sort-btn'} onClick={() => { handleQuery('popular') }}>
+                <FontAwesomeIcon icon={faAward} className='fa-3x' />
+                <div>댓글 수</div>
+              </div>
+              <div className={window.location.href.split('=')[1] === 'hot-topic' ? 'sort-btn current' : 'sort-btn'} onClick={() => { handleQuery('hot-topic') }}>
+                <FontAwesomeIcon icon={faFire} className='fa-3x' />
+                <div>뜨거운 감자</div>
+              </div>
+            </div> : <div id='search-message'>{`검색어: '${queryString}'`}</div>}
+
+            {!data.length ? <Nothing whatIsDisplayed={'Search'}></Nothing> : data.map((el, idx) => {
+              if (data.length - 1 === idx) {
+                return (
+                  <div ref={ref}>
+                    <PostCase
+                      key={idx}
+                      sara={el.sara}
+                      mara={el.mara}
+                      postId={el._id}
+                      userId={el.userId}
+                      title={el.title}
+                      image={el.image}
+                      content={el.content}
+                      isOpen={el.isOpen}
+                      comment={el.comment}
+                      keyword={el.keyword}
+                    />
+                  </div>
+                )
+              }
+              else {
+                return (
+                  <div>
+                    <PostCase
+                      key={idx}
+                      sara={el.sara}
+                      mara={el.mara}
+                      postId={el._id}
+                      userId={el.userId}
+                      title={el.title}
+                      image={el.image}
+                      content={el.content}
+                      isOpen={el.isOpen}
+                      comment={el.comment}
+                      keyword={el.keyword}
+                    />
+                  </div>
+                )
+              }
+            })}
+          </div>
         </div>
-      </div>
       <div className={'lp-up-btn'} onClick={scrollToTop}>
         <FontAwesomeIcon icon={faChevronUp} className='fa-2x' />
       </div>

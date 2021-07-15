@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import CommentListItem from "./CommentListItem";
 import PostCase from "./PostCase";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
 import CommentList from "./CommentList";
 import Nothing from './Nothing';
+import { setAlertOpen } from '../actions/index';
 
 export default function MyCommentContent(props) {
-  // console.log(props)
+  const dispatch = useDispatch();
   const [isOpenPost, setOpenPost] = useState(false);
   const [postInfo, setPostInfo] = useState({});
   const [isInMyComment, setInMyComment] = useState(true);
@@ -38,13 +39,13 @@ export default function MyCommentContent(props) {
 
   const refreshtoken = (e) => {
     if (e.response && e.response.status === 401) {
-      if (!detectMob()) alert('토큰이 만료되어 재발급해 드릴게요.');
+      dispatch(setAlertOpen(true, '토큰이 만료되어 재발급해 드릴게요.'))
       axios
         .post(process.env.REACT_APP_API_ENDPOINT + '/auth/refreshtoken', {}, {
           withCredentials: true,
         })
         .then(res => dispatch(setAccessToken(res.data.accessToken)))
-        .then(() => {if (!detectMob()) {alert('새로운 토큰을 발급받았어요. 다시 시도해 주세요.')}})
+        .then(() => { dispatch(setAlertOpen(true, '새로운 토큰을 발급받았어요. 다시 시도해 주세요.')) })
         .catch(e => console.log(e));
     }
   }

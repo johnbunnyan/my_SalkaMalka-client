@@ -2,24 +2,27 @@ import React, { useState } from "react";
 import SideBar from "../component/SideBar";
 import ImageUpload from "../component/ImageUpload";
 import imageCompression from "browser-image-compression";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from "axios";
 import { useHistory } from "react-router";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencilAlt, faImage } from '@fortawesome/free-solid-svg-icons'
+import { setAlertOpen } from '../actions/index';
+
 require("dotenv").config();
 
 export default function WritePage() {
+  const dispatch = useDispatch();
   const history = useHistory();
   const [inputs, setInputs] = useState({
     title: '',
     content: '',
     image: null,
-    keyword:''
+    keyword: ''
   })
   const [imgBase64, setImgBase64] = useState('');
   const { userId, accessToken } = useSelector(state => state);
-  
+
   const handleChange = (e) => {
     const { value, name } = e.currentTarget;
     setInputs({
@@ -48,29 +51,29 @@ export default function WritePage() {
 
   function detectMob() {
     const toMatch = [
-        /Android/i,
-        /webOS/i,
-        /iPhone/i,
-        /iPad/i,
-        /iPod/i,
-        /BlackBerry/i,
-        /Windows Phone/i
+      /Android/i,
+      /webOS/i,
+      /iPhone/i,
+      /iPad/i,
+      /iPod/i,
+      /BlackBerry/i,
+      /Windows Phone/i
     ];
 
     return toMatch.some((toMatchItem) => {
-        return navigator.userAgent.match(toMatchItem);
+      return navigator.userAgent.match(toMatchItem);
     });
   }
 
   const handleSubmit = () => {
     if (inputs.title.length === 0) {
-      if (!detectMob()) alert('제목을 입력해주세요')
+      dispatch(setAlertOpen(true, '제목을 입력해주세요'))
     }
     else if (inputs.content.length === 0) {
-      if (!detectMob()) alert('내용을 입력해주세요')
+      dispatch(setAlertOpen(true, '내용을 입력해주세요'))
     }
     else if (inputs.keyword.length === 0) {
-      if (!detectMob()) alert('자신이 무엇을 사고 싶은지 명확하게 확인하는 것은 좋은 소비의 첫걸음이예요☝️')
+      dispatch(setAlertOpen(true, '자신이 무엇을 사고 싶은지 명확하게 확인하는 것은 좋은 소비의 첫걸음이예요☝️'))
     }
     else {
       // console.log(1)

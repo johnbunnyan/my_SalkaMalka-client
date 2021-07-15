@@ -16,6 +16,7 @@ import {
   Redirect
 } from "react-router-dom";
 import { useSelector } from 'react-redux';
+import AlertModal from './component/AlertModal';
 
 require("dotenv").config();
 
@@ -62,6 +63,7 @@ export default function App() {
   
   return (
     <BrowserRouter>
+    <AlertModal></AlertModal>
       <Loading></Loading>
       <Switch>
         <Route
