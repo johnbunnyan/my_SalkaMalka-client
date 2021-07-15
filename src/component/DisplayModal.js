@@ -27,6 +27,7 @@ export default function DisplayModal({ postId, isDisplayCommentModal, setDisplay
   }
 
   const handleClose = () => {
+
     if (confirm('살까말까를 닫으면 더이상 사라마라를 받을 수 없어요')) {
       axios
         .patch(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId, {
