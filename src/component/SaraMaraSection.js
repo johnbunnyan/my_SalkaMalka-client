@@ -6,10 +6,25 @@ require("dotenv").config();
 export default function SaraMaraSection({ setCommentModalOpen, saraMara, setSaraMara, sara, mara, postId, isOpen, OP }) {
   const { userId, isSignIn, repliedPosts } = useSelector(state => state);
 
+  function detectMob() {
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+  }
 
   const handleSaraMara = (target) => {
     if (!isSignIn) {
-      alert('로그인이 필요한 기능이에요')
+      if (!detectMob()) alert('로그인이 필요한 기능이에요')
       return;
     }
     if (target === 'sara') {

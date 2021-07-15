@@ -9,6 +9,44 @@
   overflow-x: hidden;
   color: rgba(0, 0, 0, 0.8);
 }
+#loading {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 50%;
+  left: 50%;
+  margin-top: -50vh;
+  margin-left: -50vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050 !important;
+  background-color: var(--sidebar);
+  flex-direction: column;
+
+}
+#loading img {
+  width: 200px;
+
+  animation-name: spin;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function:ease-in-out;
+}
+@keyframes spin {
+  0% {
+    transform: rotate( 90deg );
+  }
+  100% {
+    transform: rotate( 0deg );
+  }
+}
+#loading div {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+}
+
 #guide-page {
   background-color: var(--sidebar);
 }
@@ -216,6 +254,31 @@ input:focus, textarea:focus {
 
 .hidden {
   visibility: hidden;
+}
+
+.alert-modal {
+
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 50%;
+  left: 50%;
+  margin-top: -50vh;
+  margin-left: -50vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050 !important;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+}
+
+.display-none {
+  display: none;
+}
+.alert-modal main {
+  background: white;
+  padding: 2rem;
 }
 
 .sample-post-modal {

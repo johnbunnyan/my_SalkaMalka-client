@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import { GoogleLogin } from 'react-google-login';
 import { userSignIn, setReplied } from '../actions/index';
@@ -10,7 +9,6 @@ import { faTimes, faArrowLeft, faArrowRight, faExclamationTriangle } from '@fort
 require("dotenv").config();
 
 export default function SignInModal(props) {
-  const history = useHistory();
   const dispatch = useDispatch();
   const [sectionType, setSectionType] = useState('signIn');
   const [email, setEmail] = useState('');

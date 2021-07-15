@@ -11,10 +11,27 @@ export default function Search() {
   const pathName = window.location.pathname;
   const dispatch = useDispatch();
   const history = useHistory();
+
+  function detectMob() {
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+  }
+
   function handleSearch(e) {
     const queryString = document.querySelector('#search-input').value
     if (!queryString.length) {
-      alert('검색어를 입력해주세요');
+      if (!detectMob()) alert('검색어를 입력해주세요');
       return;
     }
     const encoded = encodeURI(encodeURIComponent(queryString));

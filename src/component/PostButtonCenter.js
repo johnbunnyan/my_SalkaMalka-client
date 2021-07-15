@@ -14,15 +14,31 @@ export default function PostButtonCenter(props) {
   const { userId, bookmarks, isSignIn, accessToken } = useSelector(state => state);
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false)
 
+  function detectMob() {
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+  }
+
   const refreshtoken = (e) => {
     if (e.response && e.response.status === 401) {
-      alert('토큰이 만료되어 재발급해 드릴게요.');
+      if (!detectMob()) alert('토큰이 만료되어 재발급해 드릴게요.');
       axios
         .post(process.env.REACT_APP_API_ENDPOINT + '/auth/refreshtoken', {}, {
           withCredentials: true,
         })
         .then(res => dispatch(setAccessToken(res.data.accessToken)))
-        .then(() => alert('새로운 토큰을 발급받았어요. 다시 시도해 주세요.'))
+        .then(() => {if (!detectMob()) {alert('새로운 토큰을 발급받았어요. 다시 시도해 주세요.')}})
         .catch(e => console.log(e));
     }
   }
@@ -41,7 +57,7 @@ export default function PostButtonCenter(props) {
         )
         .then(res => {
           if (pathName === '/search' || pathName === '/main') {
-            history.push('/');
+            history.push('/main?sort=date');
           }
           else if (pathName === `/users/${userId}`) {
             if (props.isOpen) {
@@ -67,7 +83,7 @@ export default function PostButtonCenter(props) {
 
   const handleBookmark = () => {
     if (!isSignIn) {
-      alert('로그인이 필요한 기능이에요');
+      if (!detectMob()) alert('로그인이 필요한 기능이에요');
       return;
     }
     axios
@@ -84,7 +100,7 @@ export default function PostButtonCenter(props) {
         }
       )
       .then(res => {
-        alert(res.data);
+        if (!detectMob()) alert(res.data);
         dispatch(setBookmarks([...bookmarks, props.postId]));
       })
       .catch(e => refreshtoken(e));
@@ -102,7 +118,7 @@ export default function PostButtonCenter(props) {
         }
       )
       .then(res => {
-        alert(res.data);
+        if (!detectMob()) alert(res.data);
         const bms = bookmarks.slice();
         bms.splice(bms.indexOf(props.postId), 1);
         dispatch(setBookmarks(bms));

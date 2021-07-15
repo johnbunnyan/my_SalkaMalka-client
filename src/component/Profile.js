@@ -24,6 +24,35 @@ export default function Profile() {
     modalOpenset(false);
   }
 
+  function detectMob() {
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+  }
+
+  const refreshtoken = (e) => {
+    if (e.response && e.response.status === 401) {
+      if (!detectMob()) alert('토큰이 만료되어 재발급해 드릴게요.');
+      axios
+        .post(process.env.REACT_APP_API_ENDPOINT + '/auth/refreshtoken', {}, {
+          withCredentials: true,
+        })
+        .then(res => dispatch(setAccessToken(res.data.accessToken)))
+        .then(() => {if (!detectMob()) {alert('새로운 토큰을 발급받았어요. 다시 시도해 주세요.')}})
+        .catch(e => console.log(e));
+    }
+  }
+
   const handleSocialSignout = () => {
     // 카카오 로그인이 되어있는 경우
     if (provider === 'kakao') {
@@ -64,32 +93,7 @@ export default function Profile() {
     })
     .then(() => persistor.purge())
     .then(() => history.push('/'))
-    .catch(e => {
-      if (e.response && e.response.status === 401) {
-        axios
-        .post(process.env.REACT_APP_API_ENDPOINT + '/auth/refreshtoken', {}, {
-          withCredentials: true,
-        })
-        .then(res => dispatch(setAccessToken(res.data.accessToken)))
-        .then(() => {
-          axios
-          .post(process.env.REACT_APP_API_ENDPOINT + '/auth/signout', {}, {
-            headers: {
-              'Authorization': `Bearer ${accessToken}`,
-              'Content-Type': 'application/json',
-            },
-            withCredentials: true,
-          })
-          .then(res => {
-            console.log('res', res);
-            handleSocialSignout();
-          })
-          .then(() => persistor.purge())
-          .then(() => history.push('/main?sort=date'))
-        })
-        .catch(e => console.log(e));
-      }
-    });
+    .catch(e => refreshtoken(e));
   }
 
   if (pathName === '/') {

@@ -8,6 +8,7 @@ import MyPage from "./pages/MyPage";
 import AboutPage from "./pages/AboutPage";
 import GuidePage from "./pages/GuidePage";
 import Footer from "./component/Footer";
+import Loading from "./component/Loading";
 import {
   Switch,
   BrowserRouter,
@@ -20,6 +21,7 @@ require("dotenv").config();
 
 export default function App() {
   useEffect(() => {
+    if (!window.gapi) location.reload();
     window.gapi.load('auth2', function() {
       console.log('gapi loading')
       window.gapi.auth2.init({
@@ -60,6 +62,7 @@ export default function App() {
   
   return (
     <BrowserRouter>
+      <Loading></Loading>
       <Switch>
         <Route
             exact path='/'
