@@ -8,8 +8,6 @@ import Slide22 from "../logo/Slide2.2.png";
 import Slide32 from "../logo/Slide3.2.png";
 import { useHistory } from "react-router";
 import { useInView } from 'react-intersection-observer';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { setGuideOpen } from '../actions/index';
 import { useDispatch } from 'react-redux';
 
@@ -24,7 +22,7 @@ export default function GuidePage() {
     "threshold": 0
   })
   const [ref3, inView3, entry3] = useInView({
-    "threshold": 0
+    "threshold": 0.3
   })
   const [ref4, inView4, entry4] = useInView({
     "threshold": 0
@@ -39,32 +37,25 @@ export default function GuidePage() {
   useEffect(() => {
     if (inView1) {
       entry1.target.style.opacity = 1;
-      entry1.target.style.bottom = 0;
+      entry1.target.style.marginTop = 0;
     }
-    // else if (entry1 & !inView1) {
-    //   console.log('not inview')
-    //   entry1.target.style.opacity = 0.1;
-    //   entry1.target.style.bottom = '70px';
-    // }
     if (inView2) {
       entry2.target.style.opacity = 1;
-      entry2.target.style.top = 0;
+      entry2.target.style.top = '100vh';
     }
     if (inView3) {
       entry3.target.style.opacity = 1;
-      entry3.target.style.marginTop = '40vh';
+      entry3.target.style.top = '100vh';
     }
     if (inView4) {
       entry4.target.style.opacity = 1;
-      entry4.target.style.marginLeft = '80px';
+      entry4.target.style.marginRight = 0;
     }
     if (inView5) {
       entry5.target.style.opacity = 1;
-      entry5.target.style.right = 0;
+      entry5.target.style.marginLeft = 0;
     }
     if (inView6) {
-      entry6.target.style.marginTop = '150px';
-      entry6.target.style.marginBottom = '50px';
       entry6.target.style.opacity = 1;
       entry6.target.style.transform = 'rotate( 0deg )';
     }
@@ -74,13 +65,8 @@ export default function GuidePage() {
     <div id='guide-page'>
       <SideBar />
       <div className='slide one'>
+        
         <img ref={ref1} className='slide one' src={Slide1}/>
-        <button id='skip-btn' onClick={() => {
-          dispatch(setGuideOpen(true));
-          history.push('/main?sort=date')
-        }}>skip
-        <FontAwesomeIcon icon={faArrowRight} />
-        </button>
       </div>
       <div className='slide two'>
         <div ref={ref3} className='slide two text'>
