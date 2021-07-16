@@ -13,12 +13,15 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import AlertModal from './component/AlertModal';
+import { setGuideOpen } from './actions/index';
 
 require("dotenv").config();
 
 export default function App() {
+  const dispatch = useDispatch();
+  const { isSignIn, userId } = useSelector(state => state);
   useEffect(() => {
     if (!window.gapi) location.reload();
     window.gapi.load('auth2', function() {
@@ -49,14 +52,14 @@ export default function App() {
   }, [])
 
   useEffect(() => {
-    const pathName = window.location.pathname;
-    window.scrollTo({
-      top: 0,
-      left: 0
-    })
-  , [pathName]})
+    console.log(window.location.pathname)
+      window.scrollTo({
+        top: 0,
+        left: 0
+      })
+    }
+  , [window.location.pathname])
 
-  const { isSignIn, userId } = useSelector(state => state);
   
   return (
     <BrowserRouter>

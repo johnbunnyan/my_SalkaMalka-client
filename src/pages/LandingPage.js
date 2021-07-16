@@ -34,14 +34,19 @@ export default function LandingPage() {
   const { isSignIn, queryString, isLoading } = useSelector(state => state);
 
   useEffect(() => {
+    console.log('useEffect 1')
     if (pathname === '/search') {
       const encoded = encodeURI(encodeURIComponent(queryString));
       const uri = process.env.REACT_APP_API_ENDPOINT + '/search?q=' + encoded;
       dispatch(setLoading(true))
       axios
         .get(uri)
-        .then(res => setData(res.data.posts))
-        .then(dispatch(setLoading(false)))
+        .then(res => {
+          console.log(res.data.posts);
+          console.log(res.data.posts.map(el => [el.title, el.content, el.comment]));
+          setData(res.data.posts)
+        })
+        .then(() => dispatch(setLoading(false)))
         .catch(e => console.log(e));
       return;
     }
@@ -51,13 +56,16 @@ export default function LandingPage() {
 
     if (postOptions.preItems !== 0) {
       setScrollLoading(true)
-      await axios
-        .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
-        .then(res => {
-          let post = res.data.posts.slice(postOptions.preItems, postOptions.items)
-          setData(pre => [...pre, ...post])
-        })
-        .catch(e => console.log(e));
+      if (pathname !== '/search') {
+        await axios
+          .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
+          .then(res => {
+            console.log(res.data.posts);
+            let post = res.data.posts.slice(postOptions.preItems, postOptions.items)
+            setData(pre => [...pre, ...post])
+          })
+          .catch(e => console.log(e));
+      } 
     }
   }, [postOptions])
 
@@ -67,24 +75,30 @@ export default function LandingPage() {
   }, [sortPosts])
 
   useEffect(() => {
-    dispatch(setLoading(true))
-    axios
-      .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sortValue)
-      .then(res => {
-        let post = res.data.posts.slice(initPostOptions.preItems, initPostOptions.items)
-        console.log(res.data.Salkamalkaking)
-        dispatch(setKing(res.data.Salkamalkaking))
-        setData(post)
-      })
-      .then(setPostOptions({
-        preItems: 0,
-        items: 5
-      }))
-      .then(dispatch(setLoading(false)))
-      .catch(e => console.log(e));
+    console.log('useEffect 2')
+    console.log(sortValue)
+    if (pathname === '/main') {
+      console.log('useEffect 2')
+      dispatch(setLoading(true))
+      axios
+        .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sortValue)
+        .then(res => {
+          console.log(res.data.posts)
+          let post = res.data.posts.slice(initPostOptions.preItems, initPostOptions.items)
+          dispatch(setKing(res.data.Salkamalkaking))
+          setData(post)
+        })
+        .then(setPostOptions({
+          preItems: 0,
+          items: 5
+        }))
+        .then(dispatch(setLoading(false)))
+        .catch(e => console.log(e));
+    }
   }, [sortValue])
 
   useEffect(() => {
+    console.log('useEffect 3')
     if (inView && !scrollLoading) {
       setPostOptions({
         preItems: postOptions.items,

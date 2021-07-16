@@ -324,35 +324,88 @@ input:focus, textarea:focus {
   justify-content: center;
   z-index: 1050 !important;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 2rem;
+  padding: 1rem 0;
 }
 
 .display-none {
   display: none;
 }
 .sample-post-modal img {
-  height: 100%;
-  width: auto;
+  object-fit: contain;
+  max-width: 100%;
 }
 
-.sample-post-modal main {
-  height: 100%;
+.sample-post-modal section {
+  max-width: 100%;
+  max-height: 100%;
   background: white;
-  padding: 2rem;
-  overflow-y: hidden;
+  padding: 1rem;
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
 }
-.sample-post-modal svg {
-  position: absolute;
+.sample-post-modal .fa-times {
   font-size: 24px;
+  align-self: start;
 }
-.sample-post-modal div {
-  font-size: 36px;
+.sample-post-modal .first div:first-child {
+  height: 4rem;
+  font-size: 2.5rem;
   text-align: center;
-  line-height: 2em;
-  padding-bottom: 5px;
-  margin-bottom: 5px;
-  border-radius: 0px;
   font-family: 'Nanum Brush Script', cursive;
+}
+.sample-post-modal .fa-arrow-left {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+.sample-post-modal .fa-arrow-right {
+  font-size: 1.5rem;
+  margin-left: 1rem;
+}
+
+.sample-post-modal .second {
+  width: min(1100px, 100%);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sample-post-modal .second div:first-child {
+  height: 4rem;
+  font-size: 2.5rem;
+  text-align: center;
+  font-family: 'Barlow', sans-serif;
+}
+.sample-post-modal .second div:nth-child(2) {
+  background-color: var(--sidebar);
+  border: var(--salka-blue) dotted 2px;
+  padding: 0 50px;
+  width: 600px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+.sample-post-modal h3 {
+  color: var(--salka-blue);
+  width: 100%;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.sample-post-modal h5 {
+  width: 100%;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+.sample-post-modal h5:first-of-type {
+  margin-bottom: 0;
+}
+.sample-post-modal p {
+  width: 100%;
+  margin: 1rem 0;
+  line-height: 1.25rem;
 }
 
 /* ------------- 회원가입 모달 ------------- */
@@ -923,7 +976,8 @@ input[type=checkbox] {
 }
 
 #to-about-page:hover,
-#to-signup-modal:hover {
+#to-signup-modal:hover,
+#to-guide-modal:hover {
   color: var(--malka-red);
 }
 
@@ -1014,9 +1068,6 @@ input[type=checkbox] {
   padding: 10vh;
   padding-top: 20vh;
   min-height: 100vh;
-}
-#sample-post {
-  width: 900px;
 }
 /* ------------- 랜딩페이지 설명 ------------- */
 .display-none {
@@ -1587,7 +1638,7 @@ input[type=checkbox] {
 .ap-img-box {
   width: 9.5rem;
   height: 9.5rem;
-  border: 1px solid black;
+  overflow: hidden;
 }
 
 .team-member svg {
@@ -1599,6 +1650,12 @@ input[type=checkbox] {
   font-size: 2rem;
   line-height: 3rem;
   font-family: 'Nanum Brush Script', cursive;
+}
+
+.ap-img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 @media only screen and (max-width: 1265px) {
@@ -1645,6 +1702,11 @@ input[type=checkbox] {
 }
 
 @media only screen and (max-width: 1000px) {
+
+
+  #to-guide-modal{
+    display: none;
+  }
   #guide-page > .slide > * {
     width: 850px;
     height: 457px;
@@ -1913,6 +1975,7 @@ input[type=checkbox] {
     padding-top: 10px;
     padding-left: 10px;
   }
+  
 }
 
 @media only screen and (max-width: 480px) {
@@ -2100,9 +2163,6 @@ div.slide.three.text div:nth-child(4)  {
 }
 
 @media only screen and (max-width: 400px) {
-  #to-guide-modal{
-    display: none;
-  }
   .signup-modal {
     padding: 2rem;
   }

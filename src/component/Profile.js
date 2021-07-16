@@ -102,8 +102,8 @@ export default function Profile() {
   if (pathName === '/') {
     return (
       <button id='skip-btn' onClick={() => {
-        dispatch(setGuideOpen(true));
         history.push('/main?sort=date')
+        if (window.innerWidth > 720) dispatch(setGuideOpen(true));
       }}>skip
       <FontAwesomeIcon icon={faArrowRight} />
       </button>
