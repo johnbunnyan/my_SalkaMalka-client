@@ -46,6 +46,16 @@ export default function PostCase(props) {
     }
   }
 
+  const handleSarasite = (target) => {
+    
+   console.log(target)
+ window.open(`https://search.shopping.naver.com/search/all?query=${target}&cat_id=&frm=NVSHATC`, "Code",
+     'scrollbars=yes, width=' + 800 + ', height=' + 800 + ', top=' + 800 + ', left=' + 800);
+
+
+
+  }
+
   const formatRate = (rate) => {
     if (!isNaN(rate)) {
       return Math.round(rate * 10) / 10;
