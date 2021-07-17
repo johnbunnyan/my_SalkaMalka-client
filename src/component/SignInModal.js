@@ -15,15 +15,12 @@ export default function SignInModal(props) {
   const [password, setPassword] = useState('');
   const [checkPassword, setCheckPassword] = useState('');
   const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[a-zA-Z]+\.[a-zA-Z]+$/i;
-  const passwordRegex = /^[0-9a-zA-Z]/i;
-  //10자 이상 대문자+소문자+숫자+특문?
-  //const passwordRegex = //i;
+  const passwordRegex = /^[0-9a-zA-Z].{7,32}/i;
   const [matchErr, setMatchErr] = useState('');
   const [passwordErr, setPasswordErr] = useState('');
   const [emailErr, setEmailErr] = useState('');
   const [wrongErr, setWrongErr] = useState('');
   const [allErr, setAllErr] = useState('');
-  const state = useSelector(state => state);
 
   useEffect(() => {
     const checkEmail = emailRegex.exec(email);
@@ -39,7 +36,7 @@ export default function SignInModal(props) {
     if (checkPW || !password.length) {
       setPasswordErr('');
     } else if (!checkPW) {
-      setPasswordErr('비밀번호 형식에 맞지 않습니다.');
+      setPasswordErr('8~32자 사이의 영문 혹은 숫자만 허용됩니다.');
     }
   }, [password])
 
