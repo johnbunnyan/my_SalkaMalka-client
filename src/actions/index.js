@@ -15,7 +15,6 @@ export const ISTRIAL = "ISTRIAL"
 
 export const userSignIn = (data) => {
   const { email, userId, accessToken, provider, bookmarks } = data;
-  console.log(data)
   return {
     type: SIGNIN,
     payload: {
@@ -112,7 +111,6 @@ export const setKing = (userId) => {
 }
 
 export const setLoading = (boolean) => {
-  console.log(boolean)
   return {
     type: SETLOADING,
     payload: {

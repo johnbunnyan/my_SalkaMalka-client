@@ -14,12 +14,10 @@ import { setLoading, setAlertOpen } from '../actions/index';
 
 
 export default function MyPage() {
-
-  const hasScroll = useRef()
-
+  const hasScroll = useRef();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { accessToken, userId, email, provider, isLoading } = useSelector(state => state);
+  const { accessToken, userId, provider } = useSelector(state => state);
   const [myPostData, setMyPostData] = useState([])
   const [myCommentData, setMyCommentData] = useState([])
   const [myBookMarkData, setMyBookMarkData] = useState([])
@@ -87,7 +85,6 @@ export default function MyPage() {
         }
       })
       .then((res) => {
-        // console.log(res.data.posts)
         setMyPostData(res.data.posts)
         dispatch(setPosts(res.data.posts.filter(i => i.isOpen).map(i => i._id)));
         dispatch(setClosed(res.data.posts.filter(i => !i.isOpen).map(i => i._id)));
@@ -102,7 +99,6 @@ export default function MyPage() {
         }
       })
       .then((res) => {
-        console.log(res.data.comments.map(i => i.commentId))
         setMyCommentData(res.data.comments)
         dispatch(setComments(res.data.comments.map(i => i.commentId)));
         dispatch(setReplied(res.data.comments.map(i => i.postId)));
@@ -125,7 +121,6 @@ export default function MyPage() {
   }, [])
 
   const handleCategory = (category) => {
-    console.log('category: ', category)
     switch (category) {
       case 'Posts':
         setWhatIsDisplayed(category)
@@ -224,14 +219,12 @@ export default function MyPage() {
   }
 
   const scrollToTop = () => {
-    // console.log(window.scrollTo)
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: 'smooth'
     })
   }
-
 
   return (
     <div className={'my-page'} >

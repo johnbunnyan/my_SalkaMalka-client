@@ -8,10 +8,7 @@ require("dotenv").config();
 export default function AlertModal() {
   const dispatch = useDispatch();
   const { isAlertOpen, alertMessage } = useSelector(state => state);
-  console.log(1)
-
-  // console.log(message)
-  console.log(isAlertOpen)
+  
   return (
     <div className={isAlertOpen ? 'open-alert-modal alert-modal' : 'alert-modal'}>
       <main>

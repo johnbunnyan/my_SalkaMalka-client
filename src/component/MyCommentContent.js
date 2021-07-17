@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
-import CommentList from "./CommentList";
 import Nothing from './Nothing';
 import { setAlertOpen } from '../actions/index';
 
@@ -18,24 +17,7 @@ export default function MyCommentContent(props) {
   const { accessToken } = useSelector(state => state);
   const [checkedItems, setChecktedItems] = useState([]);
   const [isAllChecked, setIsAllChecked] = useState(false)
-  // console.log(comments)
   const [commentList, setCommentList] = useState(props.displayData)
-
-  function detectMob() {
-    const toMatch = [
-        /Android/i,
-        /webOS/i,
-        /iPhone/i,
-        /iPad/i,
-        /iPod/i,
-        /BlackBerry/i,
-        /Windows Phone/i
-    ];
-
-    return toMatch.some((toMatchItem) => {
-        return navigator.userAgent.match(toMatchItem);
-    });
-  }
 
   const refreshtoken = (e) => {
     if (e.response && e.response.status === 401) {
@@ -51,12 +33,10 @@ export default function MyCommentContent(props) {
   }
   
   useEffect(() => {
-    // console.log(commentList)
     document.querySelectorAll('.checkbox-one').forEach(checkbox => {
       if (checkbox.checked) checkbox.click();
     })
   }, [commentList])
-  useEffect(() => console.log(checkedItems), [checkedItems])
 
   const checkedItemHandler = (value, isChecked) => {
     const commentInfo = {
@@ -75,7 +55,6 @@ export default function MyCommentContent(props) {
   }
 
   const allCheckedHandler = (isChecked) => {
-    console.log(isChecked)
     if (isChecked.target.checked) {
       setChecktedItems([])
       setChecktedItems(props.displayData.map((el) => {
@@ -92,29 +71,31 @@ export default function MyCommentContent(props) {
     }
   }
 
-  // console.log(commentList)
-
   const deleteComment = async () => {
-    await checkedItems.forEach((el) => {
-      axios
-        .delete(process.env.REACT_APP_API_ENDPOINT + '/posts/' + el.postId + '/comments/' + el.commentId,
-          {
-            headers: {
-              'Authorization': `Bearer ${accessToken}`,
-              'Content-Type': 'application/json',
-            },
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-        setCommentList(res.data.userComments)
-        })
-        .then(() => {
-          setChecktedItems([])
-          setIsAllChecked(false)
-        })
-        .catch(e => refreshtoken(e))
-    })
+    if (confirm('사라마라를 삭제할까요?')) {
+      await checkedItems.forEach((el) => {
+        axios
+          .delete(process.env.REACT_APP_API_ENDPOINT + '/posts/' + el.postId + '/comments/' + el.commentId,
+            {
+              headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+              },
+              withCredentials: true,
+            }
+          )
+          .then((res) => {
+          setCommentList(res.data.userComments)
+          })
+          .then(() => {
+            setChecktedItems([])
+            setIsAllChecked(false)
+          })
+          .catch(e => refreshtoken(e))
+      })
+    } else {
+      return;
+    }
   }
 
   if (!isOpenPost) {

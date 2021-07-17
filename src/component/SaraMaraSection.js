@@ -4,29 +4,13 @@ import { setAlertOpen } from '../actions/index';
 require("dotenv").config();
 
 
-export default function SaraMaraSection({ setCommentModalOpen, saraMara, setSaraMara, sara, mara, postId, isOpen, OP }) {
+export default function SaraMaraSection({ setCommentModalOpen, setSaraMara, postId, isOpen, OP, getRate, getWidth, formatRate }) {
   const { userId, isSignIn, repliedPosts } = useSelector(state => state);
   const dispatch = useDispatch();
 
-  function detectMob() {
-    const toMatch = [
-      /Android/i,
-      /webOS/i,
-      /iPhone/i,
-      /iPad/i,
-      /iPod/i,
-      /BlackBerry/i,
-      /Windows Phone/i
-    ];
-
-    return toMatch.some((toMatchItem) => {
-      return navigator.userAgent.match(toMatchItem);
-    });
-  }
-
   const handleSaraMara = (target) => {
     if (!isSignIn) {
-      dispatch(setAlertOpen(true, '로그인이 필요한 기능이에요'))
+      dispatch(setAlertOpen(true, '로그인이 필요한 기능이에요.'))
       return;
     }
     if (target === 'sara') {
@@ -37,23 +21,6 @@ export default function SaraMaraSection({ setCommentModalOpen, saraMara, setSara
       setSaraMara('mara')
       setCommentModalOpen(true)
     }
-  }
-
-  const getRate = (type) => {
-    if (type === 'sara') return (sara / (sara + mara) * 100);
-    else return (mara / (sara + mara) * 100);
-  }
-
-  const getWidth = (rate) => {
-    if (sara + mara === 0) return '50%';
-    else return rate + '%';
-  }
-
-  const formatRate = (rate) => {
-    if (!isNaN(rate)) {
-      return Math.round(rate * 10) / 10;
-    }
-    return 0;
   }
 
   if (repliedPosts.includes(postId) || !isOpen || userId === OP) {
