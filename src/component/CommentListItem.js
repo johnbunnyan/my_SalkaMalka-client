@@ -1,43 +1,31 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from 'react-redux';
-import { setComments, setAlertOpen } from '../actions/index';
+import { setAlertOpen } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsUp, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
-import { useHistory } from "react-router-dom";
 
 export default function CommentListItem(props) {
   const dispatch = useDispatch();
-  const [postInfo, setPostInfo] = useState({})
-  const { isSignIn, userId, accessToken, comments, king } = useSelector(state => state);
-  const [likeInfo, setLikeInfo] = useState(props.like)
+  const { isSignIn, userId, accessToken, king } = useSelector(state => state);
+  const [likeInfo, setLikeInfo] = useState(props.like.length)
   const [bChecked, setChecked] = useState(false)
   const allCheckHandler = () => setChecked(props.isAllChecked)
   const isKing = props.userId === king ? true : false
 
   useEffect(() => allCheckHandler(), [props.isAllChecked])
-  // console.log(props.isAllChecked)
+  
   const checkedHandler = ({ target }) => {
-    // console.log(props.checkedItemHandler)
     setChecked(!bChecked)
     props.checkedItemHandler(target.value, target.checked)
   }
 
-  function detectMob() {
-    console.log(navigator.userAgent)
-    const toMatch = [
-      /Android/i,
-      /webOS/i,
-      /iPhone/i,
-      /iPad/i,
-      /iPod/i,
-      /BlackBerry/i,
-      /Windows Phone/i
-    ];
-    return toMatch.some((toMatchItem) => {
-      return navigator.userAgent.match(toMatchItem);
-    });
-  }
+  useEffect(() => {
+    if (!props.isInMyComment) {
+      let comment = props.commentList.filter(el => el._id === props.commentId)[0]
+      if (comment) setLikeInfo(comment.like.length);
+    }
+  }, [props.commentList])
 
   const refreshtoken = (e) => {
     if (e.response && e.response.status === 401) {
@@ -53,21 +41,26 @@ export default function CommentListItem(props) {
   }
 
   const handleLike = () => {
-    console.log('???')
-    console.log(navigator.userAgent)
-    console.log(detectMob())
     if (!isSignIn) {
-      dispatch(setAlertOpen(true, '로그인이 필요한 기능입니다'))
+      dispatch(setAlertOpen(true, '로그인이 필요한 기능이에요.'))
       return;
     }
     axios
       .patch(process.env.REACT_APP_API_ENDPOINT + '/posts/' + props.postId + '/comments/' + props.commentId, {
         userId: userId
       })
-      .then(res => setLikeInfo(res.data.like))
+      .then(res => {
+        let comments = props.commentList.map(el => {
+          if (el._id === props.commentId) {
+            return {...el, like: res.data.like}
+          } else {
+            return el;
+          }
+        })
+        props.setCommentList(comments);
+      })
       .catch(e => {
-        if (e.response && (e.response.status === 404 || e.response.status === 409)) dispatch(setAlertOpen(true, e.response.data));
-        else if (e.response && (e.response.status === 400)) dispatch(setAlertOpen(true, '이미 좋아요한 댓글이에요'));
+        if (e.response && (e.response.status === 404 || e.response.status === 409 || e.response.status === 400)) dispatch(setAlertOpen(true, e.response.data));
       });
   }
 
@@ -76,7 +69,7 @@ export default function CommentListItem(props) {
       .get(process.env.REACT_APP_API_ENDPOINT + '/posts/' + postId)
       .then(res => {
         props.setPostInfo({
-          userId: res.data.userId,
+          userId: res.data.userId._id,
           postId: postId,
           title: res.data.title,
           image: res.data.image,
@@ -105,44 +98,44 @@ export default function CommentListItem(props) {
             withCredentials: true,
           })
         .then(res => {
-          console.log('댓글삭제응답요청댓글길이:', res.data.comments.length)
           props.setCommentList(res.data.comments);
-          dispatch(res.data.comments);
         })
         .catch((e) => refreshtoken(e))
     } else {
       return;
     }
   }
-  // console.log('왕', king)
-  // console.log('나', props.userId)
-  // console.log(isKing)
-  // console.log('내용', props.content)
+
   return (
-    <div className={props.type === 'sara' ? 'comment-item sara' : 'comment-item mara'} onClick={() => {
-      if (props.isInMyComment) handleOpenPost(props.postId);
-    }}>
+    <div className={props.type === 'sara' ? 'comment-item sara' : 'comment-item mara'}>
       {!props.checkedItemHandler ? null : (
-        <input className='checkbox-one' type='checkbox' checked={bChecked} value={[props.commentId, props.postId]} onChange={(e) => checkedHandler(e)} />
+        <input
+          className='checkbox-one'
+          type='checkbox'
+          checked={bChecked}
+          value={[props.commentId,
+          props.postId]}
+          onChange={(e) => checkedHandler(e)}
+        />
       )}
-
-      <div
-       className={isKing ? 'comment-item-content king' : 'comment-item-content'}
-      >
-        {props.content}
-      </div>
-
+      <div className={isKing ? 'comment-item-content king' : 'comment-item-content'} onClick={() => {
+        if (props.isInMyComment) handleOpenPost(props.postId);
+      }}>{props.content}</div>
       <div className='comment-item-btn-center'>
-        <div className='comment-item-like-count'>{likeInfo.length}</div>
-        {props.isCloseState ? (
-          <div onClick={() => { props.setChosenComment(props.commentId) }}>베댓선정</div>
-        ) : null}
-        {props.userId === userId && props.isOpen ?
+        {props.isCloseState? <div>답변으로 선택하기</div> : <div className='comment-item-like-count'>{likeInfo}</div>}
+        {props.userId === userId && props.isOpen && !props.isCloseState ?
           <FontAwesomeIcon icon={faTrashAlt} onClick={deleteComment} /> : null
         }
-        {props.userId !== userId && props.isOpen ?
+        {props.userId !== userId && props.isOpen && !props.isCloseState ?
           <FontAwesomeIcon icon={faThumbsUp} onClick={handleLike} /> : null
         }
+        {!props.isCloseState ? null : (
+          <input 
+            type='radio'
+            value={props.commentId}
+            onChange={(e) => {props.setChosenComment(e.target.value)}}
+          />
+        )}
       </div>
     </div>
   )

@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAward, faFire, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import { faClock } from '@fortawesome/free-regular-svg-icons'
 import { setLoading, setKing } from '../actions/index';
-
+import qs from 'query-string';
 
 require("dotenv").config();
 
@@ -22,7 +22,6 @@ export default function LandingPage() {
   const [data, setData] = useState([]);
   const [ref, inView] = useInView()
   const [scrollLoading, setScrollLoading] = useState(false)
-  const [sortValue, setSortValue] = useState('date')
   const [postOptions, setPostOptions] = useState({
     preItems: 0,
     items: 5
@@ -31,59 +30,15 @@ export default function LandingPage() {
     preItems: 0,
     items: 5
   })
-  const { isSignIn, queryString, isLoading } = useSelector(state => state);
+  const { queryString } = useSelector(state => state);
 
   useEffect(() => {
-    console.log('useEffect 1')
-    if (pathname === '/search') {
-      const encoded = encodeURI(encodeURIComponent(queryString));
-      const uri = process.env.REACT_APP_API_ENDPOINT + '/search?q=' + encoded;
-      dispatch(setLoading(true))
-      axios
-        .get(uri)
-        .then(res => {
-          console.log(res.data.posts);
-          console.log(res.data.posts.map(el => [el.title, el.content, el.comment]));
-          setData(res.data.posts)
-        })
-        .then(() => dispatch(setLoading(false)))
-        .catch(e => console.log(e));
-      return;
-    }
-  }, [pathname, queryString]) // 검색시 리랜더링
-
-  const sortPosts = useCallback(async (sort) => {
-
-    if (postOptions.preItems !== 0) {
-      setScrollLoading(true)
-      if (pathname !== '/search') {
-        await axios
-          .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
-          .then(res => {
-            console.log(res.data.posts);
-            let post = res.data.posts.slice(postOptions.preItems, postOptions.items)
-            setData(pre => [...pre, ...post])
-          })
-          .catch(e => console.log(e));
-      } 
-    }
-  }, [postOptions])
-
-  useEffect(() => {
-    sortPosts(sortValue)
-    setScrollLoading(false)
-  }, [sortPosts])
-
-  useEffect(() => {
-    console.log('useEffect 2')
-    console.log(sortValue)
+    const sortValue = qs.parse(window.location.search).sort;
     if (pathname === '/main') {
-      console.log('useEffect 2')
       dispatch(setLoading(true))
       axios
         .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sortValue)
         .then(res => {
-          console.log(res.data.posts)
           let post = res.data.posts.slice(initPostOptions.preItems, initPostOptions.items)
           dispatch(setKing(res.data.Salkamalkaking))
           setData(post)
@@ -95,10 +50,54 @@ export default function LandingPage() {
         .then(dispatch(setLoading(false)))
         .catch(e => console.log(e));
     }
-  }, [sortValue])
+    else if (pathname === '/search') {
+      const uri = process.env.REACT_APP_API_ENDPOINT + '/search?q=' + qs.parse(window.location.search).q;
+      dispatch(setLoading(true))
+      axios
+        .get(uri)
+        .then(res => {
+          let post = res.data.posts.slice(initPostOptions.preItems, initPostOptions.items)
+          setData(post)
+        })
+        .then(() => dispatch(setLoading(false)))
+        .catch(e => console.log(e));
+      return;
+    }
+  }, [window.location.search]) // 검색시 리랜더링
+
+  const sortPosts = useCallback(async (sort) => {
+    if (postOptions.preItems !== 0) {
+      setScrollLoading(true)
+      if (pathname === '/main') {
+        await axios
+          .get(process.env.REACT_APP_API_ENDPOINT + '/main?sort=' + sort)
+          .then(res => {
+            let post = res.data.posts.slice(postOptions.preItems, postOptions.items)
+            setData(pre => [...pre, ...post])
+          })
+          .catch(e => console.log(e));
+      }
+      else if (pathname === '/search') {
+        const uri = process.env.REACT_APP_API_ENDPOINT + '/search?q=' + qs.parse(window.location.search).q;
+        axios
+          .get(uri)
+          .then(res => {
+            let post = res.data.posts.slice(postOptions.preItems, postOptions.items)
+            setData(pre => [...pre, ...post])
+          })
+          .catch(e => console.log(e));
+        return;
+      }
+    }
+  }, [postOptions])
 
   useEffect(() => {
-    console.log('useEffect 3')
+    const sortValue = qs.parse(window.location.search).sort;
+    sortPosts(sortValue);
+    setScrollLoading(false)
+  }, [sortPosts])
+
+  useEffect(() => {
     if (inView && !scrollLoading) {
       setPostOptions({
         preItems: postOptions.items,
@@ -109,7 +108,6 @@ export default function LandingPage() {
 
   const handleQuery = (sortValue) => {
     history.push(`/main?sort=${sortValue}`);
-    setSortValue(sortValue)
   }
 
   const scrollToTop = () => {

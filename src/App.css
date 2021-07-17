@@ -267,11 +267,13 @@ input:focus, textarea:focus {
   visibility: hidden;
 }
 
-.alert-modal{
+.alert-modal,
+.confirm-modal{
   display: none;
 }
 
-.alert-modal.open-alert-modal {
+.alert-modal.open-alert-modal,
+.confirm-modal.open-confirm-modal {
   position: fixed;
   height: 100vh;
   width: 100vw;
@@ -290,7 +292,8 @@ input:focus, textarea:focus {
 .display-none {
   display: none;
 }
-.alert-modal main {
+.alert-modal main,
+.confirm-modal main {
   background: white;
   padding: 2rem;
   padding-bottom: 1rem;
@@ -300,14 +303,17 @@ input:focus, textarea:focus {
   justify-content: center;
   align-items: center;
 }
-.alert-modal main * {
+.alert-modal main *,
+.confirm-modal main * {
   margin: 1rem;
 }
-.alert-modal div {
+.alert-modal div,
+.confirm-modal div {
   font-weight: 700;
 }
 
-.alert-modal button {
+.alert-modal button,
+.confirm-modal button {
   box-shadow: 0.5px 1px 3px gray;
 }
 
@@ -729,10 +735,16 @@ input:focus, textarea:focus {
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .comment-modal header div {
   margin-left: 0.75rem;
+}
+
+.comment-modal-closepost {
+  cursor: pointer;
+  font-weight: 700;
 }
 
 /* ------------- 댓글 읽기 모달 속 comment-item ------------- */
@@ -828,8 +840,8 @@ input:focus, textarea:focus {
   margin: 1rem;
   padding: 1rem;
   line-height: 1.5rem;
+  flex-direction: row;
 }
-
 #mp-comments .comment-item:hover {
   opacity: 0.7;
   cursor: pointer;
@@ -1304,10 +1316,25 @@ input[type=checkbox] {
    margin-top: 0rem;
 }
 .sara-keyword-site {
-  color: var(--salka-blue);
-  font-family: 'Leckerli One', sans-serif;
-  font-size: 2.7rem;
-   margin-top: 0rem;
+  opacity: 0.5;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+.sara-keyword-site:hover {
+  opacity: 1;
+  cursor: pointer
+}
+.sara-keyword-site * {
+  padding: 0 0.15rem;
+}
+.sara-keyword-site img {
+  height: 1rem;
 }
 
 .post-case-best-comment{
@@ -1363,7 +1390,6 @@ input[type=checkbox] {
   font-family: 'Barlow', sans-serif;
   font-size: 1.5rem;
 }
-
 /* ------------- 아무것도 없어요 ------------- */
 .nothing * {
   color: var(--salka-blue)

@@ -1,32 +1,15 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp, faTrashAlt, faBookmark as farfaBookmark } from '@fortawesome/free-regular-svg-icons'
 import { faTimes, faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import SamplePost1 from "../logo/SamplePost1.png";
 import { setGuideOpen } from '../actions/index';
 require("dotenv").config();
 
-
 export default function SamplePost() {
   const [sectionType, setSectionType] = useState('first');
-
   const dispatch = useDispatch();
   const { isGuideOpen } = useSelector(state => state);
-
-  const samplePost = {
-    title: '지갑 새로 바꾸고 싶어요',
-    content: '원래 제주도로 여름 휴가 갈 생각이었는데 코로나 때문에 다 취소했어요 ㅠㅠ\n지금 지갑은 쓴지 5년 돼서 슬슬 지겨워지던 참인데\n예약금도 환불 받았겠다 이 돈으로 새로 살까요?\n\n덧) 안 그래도 최근 회사에서 진급해서 저한테 셀프 선물 해 주고 싶던 참이에요!'
-  }
-
-  const sampleComments = [
-    '열심히 일한 당신, 떠나라! 제주도 대신 백화점으로!',
-    '우와 진급 축하드려요! 어차피 언제 갈 지 모르는 여행인데 이 참에 지갑으로 기분 전환하면 일도 더 잘 되지 않을까요?',
-    '제가 LA에 있을 때는 말이죠 저도 이제 돈을 좀 벌었으니까 사치를 하고 싶다 생각이 들었던 날이 있었어요 그래서 이제 LA 중심지에서 제일 유명하다는 더 그로브 쇼핑몰에 방문했는데요 가게에 들어가서 지갑 좀 보여달라고 할 때마다 싸인해달라',
-    '진급은 축하하는데 있던 지갑 못 쓰는 건 아니지 않나요? 통장에 쌓인 돈 보면 기분이 더 좋아질 듯',
-    '대유행 잠잠해지면 여행은 나중에라도 갈 수 있지 않나요? 저라면 아직 그 돈 쓰지 않고 기다려 볼 것 같아요!',
-    '저 브랜드 지갑 가죽 유약하고 별로에요 저 같으면 다른 브랜드 더 알아봄'
-  ]
 
   const getClassName = (isGuideOpen) => {
     if (isGuideOpen) return 'sample-post-modal';
@@ -82,111 +65,12 @@ export default function SamplePost() {
 
   return (
     <div className={getClassName(isGuideOpen)}>
-    <section className={sectionType}>
-      <FontAwesomeIcon icon={faTimes} onClick={() => {
-        dispatch(setGuideOpen(false));
-      }}/>
-      {mainContent}
-    </section>
+      <section className={sectionType}>
+        <FontAwesomeIcon icon={faTimes} onClick={() => {
+          dispatch(setGuideOpen(false));
+        }}/>
+        {mainContent}
+      </section>
     </div>
-    
   )
-  return (<div id='sample-post'>
-    <div className={'post-case'}>
-      <div className={'post-case-header'}>
-        <div className={'post-case-title'}>{samplePost.title}</div>
-        <div className='post-btn-center'>
-            <button>닫기</button>
-            <FontAwesomeIcon icon={faTrashAlt} />
-            <FontAwesomeIcon icon={farfaBookmark} />
-        </div>
-      </div>
-      <div className={'post-case-body'}>
-        <div className={'post-case-img-box'}></div>
-        <div className={'post-case-content'}>
-          {samplePost.content.split('\n').map((line, idx) => {
-            return (
-              <span key={idx}>
-                {line}
-                <br />
-              </span>
-            )
-          })}
-        </div>
-        <div className='post-case-likerate'>
-            <div className={'post-case-rate'}>
-                <div className={'post-case-sararate'}>{'56%'}</div>
-                <div className={'post-case-sararate'}>{'44%'}</div>
-            </div>
-            <div className={'post-case-graph'}>
-                <div style={{ width: '56%' }} className={'post-case-saragraph'}></div>
-                <div style={{ width: '44%' }} className={'post-case-maragraph'}></div>
-            </div>
-        </div>
-        <div className={'post-case-likeordislike'}>
-            <button className={'post-case-likebtn'} name={'sara'} onClick={(e) => { handleSaraMara(e.target.name) }}>Sara!</button>
-            <button className={'post-case-dislikebtn'} name={'mara'} onClick={(e) => { handleSaraMara(e.target.name) }}>Mara!</button>
-        </div>
-      <div className='post-case-best-comment'>
-        <div className='best-like-comment'>
-            <div className='comment-item sara'>
-            <div className='comment-item-content'>{sampleComments[0]}</div>
-            <div className='comment-item-btn-center'>
-            <div className='comment-item-like-count'>281</div>
-                <FontAwesomeIcon icon={faThumbsUp} />
-            </div>
-            </div>
-            <div className='comment-item sara'>
-            <div className='comment-item-content'>{sampleComments[1]}</div>
-            <div className='comment-item-btn-center'>
-            <div className='comment-item-like-count'>152</div>
-                <FontAwesomeIcon icon={faThumbsUp} />
-            </div>
-            </div>
-            <div className='comment-item sara'>
-            <div className='comment-item-content'>{sampleComments[2].slice(0,64) + '( ... )'}</div>
-            <div className='comment-item-btn-center'>
-            <div className='comment-item-like-count'>96</div>
-                <FontAwesomeIcon icon={faThumbsUp} />
-            </div>
-            </div>
-        </div>
-        <div className='best-dislike-comment'>
-            <div className='comment-item mara'>
-            <div className='comment-item-content'>{sampleComments[3]}</div>
-            <div className='comment-item-btn-center'>
-            <div className='comment-item-like-count'>265</div>
-                <FontAwesomeIcon icon={faThumbsUp} />
-            </div>
-            </div>
-            <div className='comment-item mara'>
-            <div className='comment-item-content'>{sampleComments[4]}</div>
-            <div className='comment-item-btn-center'>
-            <div className='comment-item-like-count'>204</div>
-                <FontAwesomeIcon icon={faTrashAlt} />
-            </div>
-            </div>
-            <div className='comment-item mara'>
-            <div className='comment-item-content'>{sampleComments[5]}</div>
-            <div className='comment-item-btn-center'>
-            <div className='comment-item-like-count'>176</div>
-                <FontAwesomeIcon icon={faThumbsUp} />
-            </div>
-            </div>
-        </div>
-      </div>
-      
-      <div className={'post-case-all-comments'}>
-        <span>Sara</span>
-        <span>Mara</span>
-        <span> 더 보러가기 </span>
-        <FontAwesomeIcon icon={faArrowRight} />
-      </div>
-      </div>
-    </div>
-  </div>)
 }
-
-/*
-
-*/

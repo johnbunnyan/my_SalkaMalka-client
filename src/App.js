@@ -7,23 +7,21 @@ import AboutPage from "./pages/AboutPage";
 import GuidePage from "./pages/GuidePage";
 import Footer from "./component/Footer";
 import Loading from "./component/Loading";
-import {
-  Switch,
-  BrowserRouter,
-  Route,
-  Redirect
-} from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
+import { Switch, BrowserRouter, Route, Redirect } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import AlertModal from './component/AlertModal';
-import { setGuideOpen } from './actions/index';
 
 require("dotenv").config();
 
 export default function App() {
-  const dispatch = useDispatch();
   const { isSignIn, userId } = useSelector(state => state);
+  
   useEffect(() => {
-    if (!window.gapi) location.reload();
+    if (!window.gapi) {
+      window.location.reload();
+
+      console.log('no gapi')
+    }
     window.gapi.load('auth2', function() {
       console.log('gapi loading')
       window.gapi.auth2.init({
@@ -41,13 +39,22 @@ export default function App() {
 
   useEffect(() => {
     let scrollPos = 0;
-    if (!document.querySelector('.side-bar')) location.reload();
     window.addEventListener('scroll', function() {
-      //scroll up -> show nav
-      if ((document.body.getBoundingClientRect()).top > scrollPos - 1) document.querySelector('.side-bar').style.top = '0';
-      //scroll down -> hide nav
-      else document.querySelector('.side-bar').style.top = '-100px';
-      scrollPos = (document.body.getBoundingClientRect()).top;
+    //scroll up -> show nav
+      if (!document.querySelector('.side-bar')) {
+        window.location.reload();
+        console.log('no sidebar')
+      }
+      else {
+        if ((document.body.getBoundingClientRect()).top > scrollPos - 1) {
+          document.querySelector('.side-bar').style.top = '0';
+        }
+        //scroll down -> hide nav
+        else {
+          document.querySelector('.side-bar').style.top = '-100px';
+        }
+        scrollPos = (document.body.getBoundingClientRect()).top;
+      }
     });
   }, [])
 
@@ -59,38 +66,20 @@ export default function App() {
       })
     }
   , [window.location.pathname])
-
   
   return (
     <BrowserRouter>
-    <AlertModal></AlertModal>
-      <Loading></Loading>
+      <AlertModal />
+      <Loading />
       <Switch>
-        <Route
-            exact path='/'
-            render={() => {
-              return <GuidePage></GuidePage>
-            }
-          }
-        />
-        <Route path='/main' render={() =>
-          <LandingPage></LandingPage>} />
-        <Route path='/search' render={() =>
-          <LandingPage></LandingPage>} />
-        <Route exact path='/posts' render={() => isSignIn ? (
-          <WritePage></WritePage>
-        ) : (
-          <Redirect to="/"></Redirect>
-        )} />
-        <Route path={`/users/${userId}`} render={() => isSignIn ? (
-          <MyPage></MyPage>
-        ) : (
-          <Redirect to="/"></Redirect>
-        )} />
-        <Route path={'/about'} render={() => 
-          <AboutPage></AboutPage>} />
+        <Route exact path='/' render={() => <GuidePage />} />
+        <Route path='/main' render={() => <LandingPage />} />
+        <Route path='/search' render={() => <LandingPage />} />
+        <Route exact path='/posts' render={() => isSignIn ? <WritePage /> : <Redirect to="/main?sort=date" />} />
+        <Route path={`/users/${userId}`} render={() => isSignIn ? <MyPage /> : <Redirect to="/main?sort=date" />} />
+        <Route path='/about' render={() => <AboutPage />} />
       </Switch>
-      <Footer></Footer>
+      <Footer />
     </BrowserRouter>
   )
 

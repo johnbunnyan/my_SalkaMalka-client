@@ -11,22 +11,6 @@ export default function WriteModal({ postId, saraMara, isCommentModalOpen, setCo
   const dispatch = useDispatch();
   const { userId } = useSelector(state => state);
 
-  function detectMob() {
-    const toMatch = [
-      /Android/i,
-      /webOS/i,
-      /iPhone/i,
-      /iPad/i,
-      /iPod/i,
-      /BlackBerry/i,
-      /Windows Phone/i
-    ];
-
-    return toMatch.some((toMatchItem) => {
-      return navigator.userAgent.match(toMatchItem);
-    });
-  }
-
   const handleComment = async (event) => {
     const comment = event.target.previousElementSibling.value;
     await axios

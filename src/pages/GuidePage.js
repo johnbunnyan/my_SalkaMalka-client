@@ -94,6 +94,7 @@ export default function GuidePage() {
               <div>지금 바로 체험해 보세요!</div>
               <button onClick={() => {
                 history.push('/main?sort=date');
+                if (window.innerWidth > 720) dispatch(setGuideOpen(true));
               }}>시작하기</button>
             </div>
       </div>
@@ -129,7 +130,6 @@ export default function GuidePage() {
               <div>지금 바로 체험해 보세요!</div>
               <button onClick={() => {
                 history.push('/main?sort=date');
-                if (window.innerWidth > 720) dispatch(setGuideOpen(true));
               }}>시작하기</button>
             </div>
       </div>

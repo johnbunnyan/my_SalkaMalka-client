@@ -8,9 +8,6 @@ import { setAccessToken, setGuideOpen, setAlertOpen } from '../actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-
-
-
 require("dotenv").config();
 
 export default function Profile() {
@@ -25,22 +22,6 @@ export default function Profile() {
   }
   const closeModal = () => {
     modalOpenset(false);
-  }
-
-  function detectMob() {
-    const toMatch = [
-      /Android/i,
-      /webOS/i,
-      /iPhone/i,
-      /iPad/i,
-      /iPod/i,
-      /BlackBerry/i,
-      /Windows Phone/i
-    ];
-
-    return toMatch.some((toMatchItem) => {
-      return navigator.userAgent.match(toMatchItem);
-    });
   }
 
   const refreshtoken = (e) => {
@@ -91,7 +72,6 @@ export default function Profile() {
         withCredentials: true,
       })
       .then(res => {
-        console.log('res', res);
         handleSocialSignout();
       })
       .then(() => persistor.purge())

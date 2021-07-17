@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt, faBookmark as farfaBookmark } from '@fortawesome/free-regular-svg-icons'
 import { faBookmark as fasfaBookmark } from '@fortawesome/free-solid-svg-icons'
@@ -10,28 +10,9 @@ import { setAlertOpen } from '../actions/index';
 
 
 export default function PostButtonCenter(props) {
-
   const pathName = window.location.pathname;
-  const history = useHistory();
   const dispatch = useDispatch();
-  const { userId, bookmarks, isSignIn, accessToken } = useSelector(state => state);
-  const [isCommentModalOpen, setIsCommentModalOpen] = useState(false)
-
-  function detectMob() {
-    const toMatch = [
-      /Android/i,
-      /webOS/i,
-      /iPhone/i,
-      /iPad/i,
-      /iPod/i,
-      /BlackBerry/i,
-      /Windows Phone/i
-    ];
-
-    return toMatch.some((toMatchItem) => {
-      return navigator.userAgent.match(toMatchItem);
-    });
-  }
+  const { userId, bookmarks, isSignIn, accessToken, openPosts, closedPosts } = useSelector(state => state);
 
   const refreshtoken = (e) => {
     if (e.response && e.response.status === 401) {
@@ -47,7 +28,7 @@ export default function PostButtonCenter(props) {
   }
 
   const handlePostDelete = () => {
-    if (confirm('살까말까를 삭제하면 더이상 사라마라를 받을 수 없어요')) {
+    if (confirm('살까말까를 삭제하면 더이상 사라마라를 받을 수 없어요.')) {
       axios
         .delete(process.env.REACT_APP_API_ENDPOINT + '/posts/' + props.postId,
           {
@@ -60,7 +41,7 @@ export default function PostButtonCenter(props) {
         )
         .then(res => {
           if (pathName === '/search' || pathName === '/main') {
-            history.push('/main?sort=date');
+            window.location.reload();
           }
           else if (pathName === `/users/${userId}`) {
             if (props.isOpen) {
@@ -86,7 +67,7 @@ export default function PostButtonCenter(props) {
 
   const handleBookmark = () => {
     if (!isSignIn) {
-      dispatch(setAlertOpen(true, '로그인이 필요한 기능이에요'))
+      dispatch(setAlertOpen(true, '로그인이 필요한 기능이에요.'))
       return;
     }
     axios
