@@ -15,6 +15,7 @@ export default function MyPostContent(props) {
         {displayData.map((el) => {
           return (
             <PostCase
+              keyword={el.keyword[0]}
               key={el._id}
               sara={el.sara}
               mara={el.mara}

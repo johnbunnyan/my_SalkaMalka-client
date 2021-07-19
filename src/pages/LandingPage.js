@@ -154,7 +154,7 @@ export default function LandingPage() {
                       content={el.content}
                       isOpen={el.isOpen}
                       comment={el.comment}
-                      keyword={el.keyword}
+                      keyword={el.keyword[0]}
                     />
                   </div>
                 )
