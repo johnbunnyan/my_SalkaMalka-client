@@ -106,6 +106,7 @@ export default function LandingPage() {
     }
   }, [inView, scrollLoading])
 
+
   const handleQuery = (sortValue) => {
     history.push(`/main?sort=${sortValue}`);
   }
@@ -117,7 +118,7 @@ export default function LandingPage() {
       behavior: 'smooth'
     })
   }
-
+  console.log(data)
   return (
     <div className={'landing-page'}>
       <SideBar />
@@ -138,10 +139,10 @@ export default function LandingPage() {
                 <div>뜨거운 감자</div>
               </div>
             </div> : <div id='search-message'>{`검색어: '${queryString}'`}</div>}
-
             {!data.length ? <Nothing whatIsDisplayed={'Search'}></Nothing> : data.map((el, idx) => {
               if (data.length - 1 === idx) {
                 return (
+                  // eslint-disable-next-line react/jsx-key
                   <div ref={ref}>
                     <PostCase
                       key={idx}
@@ -161,6 +162,7 @@ export default function LandingPage() {
               }
               else {
                 return (
+                   // eslint-disable-next-line react/jsx-key
                   <div>
                     <PostCase
                       key={idx}

@@ -14,8 +14,10 @@ import AlertModal from './component/AlertModal';
 require("dotenv").config();
 
 export default function App() {
+  // useSelector : A hook to access the redux store's state. This hook takes a selector function as an argument. The selector is called with the store state.
   const { isSignIn, userId } = useSelector(state => state);
   
+  // 아래 세 useEffect가 바로 실행
   useEffect(() => {
     if (!window.gapi) {
       window.location.reload();
@@ -25,14 +27,18 @@ export default function App() {
     window.gapi.load('auth2', function() {
       console.log('gapi loading')
       window.gapi.auth2.init({
-        client_id: process.env.REACT_APP_GOOGLE_OAUTH_CODE
+        client_id: process.env.REACT_APP_GOOGLE_OAUTH_CODE,
+        scope: "email",
+          plugin_name:'salkaMalka'
       })
       .then(() => console.log('gapi initialized'))
     });
   }, [])
 
   useEffect(() => {
+    
     if (!window.Kakao.Auth) {
+
       window.Kakao.init(process.env.REACT_APP_KAKAO_KEY);
     }
   }, [])
@@ -58,6 +64,7 @@ export default function App() {
     });
   }, [])
 
+/////////////////////////////
   useEffect(() => {
     console.log(window.location.pathname)
       window.scrollTo({

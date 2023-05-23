@@ -126,6 +126,35 @@ export default function SignInModal(props) {
         })
         .then(res => {
           setSectionType('signIn');
+          axios
+      .post(process.env.REACT_APP_API_ENDPOINT + '/auth/signin',
+      {
+        email,
+        password
+      },
+      {
+        'Content-Type': 'application/json',
+        withCredentials: true,
+      })
+      .then(res => {
+        setWrongErr('')
+        const data = {
+          email: res.data.email,
+          userId: res.data.userId,
+          accessToken: res.data.accessToken,
+          provider: 'local',
+          bookmarks: res.data.bookmarks
+        }
+        dispatch(userSignIn(data));
+        props.closeModal();
+        getRepliedPosts(data.userId, data.accessToken);
+        dispatch(setAlertOpen(true, `${res.data.email}님, 반가워요!`))
+      })
+      .catch(e => {
+        if (e.response && e.response.status === 404) {
+          setWrongErr(e.response.data);
+        }
+      });
         })
         .catch(e => {
           if (e.response && e.response.status === 409) {
@@ -167,6 +196,7 @@ export default function SignInModal(props) {
     window.Kakao.Auth.loginForm(
       {
         success: (auth) => {
+          // 여기서 서버로 카카오 폼이 던져준 access_token을 헤더를 통해 서버로 넘겨준다.
           axios
           .post(process.env.REACT_APP_API_ENDPOINT + '/auth/signin/kakao',
           {},
@@ -177,6 +207,7 @@ export default function SignInModal(props) {
             },
             withCredentials: true,
           })
+          // 서버에서 돌려준 응답
           .then(res => {
             const data = {
               email: res.data.email,
